@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <title>Contact — Spencer Ceramics</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Get in touch — commissions, wholesale, or just to talk pots." />
+<meta name="description" content="Get in touch — commissions, wholesale, or general questions." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -41,31 +41,26 @@
   </section>
 
   <section class="contact-grid">
-    <!-- left: details -->
+    <!-- left: ways to reach the studio directly -->
     <div class="contact-info">
-      <p class="contact-info__intro" data-site="contact_intro">For commissions, wholesale, or just to talk pots.</p>
-      <dl>
-        <div class="row">
-          <dt>Email</dt>
-          <dd><a data-site="email" href="mailto:studio@spencerceramics.com">studio@spencerceramics.com</a></dd>
-        </div>
-        <div class="row">
-          <dt>Commissions</dt>
-          <dd data-site="commissions_note">Open — tell me what you have in mind.</dd>
-        </div>
-        <div class="row">
-          <dt>Instagram</dt>
-          <dd><a data-site="instagram" href="#">@spencer.ceramics</a></dd>
-        </div>
-        <div class="row">
-          <dt>Reply</dt>
-          <dd data-site="reply_note">Usually within a few days.</dd>
-        </div>
-      </dl>
+      <div class="label">Reach the studio</div>
+      <p class="contact-info__intro" data-site="contact_intro">For commissions, wholesale, or general questions.</p>
+
+      <ul class="channels">
+        <li class="channel">
+          <span class="channel__label">Email</span>
+          <a class="channel__value" data-site="email" href="mailto:studio@spencerceramics.com">studio@spencerceramics.com</a>
+        </li>
+        <li class="channel">
+          <span class="channel__label">Instagram</span>
+          <a class="channel__value" data-site="instagram" href="https://www.instagram.com/spencer.ceramics">@spencer.ceramics</a>
+        </li>
+      </ul>
     </div>
 
-    <!-- right: form (Netlify Forms — works once deployed to Netlify) -->
+    <!-- right: send a message (Netlify Forms — works once deployed to Netlify) -->
     <div class="contact-form">
+      <div class="label contact-form__head">Send a message</div>
       <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contact-form">
         <input type="hidden" name="form-name" value="contact" />
         <p hidden><label>Leave this empty: <input name="bot-field" /></label></p>
@@ -106,7 +101,7 @@
 
   <footer class="footer">
     <div class="footer__cell"><span>Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
-    <div class="footer__cell"><span>Studio</span><b data-site="location">Mt. Wellington, NZ</b></div>
+    <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
     <div class="footer__cell"><span>Journal</span><a href="journal.html">Read →</a></div>
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="#">@spencer.ceramics</a></div>
   </footer>

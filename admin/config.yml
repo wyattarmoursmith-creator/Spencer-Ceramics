@@ -126,8 +126,6 @@ collections:
           - { label: "Studio location", name: location, widget: string, hint: "Shown in the footer, e.g. Mt. Wellington, AU" }
           - { label: "Footer year", name: year, widget: string, hint: "Roman numerals in the footer, e.g. MMXXVI" }
           - { label: "Contact page — intro line", name: contact_intro, widget: text }
-          - { label: "Contact page — Commissions note", name: commissions_note, widget: string }
-          - { label: "Contact page — Reply time note", name: reply_note, widget: string }
 
   # ---------------- PAGE TEXT ----------------
   - name: pages
