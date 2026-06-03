@@ -133,6 +133,7 @@ button{font-family:inherit; cursor:pointer;}
 .btn:hover .arrow{ transform:translateX(5px); }
 .btn--fill{ background:var(--ink); color:var(--chalk); }
 .btn--fill:hover{ background:#000; }
+.btn--fill.btn--ember:hover{ background:var(--ember); }   /* warms to the ember accent on hover (e.g. "Start a commission") */
 .btn--pill{ border-radius:999px; }
 .btn--ghost{ border-color:var(--rule); }
 .btn--ghost-light{ border:1px solid rgba(239,236,230,0.45); border-radius:999px; color:var(--chalk); }
