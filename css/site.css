@@ -387,7 +387,8 @@ html.js .reveal--late{ transition-delay:.12s; }
 .contact-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); border-bottom:1px solid var(--rule); }
 
 /* left — ways to reach the studio. hierarchy: tiny label -> lead line -> prominent links */
-.contact-info{ padding:clamp(40px,5vw,72px) var(--gutter); border-right:1px solid var(--rule); }
+.contact-info{ background:var(--bone); padding:clamp(40px,5vw,72px) var(--gutter); }
+.contact-info .label{ color:var(--ash); }
 .contact-info__intro{
   font-family:var(--disp); font-weight:300; letter-spacing:0.01em;
   font-size:clamp(21px,2.3vw,28px); line-height:1.3; color:var(--ink);
@@ -397,7 +398,7 @@ html.js .reveal--late{ transition-delay:.12s; }
 .channel{ padding:22px 0; border-bottom:1px solid var(--rule); }
 .channel__label{
   display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.18em;
-  text-transform:uppercase; color:var(--smoke); margin-bottom:10px;
+  text-transform:uppercase; color:var(--ash); margin-bottom:10px;
 }
 .channel__value{
   font-family:var(--disp); font-weight:300; letter-spacing:0.01em;
@@ -407,9 +408,17 @@ html.js .reveal--late{ transition-delay:.12s; }
 }
 .channel__value:hover{ color:var(--ember); border-color:var(--ember); }
 
-/* right — message form on a faint panel, so the two halves read as distinct */
-.contact-form{ padding:clamp(40px,5vw,72px) var(--gutter); background:rgba(21,20,15,0.03); }
-.contact-form__head{ display:block; margin-bottom:28px; }
+/* RIGHT — "Send a message" on an obsidian backdrop, the form lifted onto a floating card.
+   A deliberate departure from the site's flat language: adds depth, with an ember CTA for warmth. */
+.contact-form{ background:var(--obsidian); padding:clamp(40px,5vw,72px) var(--gutter); }
+.contact-form__head{ display:block; color:var(--fog); margin-bottom:24px; }
+.contact-form__card{
+  background:var(--graphite);
+  border:1px solid rgba(239,236,230,0.06);
+  border-radius:16px;
+  padding:clamp(28px,3.4vw,46px);
+  box-shadow:0 1px 0 rgba(239,236,230,0.05) inset, 0 34px 60px -34px rgba(0,0,0,0.85);
+}
 .form{ display:flex; flex-direction:column; }
 .field{ border-bottom:1px solid var(--rule); padding:16px 0; }
 .field:first-child{ border-top:1px solid var(--rule); }
@@ -428,10 +437,24 @@ html.js .reveal--late{ transition-delay:.12s; }
 .form__success{ display:none; padding:40px 0 8px; }
 .form__success .display{ font-size:clamp(26px,3vw,38px); margin-bottom:14px; }
 
+/* dark form + ember CTA, scoped to the floating card */
+.contact-form__card .field{ border-bottom-color:var(--rule-dark); }
+.contact-form__card .field:first-child{ border-top-color:var(--rule-dark); }
+.contact-form__card .field label{ color:var(--fog); }
+.contact-form__card .field input,
+.contact-form__card .field textarea,
+.contact-form__card .field select{ color:var(--chalk); caret-color:var(--ember-bright); }
+.contact-form__card .field input::placeholder,
+.contact-form__card .field textarea::placeholder{ color:var(--smoke); }
+.contact-form__card .form__note{ color:var(--fog); }
+.contact-form__card .form__success .display{ color:var(--chalk); }
+.contact-form__card .form__success p{ color:var(--fog); }
+.contact-form__card .btn--fill{ background:var(--ember); color:var(--chalk); }
+.contact-form__card .btn--fill:hover{ background:var(--ember-bright); }
+
 /* contact stacks on narrow screens (the two columns would otherwise squeeze) */
 @media (max-width:880px){
   .contact-grid{ grid-template-columns:1fr; }
-  .contact-info{ border-right:none; border-bottom:1px solid var(--rule); }
 }
 
 /* accent */
