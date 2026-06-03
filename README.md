@@ -109,10 +109,12 @@ Focal points live in `js/media.js` (keyed by slot / product id / post id). Dropp
 
 ## 6 · Studio admin — the CMS (`/admin/`)
 
-Manage products, journal posts, and photos from your browser at **`spencerceramics.netlify.app/admin/`** — no code. Saving there commits to GitHub and the site rebuilds automatically (~30s).
+Manage products, journal posts, photos, **page text, and contact details** from your browser at **`spencerceramics.netlify.app/admin/`** — no code. Saving there commits to GitHub and the site rebuilds automatically (~30s). The CMS is **Sveltia** (a friendlier, faster drop-in for Decap — same `admin/config.yml`).
+
+> **Handing this to the studio owner?** Give them **[`OWNER-GUIDE.md`](OWNER-GUIDE.md)** — a plain-English walkthrough of every section.
 
 **How content is stored**
-- Products → `content/products.json` · Journal → `content/journal.json` · Site photos → `content/site.json`
+- Products → `content/products.json` · Journal → `content/journal.json` · Site photos → `content/site.json` · Page text → `content/pages.json` · Contact & footer → `content/settings.json`
 - The site loads these at runtime (`js/data.js`). The CMS edits them; uploaded photos go to `images/`.
 
 **One-time login setup (GitHub)** — the CMS needs permission to save to your repo:
@@ -124,10 +126,12 @@ Manage products, journal posts, and photos from your browser at **`spencercerami
 2. **Add it to Netlify** → your site → *Site configuration → Access & security → OAuth* (Authentication providers) → **Install provider → GitHub** → paste the Client ID + Secret → Save.
 3. Visit **`/admin/`** → **Login with GitHub** → authorize. Done — bookmark it.
 
-**Using it**
-- *Shop — Products*: add/edit/reorder pieces, set price, status (available / 1 of 1 / sold…), and upload a photo.
+**Using it** (full walkthrough in [`OWNER-GUIDE.md`](OWNER-GUIDE.md))
+- *Shop — Products*: add/edit/reorder pieces — name, **category** (Vessels / Tableware / Lighting, drives the shop filter), spec, price, status, photo.
 - *Journal — Posts*: write notes; separate paragraphs with a blank line.
-- *Site Photos*: swap the homepage hero, studio image, About portrait, and the three process shots.
+- *Site Photos*: homepage hero (×3), studio, About portrait, the three process shots, and the four Commissions photos.
+- *Page Text*: homepage hero, shop edition heading, and the Commissions copy.
+- *Site & Contact*: email, Instagram, studio location (footer + Contact page).
 - Hit **Publish** — live in ~30 seconds.
 
 > Note: the site lives at the repo root, so `admin/config.yml` paths are repo-root-relative (no prefix). Netlify's **publish directory** should be the repo root — leave it blank.
