@@ -72,3 +72,23 @@ collections:
               - { label: "Photo", name: img, widget: image, choose_url: false }
               - { label: "Excerpt", name: excerpt, widget: text, hint: "One line shown in the journal list." }
               - { label: "Body", name: body, widget: text, hint: "Separate paragraphs with a blank line." }
+
+  # ---------------- SITE PHOTOS ----------------
+  - name: site
+    label: "Site Photos"
+    files:
+      - name: photos
+        label: "Homepage & studio photos"
+        file: "site 2/content/site.json"
+        description: "Swap the big feature photos. Upload, then Publish."
+        fields:
+          - label: "Photos"
+            name: images
+            widget: object
+            fields:
+              - { label: "Homepage — Hero (wide)", name: hero, widget: image }
+              - { label: "Homepage — Studio (portrait)", name: studio, widget: image }
+              - { label: "About — Portrait (tall)", name: about, widget: image }
+              - { label: "Process 1 — The wheel", name: process-1, widget: image }
+              - { label: "Process 2 — The glaze", name: process-2, widget: image }
+              - { label: "Process 3 — The firing", name: process-3, widget: image }

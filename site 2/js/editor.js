@@ -22,14 +22,20 @@
 
   function applyOne(img) {
     var k = img.getAttribute("data-media"); if (!k) return;
-    var src = imgFor(k);
-    if (src && img.getAttribute("data-prev") !== k) { img.src = src; img.setAttribute("data-prev", k); }
+    // priority: local edit-mode preview > CMS Site Photo > original HTML src
+    var src = imgFor(k) || (window.SITE && window.SITE.images && window.SITE.images[k]);
+    if (src && img.getAttribute("data-src-applied") !== src) {
+      img.src = src; img.setAttribute("data-src-applied", src);
+    }
     img.style.objectPosition = focusFor(k);
   }
   function applyAll(root) {
     (root || document).querySelectorAll("img[data-media]").forEach(applyOne);
   }
   window.applyFocus = applyAll;
+
+  /* re-apply once CMS content (incl. Site Photos) has loaded */
+  document.addEventListener("data:ready", function () { applyAll(); });
 
   /* keep dynamically-rendered images (shop grid, cart, journal) in sync */
   var mo = new MutationObserver(function (muts) {

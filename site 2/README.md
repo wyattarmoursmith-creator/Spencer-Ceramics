@@ -112,7 +112,7 @@ Focal points live in `js/media.js` (keyed by slot / product id / post id). Dropp
 Manage products, journal posts, and photos from your browser at **`spencerceramics.netlify.app/admin/`** — no code. Saving there commits to GitHub and the site rebuilds automatically (~30s).
 
 **How content is stored**
-- Products → `content/products.json`  · Journal → `content/journal.json`
+- Products → `content/products.json` · Journal → `content/journal.json` · Site photos → `content/site.json`
 - The site loads these at runtime (`js/data.js`). The CMS edits them; uploaded photos go to `images/`.
 
 **One-time login setup (GitHub)** — the CMS needs permission to save to your repo:
@@ -127,6 +127,7 @@ Manage products, journal posts, and photos from your browser at **`spencercerami
 **Using it**
 - *Shop — Products*: add/edit/reorder pieces, set price, status (available / 1 of 1 / sold…), and upload a photo.
 - *Journal — Posts*: write notes; separate paragraphs with a blank line.
+- *Site Photos*: swap the homepage hero, studio image, About portrait, and the three process shots.
 - Hit **Publish** — live in ~30 seconds.
 
 > Note: `config.yml` paths include the `site 2/` folder your files live in. If you ever move the site to the repo root, remove the `site 2/` prefixes in `admin/config.yml`.

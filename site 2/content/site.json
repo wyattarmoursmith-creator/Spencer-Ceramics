@@ -1,0 +1,10 @@
+{
+  "images": {
+    "hero": "images/hero.jpg",
+    "studio": "images/studio.jpg",
+    "about": "images/about.jpg",
+    "process-1": "images/process-1.jpg",
+    "process-2": "images/process-2.jpg",
+    "process-3": "images/process-3.jpg"
+  }
+}
