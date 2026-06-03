@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Spencer Ceramics — Piece</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body data-page="product">
+
+  <nav class="menu" aria-label="Mobile">
+    <a href="index.html">Index</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html">Studio</a>
+        <a href="journal.html">Journal</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+
+  <nav class="nav nav--solid" aria-label="Primary">
+    <a class="nav__brand wordmark" href="index.html">Spencer&nbsp;&nbsp;Ceramics</a>
+    <div class="nav__links">
+      <a href="index.html">Index</a>
+      <a href="shop.html">Shop</a>
+      <a href="about.html">Studio</a>
+        <a href="journal.html">Journal</a>
+      <a href="contact.html">Contact</a>
+        <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
+    </div>
+    <button class="nav__burger" aria-label="Menu">☰</button>
+  </nav>
+
+  <div style="padding:22px var(--gutter); border-bottom:1px solid var(--rule);">
+    <a class="link-underline" href="shop.html" style="font-size:13px; white-space:nowrap"><span>←</span> Back to shop</a>
+  </div>
+
+  <main class="pd" data-pd-root>
+    <!-- filled by JS from ?id= -->
+  </main>
+
+  <section class="pd__related">
+    <div class="selected__head" style="margin-bottom:48px">
+      <div><div class="label">More from this edition</div></div>
+      <a class="link-underline" href="shop.html">All work <span>→</span></a>
+    </div>
+    <div class="grid grid--three" id="related"></div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__cell"><span>Spencer Ceramics</span><b>MMXXVI</b></div>
+    <div class="footer__cell"><span>Studio</span><b>Mt. Wellington, AU</b></div>
+    <div class="footer__cell"><span>Newsletter</span><a href="#">Subscribe →</a></div>
+    <div class="footer__cell"><span>Instagram</span><a href="#">@spencer.ceramics</a></div>
+  </footer>
+
+  <script src="js/catalog.js"></script>
+  <script src="js/media.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/site.js"></script>
+  <script>
+    (function () {
+      var id = new URLSearchParams(location.search).get("id") || window.CATALOG[0].id;
+      var p = window.byId(id) || window.CATALOG[0];
+      document.title = p.name + " — Spencer Ceramics";
+      var sold = p.state === "sold";
+
+      // dimension/material split out of spec for the meta list
+      var parts = p.spec.split(" · ");
+
+      document.querySelector("[data-pd-root]").innerHTML =
+        '<div class="pd__gallery">' +
+          '<div class="pd__img"><img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '"></div>' +
+          '<div class="pd__thumbs">' +
+            '<div class="pd__img"><img src="' + p.img + '" alt="" data-media="' + p.id + '"></div>' +
+            '<div class="pd__img"><img src="' + p.img + '" alt="" data-media="' + p.id + '"></div>' +
+          '</div>' +
+        '</div>' +
+        '<aside class="pd__panel">' +
+          '<div class="label">N° ' + p.id + ' · ' + (sold ? 'Sold' : p.state) + '</div>' +
+          '<h1 class="pd__name">' + p.name + '</h1>' +
+          '<div class="pd__price tnum">$ ' + p.price + '.00 AUD</div>' +
+          '<p class="pd__desc">Thrown and finished by hand, then fired in a small batch. The surface keeps the record of the making — slight movement at the rim, depth in the glaze where the flame caught it.</p>' +
+          '<div class="pd__meta">' +
+            parts.map(function (x, i) {
+              var keys = ["Glaze / slip", "Body", "Dimensions"];
+              return '<div><span>' + (keys[i] || "Detail") + '</span><span>' + x + '</span></div>';
+            }).join("") +
+            '<div><span>Edition</span><span>' + p.state + '</span></div>' +
+          '</div>' +
+          '<div class="pd__buy">' +
+            (sold
+              ? '<button class="btn btn--ghost btn--block" disabled style="opacity:.5; cursor:not-allowed">Sold</button>'
+              : '<button class="btn btn--fill btn--block" data-add="' + p.id + '" data-label="Add to bag &mdash; $ ' + p.price + '">Add to bag &mdash; $ ' + p.price + ' <span class="arrow">&rarr;</span></button>') +
+          '</div>' +
+          '<div class="pd__note">One of a kind where marked. Wrapped by hand · ships from Tasmania within 7 days.</div>' +
+        '</aside>';
+
+      // related = other pieces
+      document.getElementById("related").innerHTML = window.CATALOG
+        .filter(function (x) { return x.id !== p.id; }).slice(0, 3)
+        .map(function (q) {
+          return '' +
+          '<a class="card" href="product.html?id=' + q.id + '">' +
+            '<div class="card__media"><span class="card__no">N° ' + q.id + '</span>' +
+              '<img src="' + q.img + '" alt="' + q.name + '" data-media="' + q.id + '"></div>' +
+            '<div class="card__row"><div><div class="card__name">' + q.name + '</div>' +
+              '<div class="card__spec">' + q.spec + '</div></div>' +
+              '<div class="card__price tnum">$ ' + q.price + '</div></div>' +
+          '</a>';
+        }).join("");
+
+      // Add-to-bag is wired once by js/site.js (initAddButtons), which runs on
+      // DOMContentLoaded — after this inline script injects the button. Do NOT
+      // bind a second handler here or the item gets added twice.
+    })();
+  </script>
+</body>
+</html>

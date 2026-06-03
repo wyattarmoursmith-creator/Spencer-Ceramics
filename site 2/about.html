@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Studio — Spencer Ceramics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Spencer makes quiet, hand-thrown vessels in a small studio in Tasmania." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body data-page="about">
+
+  <nav class="menu" aria-label="Mobile">
+    <a href="index.html">Index</a>
+    <a href="shop.html">Shop</a>
+    <a href="about.html" aria-current="page">Studio</a>
+    <a href="journal.html">Journal</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+
+  <!-- dark portrait hero -->
+  <header class="about-hero">
+    <nav class="nav nav--dark" aria-label="Primary">
+      <a class="nav__brand wordmark" href="index.html">Spencer&nbsp;&nbsp;Ceramics</a>
+      <div class="nav__links">
+        <a href="index.html">Index</a>
+        <a href="shop.html">Shop</a>
+        <a href="about.html" aria-current="page">Studio</a>
+        <a href="journal.html">Journal</a>
+        <a href="contact.html">Contact</a>
+        <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
+      </div>
+      <button class="nav__burger" aria-label="Menu">☰</button>
+    </nav>
+
+    <img src="images/about.jpg" alt="Spencer in the studio" data-media="about" />
+    <div class="about-hero__veil"></div>
+    <div class="about-hero__caption">
+      <div class="label" style="color:var(--fog)">The studio · Tasmania</div>
+      <div class="display">A small studio.<br />One pair of hands.</div>
+    </div>
+  </header>
+
+  <!-- short statement -->
+  <section class="statement">
+    <div class="statement__inner">
+      <div class="label">About</div>
+      <p>Spencer throws stoneware and porcelain in small batches, and signs each piece by hand.</p>
+      <p>The work keeps the record of how it was made. <span class="ember">No two are the same.</span></p>
+    </div>
+  </section>
+
+  <!-- process triptych -->
+  <section class="strip">
+    <div class="strip__cell">
+      <div class="ph"><img src="images/process-1.jpg" alt="Throwing on the wheel" data-media="process-1" /></div>
+      <div class="cap label">01 · The wheel</div>
+    </div>
+    <div class="strip__cell">
+      <div class="ph"><img src="images/process-2.jpg" alt="Glazing" data-media="process-2" /></div>
+      <div class="cap label">02 · The glaze</div>
+    </div>
+    <div class="strip__cell">
+      <div class="ph"><img src="images/process-3.jpg" alt="The wood firing" data-media="process-3" /></div>
+      <div class="cap label">03 · The firing</div>
+    </div>
+  </section>
+
+  <!-- quiet closer -->
+  <section class="closer">
+    <div class="display">Made to be used,<br />and lived with.</div>
+    <a class="btn btn--fill btn--pill" href="shop.html">See the current edition <span class="arrow">→</span></a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__cell"><span>Spencer Ceramics</span><b>MMXXVI</b></div>
+    <div class="footer__cell"><span>Studio</span><b>Mt. Wellington, AU</b></div>
+    <div class="footer__cell"><span>Journal</span><a href="journal.html">Read →</a></div>
+    <div class="footer__cell"><span>Instagram</span><a href="#">@spencer.ceramics</a></div>
+  </footer>
+
+  <script src="js/catalog.js"></script>
+  <script src="js/media.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/site.js"></script>
+</body>
+</html>
