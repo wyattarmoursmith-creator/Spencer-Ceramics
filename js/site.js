@@ -232,7 +232,7 @@
 
   /* ---------- reveal sections as they scroll into view ---------- */
   function initReveals() {
-    var els = document.querySelectorAll(".reveal");
+    var els = document.querySelectorAll(".reveal, .stagger");
     if (!els.length) return;
     var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce || !("IntersectionObserver" in window)) {
@@ -245,6 +245,53 @@
       });
     }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
     els.forEach(function (el) { io.observe(el); });
+  }
+
+  /* ---------- scroll motion: a gentle parallax INSIDE framed images, so the
+     still ceramics quietly drift within their frame as you pass — tactile, not
+     flashy. transform-only + rAF; no-ops under reduced motion (CSS hover-zoom
+     then remains as the fallback). Heroes are handled separately (initScrollFX). ---------- */
+  function initScrollMotion() {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var SEL = ".gallery__cell img, .studio__media img, .commission__media img, " +
+              ".j-entry__media img, .strip__cell .ph img, .article-hero img";
+    var imgs = document.querySelectorAll(SEL);
+    if (!imgs.length) return;
+    var BASE = 1.1, RANGE = 0.08;            // baseline scale (headroom) + travel as a fraction of frame height
+    var active = [];
+    imgs.forEach(function (im) {
+      im.style.transition = "none";          // parallax tracks scroll 1:1 — easing here would feel rubbery
+      im.style.transform = "scale(" + BASE + ")";
+    });
+    var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var i = active.indexOf(e.target);
+        if (e.isIntersecting && i < 0) { active.push(e.target); e.target.style.willChange = "transform"; }
+        else if (!e.isIntersecting && i >= 0) { active.splice(i, 1); e.target.style.willChange = ""; }
+      });
+      schedule();
+    }, { rootMargin: "15% 0px 15% 0px" }) : null;
+    if (io) imgs.forEach(function (im) { io.observe(im); });
+    else active = Array.prototype.slice.call(imgs);
+
+    var ticking = false;
+    function schedule() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+    function update() {
+      ticking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      for (var k = 0; k < active.length; k++) {
+        var im = active[k], fr = im.parentElement;
+        if (!fr) continue;
+        var r = fr.getBoundingClientRect();
+        var p = (vh - r.top) / (vh + r.height);
+        p = p < 0 ? 0 : (p > 1 ? 1 : p);
+        var ty = ((p - 0.5) * r.height * RANGE).toFixed(1);
+        im.style.transform = "translate3d(0," + ty + "px,0) scale(" + BASE + ")";
+      }
+    }
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    schedule();
   }
 
   /* ---------- apply editable Site & Contact settings (footer + contact page) ---------- */
@@ -289,6 +336,7 @@
     initHeroCrossfade();
     initScrollFX();
     initReveals();
+    initScrollMotion();
     paint();                                  // cart count (localStorage only)
     if (window.onData) window.onData(paint);          // render cart lines once content loads
     if (window.onData) window.onData(applySettings);  // footer + contact details
