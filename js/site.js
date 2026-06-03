@@ -314,7 +314,6 @@
           var s = document.createElement("span");
           s.className = "cw";
           s.textContent = tok;
-          s.style.display = "inline-block";          // so the scale transform applies (and won't reflow neighbours)
           s.style.color = "rgb(22,21,19)";
           words.push(s);
           if (isSticky) sticky.push(s);
@@ -330,9 +329,8 @@
       p.appendChild(frag);
 
       var last = words.length - 1;
-      var stickCenter = sticky.length ? words.indexOf(sticky[Math.floor((sticky.length - 1) / 2)]) : 0;
-      var WIDTH = 2.4;   // wave half-width, in words
-      var POP = 0.22;    // how much the lit word grows (scale); eases back to 1 as the wave passes
+      var WIDTH = 2.4;     // wave half-width, in words
+      var STROKE = 0.55;   // max faux-bold thickness (px) under the light — bolds the glyphs in place, no reflow (unlike font-weight)
 
       function rgbAt(t) {
         return "rgb(" + Math.round(INK[0] + (EMBER[0] - INK[0]) * t) + "," +
@@ -343,30 +341,34 @@
         for (var i = 0; i < words.length; i++) {
           var t = 1 - Math.abs(i - pos) / WIDTH;
           t = t < 0 ? 0 : (t > 1 ? 1 : t);
-          t = t * t * (3 - 2 * t);                                              // smoothstep — soft leading/trailing edge
-          words[i].style.color = rgbAt(t);
-          words[i].style.transform = "scale(" + (1 + t * POP).toFixed(3) + ")"; // grow under the light, ease back after
+          t = t * t * (3 - 2 * t);                            // smoothstep — soft leading/trailing edge
+          var c = rgbAt(t);
+          words[i].style.color = c;
+          words[i].style.webkitTextStrokeColor = c;           // grows bolder under the light (stroke matches the fill colour)
+          words[i].style.webkitTextStrokeWidth = (t * STROKE).toFixed(2) + "px";
         }
       }
 
-      var FWD = 5500, HOLD = 500, BWD = 4000, t0 = null;   // ~10s end to end
+      var FWD = 6500, t0 = null;   // forward-only sweep; ~8s including the off→on tail below
       function ease(x) { return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }   // easeInOut
       function frame(ts) {
         if (t0 === null) t0 = ts;
-        var e = ts - t0, pos;
-        if (e < FWD) pos = ease(e / FWD) * last;                                  // sweep forward
-        else if (e < FWD + HOLD) pos = last;                                      // brief hold at the end
-        else if (e < FWD + HOLD + BWD) pos = last + (stickCenter - last) * ease((e - FWD - HOLD) / BWD); // glide back
-        else { settle(); return; }
-        paint(pos);
-        requestAnimationFrame(frame);
+        var e = ts - t0;
+        if (e < FWD) { paint(ease(e / FWD) * last); requestAnimationFrame(frame); return; }   // sweep forward to the last word
+        paint(last);
+        finish();
       }
-      function settle() {
-        words.forEach(function (s) { s.style.transition = "color .6s ease, transform .6s ease"; });
-        for (var i = 0; i < words.length; i++) {
-          words[i].style.color = (sticky.indexOf(words[i]) >= 0) ? "var(--ember)" : "var(--ink)";
-          words[i].style.transform = "scale(1)";   // every word eases back to standard size; only the colour stays on the phrase
-        }
+      function finish() {
+        // light has reached the end → the whole line switches off (back to plain ink, no bold)…
+        words.forEach(function (s) {
+          s.style.transition = "color .45s ease, -webkit-text-stroke-width .45s ease";
+          s.style.color = "var(--ink)";
+          s.style.webkitTextStrokeWidth = "0px";
+        });
+        // …then, after a beat, the phrase fades back on — as colour only (standard weight), and stays
+        setTimeout(function () {
+          sticky.forEach(function (s) { s.style.transition = "color .6s ease"; s.style.color = "var(--ember)"; });
+        }, 800);
       }
 
       var played = false;
