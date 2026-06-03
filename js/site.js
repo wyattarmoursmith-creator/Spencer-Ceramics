@@ -247,6 +247,22 @@
     els.forEach(function (el) { io.observe(el); });
   }
 
+  /* ---------- apply editable Site & Contact settings (footer + contact page) ---------- */
+  function applySettings() {
+    var s = window.SETTINGS || {};
+    document.querySelectorAll("[data-site]").forEach(function (el) {
+      var key = el.getAttribute("data-site");
+      if (key === "email") {
+        if (s.email) { el.textContent = s.email; if (el.tagName === "A") el.setAttribute("href", "mailto:" + s.email); }
+      } else if (key === "instagram") {
+        if (s.instagram_handle) el.textContent = s.instagram_handle;
+        if (el.tagName === "A" && s.instagram_url) el.setAttribute("href", s.instagram_url);
+      } else if (s[key] != null && s[key] !== "") {
+        el.textContent = s[key];
+      }
+    });
+  }
+
   /* ---------- boot ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
@@ -255,6 +271,7 @@
     initScrollFX();
     initReveals();
     paint();                                  // cart count (localStorage only)
-    if (window.onData) window.onData(paint);  // render cart lines once content loads
+    if (window.onData) window.onData(paint);          // render cart lines once content loads
+    if (window.onData) window.onData(applySettings);  // footer + contact details
   });
 })();

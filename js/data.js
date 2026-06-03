@@ -9,18 +9,21 @@
    ============================================================ */
 window.CATALOG = [];
 window.JOURNAL = [];
-window.SITE    = { images: {} };
+window.SITE     = { images: {} };
+window.SETTINGS = {};
 window.byId     = function (id) { return window.CATALOG.find(function (p) { return p.id === id; }); };
 window.postById = function (id) { return window.JOURNAL.find(function (p) { return p.id === id; }); };
 
 window._dataReady = Promise.all([
   fetch("content/products.json").then(function (r) { return r.ok ? r.json() : { products: [] }; }).catch(function () { return { products: [] }; }),
   fetch("content/journal.json").then(function (r) { return r.ok ? r.json() : { posts: [] }; }).catch(function () { return { posts: [] }; }),
-  fetch("content/site.json").then(function (r) { return r.ok ? r.json() : { images: {} }; }).catch(function () { return { images: {} }; })
+  fetch("content/site.json").then(function (r) { return r.ok ? r.json() : { images: {} }; }).catch(function () { return { images: {} }; }),
+  fetch("content/settings.json").then(function (r) { return r.ok ? r.json() : {}; }).catch(function () { return {}; })
 ]).then(function (res) {
-  window.CATALOG = (res[0] && res[0].products) || [];
-  window.JOURNAL = (res[1] && res[1].posts) || [];
-  window.SITE    = (res[2] && res[2].images) ? res[2] : { images: {} };
+  window.CATALOG  = (res[0] && res[0].products) || [];
+  window.JOURNAL  = (res[1] && res[1].posts) || [];
+  window.SITE     = (res[2] && res[2].images) ? res[2] : { images: {} };
+  window.SETTINGS = res[3] || {};
   document.dispatchEvent(new Event("data:ready"));
 });
 
