@@ -159,6 +159,7 @@ collections:
             collapsed: true
             fields:
               - { label: "Statement (opening line)", name: statement1, widget: text }
+              - { label: "Maker bio", name: bio, widget: text, hint: "Leave a blank line between paragraphs." }
           - label: "Commissions"
             name: commissions
             widget: object
