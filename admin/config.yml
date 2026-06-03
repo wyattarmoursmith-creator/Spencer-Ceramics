@@ -110,6 +110,10 @@ collections:
               - { label: "Home gallery — 2", name: "gallery-2", widget: image }
               - { label: "Home gallery — 3", name: "gallery-3", widget: image }
               - { label: "Home gallery — 4", name: "gallery-4", widget: image }
+              - { label: "Studio page — Selected work 1", name: "work-1", widget: image }
+              - { label: "Studio page — Selected work 2", name: "work-2", widget: image }
+              - { label: "Studio page — Selected work 3", name: "work-3", widget: image }
+              - { label: "Studio page — Selected work 4", name: "work-4", widget: image }
 
   # ---------------- SITE & CONTACT ----------------
   - name: settings

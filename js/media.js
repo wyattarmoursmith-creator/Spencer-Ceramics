@@ -30,6 +30,12 @@ window.MEDIA = {
   "gallery-3":   "50% 50%",
   "gallery-4":   "50% 50%",
 
+  /* studio page — selected work */
+  "work-1":      "45% 50%",
+  "work-2":      "50% 50%",
+  "work-3":      "50% 45%",
+  "work-4":      "50% 55%",
+
   /* products — keyed by catalogue id */
   "042-01":      "50% 50%",
   "042-02":      "50% 45%",

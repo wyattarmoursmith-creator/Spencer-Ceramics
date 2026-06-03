@@ -22,8 +22,8 @@
     <a href="cart.html">Cart</a>
   </nav>
 
-  <!-- dark portrait hero -->
-  <header class="about-hero">
+  <!-- studio hero — sticky/parallax scroll, like the homepage -->
+  <header class="hero">
     <nav class="nav nav--dark" aria-label="Primary">
       <a class="nav__brand wordmark" href="index.html">Spencer&nbsp;&nbsp;Ceramics</a>
       <div class="nav__links">
@@ -37,11 +37,17 @@
       <button class="nav__burger" aria-label="Menu">☰</button>
     </nav>
 
-    <img src="images/about.jpg" alt="Spencer in the studio" data-media="about" />
-    <div class="about-hero__veil"></div>
-    <div class="about-hero__caption">
-      <div class="label" style="color:var(--fog)">The studio · Auckland</div>
-      <div class="display">A small studio.<br />One pair of hands.</div>
+    <div class="hero__media">
+      <img class="hero__img is-active" src="images/about.jpg" alt="Spencer in the studio" data-media="about" />
+    </div>
+    <div class="hero__veil"></div>
+
+    <div class="hero__inner">
+      <div class="hero__caption">
+        <div class="label" style="color:var(--fog)">The studio · Auckland</div>
+        <div class="display">A small studio.<br />One pair of hands.</div>
+      </div>
+      <div class="hero__scroll"><span>Scroll</span><span class="line"></span></div>
     </div>
   </header>
 
@@ -51,6 +57,20 @@
       <div class="label">About</div>
       <p data-text="about.statement1">Spencer throws stoneware and porcelain in small batches, and signs each piece by hand.</p>
       <p>The work keeps the record of how it was made. <span class="ember">No two are the same.</span></p>
+    </div>
+  </section>
+
+  <!-- selected work — image-forward break before the maker's words -->
+  <section class="gallery reveal">
+    <div class="gallery__head">
+      <div class="label">Selected work</div>
+      <a class="link-underline" href="shop.html">In the shop <span>→</span></a>
+    </div>
+    <div class="gallery__grid">
+      <div class="gallery__cell"><img src="images/work-1.jpg" alt="A lit ceramic table lamp in the studio" data-media="work-1" /></div>
+      <div class="gallery__cell"><img src="images/work-2.jpg" alt="A large hand-thrown vessel" data-media="work-2" /></div>
+      <div class="gallery__cell"><img src="images/work-3.jpg" alt="A grouping of hand-formed vessels" data-media="work-3" /></div>
+      <div class="gallery__cell"><img src="images/work-4.jpg" alt="A lamp and stacked forms in warm light" data-media="work-4" /></div>
     </div>
   </section>
 
