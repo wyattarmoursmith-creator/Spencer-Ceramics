@@ -127,7 +127,6 @@ collections:
           - { label: "Footer year", name: year, widget: string, hint: "Roman numerals in the footer, e.g. MMXXVI" }
           - { label: "Contact page — intro line", name: contact_intro, widget: text }
           - { label: "Contact page — Commissions note", name: commissions_note, widget: string }
-          - { label: "Contact page — Studio visits note", name: visits_note, widget: string }
           - { label: "Contact page — Reply time note", name: reply_note, widget: string }
 
   # ---------------- PAGE TEXT ----------------
