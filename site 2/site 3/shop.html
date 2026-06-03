@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Shop — Spencer Ceramics</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="The current edition — fourteen hand-thrown pieces, released in small batches." />
+<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body data-page="shop">
+
+  <nav class="menu" aria-label="Mobile">
+    <a href="index.html">Index</a>
+    <a href="shop.html" aria-current="page">Shop</a>
+    <a href="about.html">Studio</a>
+        <a href="journal.html">Journal</a>
+    <a href="contact.html">Contact</a>
+    <a href="cart.html">Cart</a>
+  </nav>
+
+  <nav class="nav nav--solid" aria-label="Primary">
+    <a class="nav__brand wordmark" href="index.html">Spencer&nbsp;&nbsp;Ceramics</a>
+    <div class="nav__links">
+      <a href="index.html">Index</a>
+      <a href="shop.html" aria-current="page">Shop</a>
+      <a href="about.html">Studio</a>
+        <a href="journal.html">Journal</a>
+      <a href="contact.html">Contact</a>
+        <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
+    </div>
+    <button class="nav__burger" aria-label="Menu">☰</button>
+  </nav>
+
+  <!-- header band -->
+  <section class="shop-head">
+    <div class="shop-head__title">
+      <div class="label">Edition N° 042 — June 2026</div>
+      <h1 class="display">Fourteen pieces,<br />released today.</h1>
+    </div>
+    <div class="shop-head__bar">
+      <div class="filters" role="group" aria-label="Filter">
+        <button aria-pressed="true" data-filter="all">All · 14</button>
+        <button aria-pressed="false" data-filter="vessels">Vessels</button>
+        <button aria-pressed="false" data-filter="tableware">Tableware</button>
+        <button aria-pressed="false" data-filter="tea">Tea</button>
+      </div>
+      <div class="sort">Sort · newest ▾</div>
+    </div>
+  </section>
+
+  <!-- grid -->
+  <section class="shop-grid">
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer__cell"><span>Spencer Ceramics</span><b>MMXXVI</b></div>
+    <div class="footer__cell"><span>Studio</span><b>Mt. Wellington, AU</b></div>
+    <div class="footer__cell"><span>Newsletter</span><a href="#">Subscribe →</a></div>
+    <div class="footer__cell"><span>Instagram</span><a href="#">@spencer.ceramics</a></div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/media.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/site.js"></script>
+  <script>
+    window.onData(function () {
+      document.getElementById("grid").innerHTML = window.CATALOG.map(function (p) {
+        var sold = p.state === "sold";
+        return '' +
+        '<a class="card" href="product.html?id=' + p.id + '">' +
+          '<div class="card__media">' +
+            '<span class="card__no">N° ' + p.id + '</span>' +
+            (sold ? '<span class="card__tag">Sold</span>' : '') +
+            '<img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
+          '</div>' +
+          '<div class="card__row">' +
+            '<div>' +
+              '<div class="card__name">' + p.name + '</div>' +
+              '<div class="card__spec">' + p.spec + '</div>' +
+            '</div>' +
+            '<div style="text-align:right">' +
+              '<div class="card__price tnum">$ ' + p.price + '</div>' +
+              '<div class="card__state">' + p.state + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</a>';
+      }).join("");
+
+      // simple visual filter toggle (all products share one edition here)
+      document.querySelectorAll(".filters button").forEach(function (b) {
+        b.addEventListener("click", function () {
+          document.querySelectorAll(".filters button").forEach(function (x) {
+            x.setAttribute("aria-pressed", "false");
+          });
+          b.setAttribute("aria-pressed", "true");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

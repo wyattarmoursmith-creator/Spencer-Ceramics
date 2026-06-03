@@ -1,0 +1,31 @@
+{
+  "posts": [
+    {
+      "id": "spring-firing",
+      "title": "The spring firing",
+      "date": "June 2026",
+      "tag": "Firing",
+      "img": "images/j-1.jpg",
+      "excerpt": "Fourteen pieces went into the kiln. Eleven came out the way I hoped.",
+      "body": "The kiln ran for two days. I sleep badly when it’s firing — half-listening for the sound of it settling.\n\nAsh from the wood drifts and lands on the shoulders of the taller pieces. You can’t plan it. You can only leave room for it.\n\nEleven pieces made it into this edition. The rest go back to the studio shelf, or back to the clay."
+    },
+    {
+      "id": "wood-ash-chance",
+      "title": "Wood, ash, and chance",
+      "date": "May 2026",
+      "tag": "Process",
+      "img": "images/j-2.jpg",
+      "excerpt": "A glaze is a set of decisions, and then a long act of letting go.",
+      "body": "I mix small batches. Iron oxide, a little ash, water. The numbers matter until the flame decides they don’t.\n\nWhat I’m after isn’t a colour so much as a depth — somewhere to look into, not just at."
+    },
+    {
+      "id": "a-week-of-cups",
+      "title": "A week of cups",
+      "date": "April 2026",
+      "tag": "Studio",
+      "img": "images/j-3.jpg",
+      "excerpt": "Thirty of the same form. By the last one, your hands stop thinking.",
+      "body": "Repetition is how the hand learns. The thirtieth cup is quieter than the first — less effort in it, more ease.\n\nI keep a few from every run. Not the best ones, necessarily. The honest ones."
+    }
+  ]
+}
