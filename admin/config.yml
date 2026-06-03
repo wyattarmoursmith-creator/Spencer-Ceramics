@@ -106,6 +106,10 @@ collections:
               - { label: "Commissions — Pendant", name: "commission-pendant", widget: image }
               - { label: "Commissions — Wall", name: "commission-wall", widget: image }
               - { label: "Commissions — Table & floor", name: "commission-lamps", widget: image }
+              - { label: "Home gallery — 1", name: "gallery-1", widget: image }
+              - { label: "Home gallery — 2", name: "gallery-2", widget: image }
+              - { label: "Home gallery — 3", name: "gallery-3", widget: image }
+              - { label: "Home gallery — 4", name: "gallery-4", widget: image }
 
   # ---------------- SITE & CONTACT ----------------
   - name: settings
