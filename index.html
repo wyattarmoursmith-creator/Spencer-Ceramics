@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<script>document.documentElement.classList.add('js');</script>
 <title>Spencer Ceramics — Hand-thrown vessels from Tasmania</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="Quiet, hand-thrown stoneware and porcelain. Made and signed by Spencer in a small studio in Tasmania. Released in small editions." />
@@ -39,8 +40,10 @@
     </nav>
 
     <div class="hero__media">
-      <!-- Swap this <img> for a <video autoplay muted loop playsinline> when you have the wheel footage -->
-      <img src="images/hero.jpg" alt="Hands shaping a vessel at the wheel" data-media="hero" />
+      <!-- Three photos slowly cross-fade. Swap any via /admin/ (Site Photos) or the images/ folder. -->
+      <img class="hero__img is-active" src="images/sc_cups-shoot_001.jpg" alt="Pulling an espresso shot into a hand-thrown cup" data-media="hero" />
+      <img class="hero__img" src="images/hero-2.jpg" alt="" aria-hidden="true" data-media="hero-2" />
+      <img class="hero__img" src="images/hero-3.jpg" alt="" aria-hidden="true" data-media="hero-3" />
     </div>
     <div class="hero__veil"></div>
 
@@ -61,7 +64,7 @@
 
   <!-- STUDIO -->
   <section class="studio" id="studio">
-    <div class="studio__text">
+    <div class="studio__text reveal">
       <div class="label">The studio</div>
       <h2 class="display">Made and signed<br />by one pair<br />of hands.</h2>
       <p>Spencer works from a small studio at the edge of the bush, throwing stoneware and porcelain and firing in small batches. Every piece carries the marks of how it was made — no two are the same.</p>
@@ -69,14 +72,14 @@
         <a class="link-underline" href="shop.html">See the current edition <span>→</span></a>
       </div>
     </div>
-    <div class="studio__media">
+    <div class="studio__media reveal reveal--late">
       <img src="images/studio.jpg" alt="The studio" data-media="studio" />
     </div>
   </section>
 
   <!-- SELECTED WORK -->
   <section class="selected">
-    <div class="selected__head">
+    <div class="selected__head reveal">
       <div>
         <div class="label">Selected work</div>
         <h2 class="display">Fourteen pieces,<br />released today.</h2>
@@ -84,7 +87,7 @@
       <a class="link-underline" href="shop.html">All work <span>→</span></a>
     </div>
 
-    <div class="grid grid--three" id="teaser"></div>
+    <div class="grid grid--three reveal reveal--late" id="teaser"></div>
   </section>
 
   <!-- FOOTER -->

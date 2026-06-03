@@ -10,6 +10,8 @@
 window.MEDIA = {
   /* full-bleed / feature images */
   "hero":        "50% 42%",
+  "hero-2":      "50% 50%",
+  "hero-3":      "50% 50%",
   "studio":      "50% 50%",
   "about":       "50% 38%",
   "process-1":   "50% 50%",

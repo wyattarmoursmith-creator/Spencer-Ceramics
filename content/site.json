@@ -1,6 +1,8 @@
 {
   "images": {
     "hero": "/images/sc_cups-shoot_001.jpg",
+    "hero-2": "images/hero-2.jpg",
+    "hero-3": "images/hero-3.jpg",
     "studio": "images/studio.jpg",
     "about": "images/about.jpg",
     "process-1": "images/process-1.jpg",

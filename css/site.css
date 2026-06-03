@@ -170,12 +170,16 @@ button{font-family:inherit; cursor:pointer;}
   position:relative; height:100vh; min-height:640px; overflow:hidden;
   background:var(--obsidian); color:var(--chalk);
 }
-.hero__media{ position:absolute; inset:0; }
-.hero__media img, .hero__media video{
-  width:100%; height:100%; object-fit:cover;
-  animation:slowzoom 24s ease-in-out infinite alternate;
+.hero__media{ position:absolute; left:0; right:0; top:-16%; height:116%; will-change:transform; }
+.hero__media video{ width:100%; height:100%; object-fit:cover; animation:slowzoom 24s ease-in-out infinite alternate; }
+/* three stacked hero photos that slowly cross-fade (cycled by js/site.js) */
+.hero__img{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+  opacity:0; transition:opacity 1.6s ease;
+  animation:slowzoom 28s ease-in-out infinite alternate;
 }
-@keyframes slowzoom{ from{ transform:scale(1.02); } to{ transform:scale(1.1); } }
+.hero__img.is-active{ opacity:1; }
+@keyframes slowzoom{ from{ transform:scale(1.03); } to{ transform:scale(1.12); } }
 .hero__veil{
   position:absolute; inset:0;
   background:linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.05) 26%,
@@ -219,6 +223,17 @@ button{font-family:inherit; cursor:pointer;}
   display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:64px;
 }
 .selected__head .display{ font-size:clamp(30px, 3.4vw, 44px); margin-top:18px; }
+
+/* scroll reveals (home) + motion guards. the .js gate keeps content visible if JS is off */
+html.js .reveal{ opacity:0; transform:translateY(20px); transition:opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+html.js .reveal.in{ opacity:1; transform:none; }
+html.js .reveal--late{ transition-delay:.12s; }
+@media (prefers-reduced-motion: reduce){
+  .hero__img{ animation:none; }
+  .hero__media, .hero__inner{ transform:none !important; }
+  .hero__inner{ opacity:1 !important; }
+  html.js .reveal{ opacity:1; transform:none; transition:none; }
+}
 
 /* ============================================================
    PRODUCT GRID  (shop + teasers)

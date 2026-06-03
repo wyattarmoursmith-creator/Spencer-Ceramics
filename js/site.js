@@ -192,10 +192,68 @@
     return l ? l.qty : 0;
   }
 
+  /* ---------- hero: slow crossfade through the images ---------- */
+  function initHeroCrossfade() {
+    var imgs = document.querySelectorAll(".hero__media .hero__img");
+    if (imgs.length < 2) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var i = 0;
+    setInterval(function () {
+      imgs[i].classList.remove("is-active");
+      i = (i + 1) % imgs.length;
+      imgs[i].classList.add("is-active");
+    }, 5400);
+  }
+
+  /* ---------- subtle scroll motion: hero parallax + caption drift ---------- */
+  function initScrollFX() {
+    var hero = document.querySelector(".hero");
+    var media = hero && hero.querySelector(".hero__media");
+    var inner = hero && hero.querySelector(".hero__inner");
+    if (!hero || !media) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var ticking = false;
+    function update() {
+      var y = window.scrollY || window.pageYOffset || 0;
+      var h = hero.offsetHeight || window.innerHeight;
+      var p = Math.max(0, Math.min(1, y / h));
+      media.style.transform = "translate3d(0," + (y * 0.12).toFixed(1) + "px,0)";
+      if (inner) {
+        inner.style.transform = "translate3d(0," + (y * 0.22).toFixed(1) + "px,0)";
+        inner.style.opacity = (1 - p * 0.85).toFixed(3);
+      }
+      ticking = false;
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    update();
+  }
+
+  /* ---------- reveal sections as they scroll into view ---------- */
+  function initReveals() {
+    var els = document.querySelectorAll(".reveal");
+    if (!els.length) return;
+    var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce || !("IntersectionObserver" in window)) {
+      els.forEach(function (el) { el.classList.add("in"); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function (el) { io.observe(el); });
+  }
+
   /* ---------- boot ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
     initAddButtons();
+    initHeroCrossfade();
+    initScrollFX();
+    initReveals();
     paint();                                  // cart count (localStorage only)
     if (window.onData) window.onData(paint);  // render cart lines once content loads
   });
