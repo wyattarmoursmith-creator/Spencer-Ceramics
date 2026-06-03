@@ -57,12 +57,12 @@
     <div class="footer__cell"><span>Instagram</span><a href="#">@spencer.ceramics</a></div>
   </footer>
 
-  <script src="js/catalog.js"></script>
+  <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
   <script>
-    (function () {
+    window.onData(function () {
       var id = new URLSearchParams(location.search).get("id") || window.CATALOG[0].id;
       var p = window.byId(id) || window.CATALOG[0];
       document.title = p.name + " — Spencer Ceramics";
@@ -116,7 +116,7 @@
       // Add-to-bag is wired once by js/site.js (initAddButtons), which runs on
       // DOMContentLoaded — after this inline script injects the button. Do NOT
       // bind a second handler here or the item gets added twice.
-    })();
+    });
   </script>
 </body>
 </html>

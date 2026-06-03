@@ -49,12 +49,12 @@
     <div class="footer__cell"><span>Instagram</span><a href="#">@spencer.ceramics</a></div>
   </footer>
 
-  <script src="js/catalog.js"></script>
-  <script src="js/journal.js"></script>
+  <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
   <script>
+    window.onData(function () {
     document.getElementById("j-list").innerHTML = window.JOURNAL.map(function (p) {
       return '' +
       '<a class="j-entry" href="journal-post.html?id=' + p.id + '">' +
@@ -68,6 +68,7 @@
         '</div>' +
       '</a>';
     }).join("");
+    });
   </script>
 </body>
 </html>

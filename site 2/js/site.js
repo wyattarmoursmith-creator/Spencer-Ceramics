@@ -76,21 +76,21 @@
     });
   }
 
-  /* ---------- add-to-cart buttons (shop + product) ---------- */
+  /* ---------- add-to-cart (delegated, works for async-rendered buttons) ---------- */
   function initAddButtons() {
-    document.querySelectorAll("[data-add]").forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        var id = btn.getAttribute("data-add");
-        var p = window.byId(id);
-        if (p && p.state === "sold") return;
-        window.Cart.add(id, 1);
-        if (btn.dataset.busy) return;
-        btn.dataset.busy = "1";
-        var prevHTML = btn.innerHTML;
-        btn.innerHTML = "Added to bag ✓";
-        setTimeout(function () { btn.innerHTML = prevHTML; btn.dataset.busy = ""; }, 1400);
-      });
+    document.addEventListener("click", function (e) {
+      var btn = e.target.closest && e.target.closest("[data-add]");
+      if (!btn) return;
+      e.preventDefault();
+      var id = btn.getAttribute("data-add");
+      var p = window.byId(id);
+      if (p && p.state === "sold") return;
+      window.Cart.add(id, 1);
+      if (btn.dataset.busy) return;
+      btn.dataset.busy = "1";
+      var prevHTML = btn.innerHTML;
+      btn.innerHTML = "Added to bag ✓";
+      setTimeout(function () { btn.innerHTML = prevHTML; btn.dataset.busy = ""; }, 1400);
     });
   }
 
@@ -98,6 +98,7 @@
   function renderCart() {
     var wrap = document.querySelector("[data-cart-root]");
     if (!wrap) return;
+    if (!window.CATALOG || !window.CATALOG.length) return; // wait for content to load
     var items = window.Cart.items();
 
     if (!items.length) {
@@ -187,6 +188,7 @@
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
     initAddButtons();
-    paint();
+    paint();                                  // cart count (localStorage only)
+    if (window.onData) window.onData(paint);  // render cart lines once content loads
   });
 })();

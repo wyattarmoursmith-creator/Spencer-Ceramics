@@ -1,0 +1,74 @@
+# ============================================================
+# Spencer Ceramics — CMS configuration (Decap CMS)
+# Edits commit to GitHub; Netlify rebuilds; the site updates.
+# Paths below are relative to the REPO ROOT, so they include the
+# "site 2/" folder your files live in. If you ever move the site to
+# the repo root, remove the "site 2/" prefixes.
+# ============================================================
+
+backend:
+  name: github
+  repo: wyattarmoursmith-creator/Spencer-Ceramics
+  branch: main
+
+# Where CMS-uploaded photos are saved (in the repo) …
+media_folder: "site 2/images"
+# … and the URL they’re served from on the live site.
+public_folder: "/images"
+
+site_url: https://spencerceramics.netlify.app
+display_url: https://spencerceramics.netlify.app
+publish_mode: simple
+
+collections:
+  # ---------------- SHOP ----------------
+  - name: products
+    label: "Shop — Products"
+    delete: false
+    files:
+      - name: products
+        label: "All products"
+        file: "site 2/content/products.json"
+        description: "Add, edit, reorder, or remove pieces in the shop."
+        fields:
+          - label: "Products"
+            name: products
+            widget: list
+            label_singular: "Product"
+            summary: "{{fields.name}} — ${{fields.price}} ({{fields.state}})"
+            fields:
+              - { label: "ID (leave as-is once set)", name: id, widget: string, hint: "Unique. Used in the product URL. e.g. 042-07" }
+              - { label: "URL slug", name: slug, widget: string }
+              - { label: "Name", name: name, widget: string }
+              - { label: "Spec line", name: spec, widget: string, hint: "e.g. Ash glaze · stoneware · h. 7cm" }
+              - { label: "Price (AUD)", name: price, widget: number, value_type: int, min: 0 }
+              - label: "Status"
+                name: state
+                widget: select
+                options: ["available", "1 of 1", "2 of 8", "4 of 8", "sold"]
+                default: "available"
+              - { label: "Photo", name: img, widget: image, choose_url: false }
+
+  # ---------------- JOURNAL ----------------
+  - name: journal
+    label: "Journal — Posts"
+    delete: false
+    files:
+      - name: posts
+        label: "All posts"
+        file: "site 2/content/journal.json"
+        description: "Write and edit journal notes."
+        fields:
+          - label: "Posts"
+            name: posts
+            widget: list
+            label_singular: "Post"
+            summary: "{{fields.title}} — {{fields.date}}"
+            fields:
+              - { label: "ID / URL slug", name: id, widget: string, hint: "Unique, no spaces. e.g. winter-kiln" }
+              - { label: "Title", name: title, widget: string }
+              - { label: "Date", name: date, widget: string, hint: "Free text, e.g. June 2026" }
+              - { label: "Tag", name: tag, widget: string, hint: "e.g. Firing, Process, Studio" }
+              - { label: "Photo", name: img, widget: image, choose_url: false }
+              - { label: "Excerpt", name: excerpt, widget: text, hint: "One line shown in the journal list." }
+              - { label: "Body", name: body, widget: text, hint: "Separate paragraphs with a blank line." }

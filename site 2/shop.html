@@ -64,12 +64,12 @@
     <div class="footer__cell"><span>Instagram</span><a href="#">@spencer.ceramics</a></div>
   </footer>
 
-  <script src="js/catalog.js"></script>
+  <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
   <script>
-    (function () {
+    window.onData(function () {
       document.getElementById("grid").innerHTML = window.CATALOG.map(function (p) {
         var sold = p.state === "sold";
         return '' +
@@ -101,7 +101,7 @@
           b.setAttribute("aria-pressed", "true");
         });
       });
-    })();
+    });
   </script>
 </body>
 </html>

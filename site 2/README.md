@@ -105,10 +105,33 @@ You don't need to re-deploy to reframe a photo. Add **`?edit`** to any page URL 
 Focal points live in `js/media.js` (keyed by slot / product id / post id). Dropped-in previews are **local only** — to publish a new photo, still save the real file into `images/` with the matching name, then re-deploy.
 
 ### Faster deploys
-- **Connect Git** (recommended): push the `site` folder to GitHub and link it in Netlify. Then every change auto-publishes on push — no more drag-and-drop.
-- **Want a real upload UI?** I can add **Decap CMS** (free, Git-based) so you upload photos and edit text from an admin panel in the browser, no code. Ask and I'll wire it in.
+- **Connect Git** (done ✓): the repo is linked to Netlify, so every change auto-publishes.
 
-## 6 · Notes
+## 6 · Studio admin — the CMS (`/admin/`)
+
+Manage products, journal posts, and photos from your browser at **`spencerceramics.netlify.app/admin/`** — no code. Saving there commits to GitHub and the site rebuilds automatically (~30s).
+
+**How content is stored**
+- Products → `content/products.json`  · Journal → `content/journal.json`
+- The site loads these at runtime (`js/data.js`). The CMS edits them; uploaded photos go to `images/`.
+
+**One-time login setup (GitHub)** — the CMS needs permission to save to your repo:
+1. **Create a GitHub OAuth app** → github.com/settings/developers → *OAuth Apps* → **New OAuth App**
+   - Application name: `Spencer Ceramics CMS`
+   - Homepage URL: `https://spencerceramics.netlify.app`
+   - Authorization callback URL: `https://api.netlify.com/auth/done`
+   - Register, copy the **Client ID**, then **Generate a client secret** and copy it.
+2. **Add it to Netlify** → your site → *Site configuration → Access & security → OAuth* (Authentication providers) → **Install provider → GitHub** → paste the Client ID + Secret → Save.
+3. Visit **`/admin/`** → **Login with GitHub** → authorize. Done — bookmark it.
+
+**Using it**
+- *Shop — Products*: add/edit/reorder pieces, set price, status (available / 1 of 1 / sold…), and upload a photo.
+- *Journal — Posts*: write notes; separate paragraphs with a blank line.
+- Hit **Publish** — live in ~30 seconds.
+
+> Note: `config.yml` paths include the `site 2/` folder your files live in. If you ever move the site to the repo root, remove the `site 2/` prefixes in `admin/config.yml`.
+
+## 7 · Notes
 - No frameworks, no build. Open `index.html` locally to preview (run a tiny static server if your browser blocks `file://` fetches: `npx serve site`).
 - Fonts load from Google Fonts (Jost / Schibsted Grotesk / JetBrains Mono). If you license real **Futura**, add it as a custom font and swap `--disp` in `css/site.css`.
 - Design tokens (colours, type, spacing) live at the top of `css/site.css`.

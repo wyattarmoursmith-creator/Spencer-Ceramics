@@ -47,13 +47,12 @@
     <div class="footer__cell"><span>Instagram</span><a href="#">@spencer.ceramics</a></div>
   </footer>
 
-  <script src="js/catalog.js"></script>
-  <script src="js/journal.js"></script>
+  <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
   <script>
-    (function () {
+    window.onData(function () {
       var id = new URLSearchParams(location.search).get("id");
       var p = window.postById(id) || window.JOURNAL[0];
       document.title = p.title + " — Spencer Ceramics · Journal";
@@ -67,13 +66,13 @@
           '<span class="label">' + p.tag + '</span></div>' +
         '<h1 class="article__title">' + p.title + '</h1>' +
         '<div class="article__lede">' +
-          p.body.map(function (para) { return '<p>' + para + '</p>'; }).join("") +
+          (p.body || "").split(/\n{2,}/).map(function (para) { return '<p>' + para.trim() + '</p>'; }).join("") +
         '</div>' +
         '<div class="article__foot">' +
           '<a class="link-underline" href="journal.html"><span>←</span> All notes</a>' +
           '<a class="link-underline" href="shop.html">Shop the work <span>→</span></a>' +
         '</div>';
-    })();
+    });
   </script>
 </body>
 </html>

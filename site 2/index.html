@@ -95,13 +95,13 @@
     <div class="footer__cell"><span>Instagram</span><a href="#">@spencer.ceramics</a></div>
   </footer>
 
-  <script src="js/catalog.js"></script>
+  <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
   <script>
     /* render three teaser cards from the catalogue */
-    (function () {
+    window.onData(function () {
       var pick = window.CATALOG.slice(0, 3);
       document.getElementById("teaser").innerHTML = pick.map(function (p) {
         return '' +
@@ -117,7 +117,7 @@
           '</div>' +
         '</a>';
       }).join("");
-    })();
+    });
   </script>
 </body>
 </html>
