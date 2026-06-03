@@ -14,8 +14,8 @@ site/
 ├── contact.html      Contact page (Netlify Forms)
 ├── 404.html          Not-found page (Netlify serves this automatically)
 ├── css/site.css      All styles + design tokens
-├── js/catalog.js     Product list (edit your pieces here)
-├── js/journal.js     Journal posts (edit your writing here)
+├── js/data.js        Loads products + journal + photos from content/*.json
+├── content/          products.json · journal.json · site.json  (your pieces & posts, or use /admin/)
 ├── js/site.js        Mobile nav + cart logic
 ├── images/           Placeholder photography (swap these)
 └── favicon.svg       SC monogram
@@ -42,11 +42,11 @@ site/
 
 ## 2 · Add your own content
 
-**Products** — edit `js/catalog.js`. Each piece:
-```js
-{ id:"042-01", slug:"tea-bowl-ash", name:"Tea bowl, ash glaze",
-  spec:"Ash glaze · stoneware · h. 7cm", price:84,
-  state:"available", img:"images/p-teabowl.jpg" }
+**Products** — edit `content/products.json` (or use the `/admin/` CMS). Each piece:
+```json
+{ "id":"042-01", "slug":"tea-bowl-ash", "name":"Tea bowl, ash glaze",
+  "spec":"Ash glaze · stoneware · h. 7cm", "price":84,
+  "state":"available", "img":"images/p-teabowl.jpg" }
 ```
 - `state` can be `"available"`, `"1 of 1"`, `"4 of 8"`, or `"sold"` (sold pieces show a tag and can’t be added).
 - The Shop, Home teaser, Product page and Related all read from this list — add/remove items in one place.
