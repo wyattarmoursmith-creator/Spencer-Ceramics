@@ -1,9 +1,8 @@
 # ============================================================
 # Spencer Ceramics — CMS configuration (Decap CMS)
 # Edits commit to GitHub; Netlify rebuilds; the site updates.
-# Paths below are relative to the REPO ROOT, so they include the
-# "site 2/" folder your files live in. If you ever move the site to
-# the repo root, remove the "site 2/" prefixes.
+# Paths below are relative to the REPO ROOT — the site now lives at
+# the repo root, so they have no folder prefix.
 # ============================================================
 
 backend:
@@ -12,7 +11,7 @@ backend:
   branch: main
 
 # Where CMS-uploaded photos are saved (in the repo) …
-media_folder: "site 2/images"
+media_folder: "images"
 # … and the URL they’re served from on the live site.
 public_folder: "/images"
 
@@ -28,7 +27,7 @@ collections:
     files:
       - name: products
         label: "All products"
-        file: "site 2/content/products.json"
+        file: "content/products.json"
         description: "Add, edit, reorder, or remove pieces in the shop."
         fields:
           - label: "Products"
@@ -56,7 +55,7 @@ collections:
     files:
       - name: posts
         label: "All posts"
-        file: "site 2/content/journal.json"
+        file: "content/journal.json"
         description: "Write and edit journal notes."
         fields:
           - label: "Posts"
@@ -79,7 +78,7 @@ collections:
     files:
       - name: photos
         label: "Homepage & studio photos"
-        file: "site 2/content/site.json"
+        file: "content/site.json"
         description: "Swap the big feature photos. Upload, then Publish."
         fields:
           - label: "Photos"

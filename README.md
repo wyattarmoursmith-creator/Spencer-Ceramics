@@ -130,7 +130,7 @@ Manage products, journal posts, and photos from your browser at **`spencercerami
 - *Site Photos*: swap the homepage hero, studio image, About portrait, and the three process shots.
 - Hit **Publish** — live in ~30 seconds.
 
-> Note: `config.yml` paths include the `site 2/` folder your files live in. If you ever move the site to the repo root, remove the `site 2/` prefixes in `admin/config.yml`.
+> Note: the site lives at the repo root, so `admin/config.yml` paths are repo-root-relative (no prefix). Netlify's **publish directory** should be the repo root — leave it blank.
 
 ## 7 · Notes
 - No frameworks, no build. Open `index.html` locally to preview (run a tiny static server if your browser blocks `file://` fetches: `npx serve site`).
