@@ -314,6 +314,7 @@
           var s = document.createElement("span");
           s.className = "cw";
           s.textContent = tok;
+          s.style.display = "inline-block";          // so the scale transform applies (and won't reflow neighbours)
           s.style.color = "rgb(22,21,19)";
           words.push(s);
           if (isSticky) sticky.push(s);
@@ -331,19 +332,24 @@
       var last = words.length - 1;
       var stickCenter = sticky.length ? words.indexOf(sticky[Math.floor((sticky.length - 1) / 2)]) : 0;
       var WIDTH = 2.4;   // wave half-width, in words
+      var POP = 0.22;    // how much the lit word grows (scale); eases back to 1 as the wave passes
 
-      function mix(t) {
-        t = t < 0 ? 0 : (t > 1 ? 1 : t);
-        t = t * t * (3 - 2 * t);   // smoothstep for a soft trailing edge
+      function rgbAt(t) {
         return "rgb(" + Math.round(INK[0] + (EMBER[0] - INK[0]) * t) + "," +
                         Math.round(INK[1] + (EMBER[1] - INK[1]) * t) + "," +
                         Math.round(INK[2] + (EMBER[2] - INK[2]) * t) + ")";
       }
       function paint(pos) {
-        for (var i = 0; i < words.length; i++) words[i].style.color = mix(1 - Math.abs(i - pos) / WIDTH);
+        for (var i = 0; i < words.length; i++) {
+          var t = 1 - Math.abs(i - pos) / WIDTH;
+          t = t < 0 ? 0 : (t > 1 ? 1 : t);
+          t = t * t * (3 - 2 * t);                                              // smoothstep — soft leading/trailing edge
+          words[i].style.color = rgbAt(t);
+          words[i].style.transform = "scale(" + (1 + t * POP).toFixed(3) + ")"; // grow under the light, ease back after
+        }
       }
 
-      var FWD = 1900, HOLD = 250, BWD = 1200, t0 = null;
+      var FWD = 5500, HOLD = 500, BWD = 4000, t0 = null;   // ~10s end to end
       function ease(x) { return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2; }   // easeInOut
       function frame(ts) {
         if (t0 === null) t0 = ts;
@@ -356,9 +362,10 @@
         requestAnimationFrame(frame);
       }
       function settle() {
-        words.forEach(function (s) { s.style.transition = "color .5s ease"; });
+        words.forEach(function (s) { s.style.transition = "color .6s ease, transform .6s ease"; });
         for (var i = 0; i < words.length; i++) {
           words[i].style.color = (sticky.indexOf(words[i]) >= 0) ? "var(--ember)" : "var(--ink)";
+          words[i].style.transform = "scale(1)";   // every word eases back to standard size; only the colour stays on the phrase
         }
       }
 
