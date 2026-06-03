@@ -70,7 +70,9 @@
   <script src="js/site.js"></script>
   <script>
     window.onData(function () {
-      document.getElementById("grid").innerHTML = window.CATALOG.map(function (p) {
+      var grid = document.getElementById("grid");
+
+      function cardHTML(p) {
         var sold = p.state === "sold";
         return '' +
         '<a class="card" href="product.html?id=' + p.id + '">' +
@@ -90,15 +92,27 @@
             '</div>' +
           '</div>' +
         '</a>';
-      }).join("");
+      }
 
-      // simple visual filter toggle (all products share one edition here)
+      function render(filter) {
+        var items = window.CATALOG.filter(function (p) {
+          return filter === "all" || (p.category || "") === filter;
+        });
+        grid.innerHTML = items.length
+          ? items.map(cardHTML).join("")
+          : '<p class="label" style="grid-column:1/-1; padding:48px 0;">Nothing in this category yet.</p>';
+      }
+
+      render("all");
+
+      // filter the grid by category when a filter is chosen
       document.querySelectorAll(".filters button").forEach(function (b) {
         b.addEventListener("click", function () {
           document.querySelectorAll(".filters button").forEach(function (x) {
             x.setAttribute("aria-pressed", "false");
           });
           b.setAttribute("aria-pressed", "true");
+          render(b.getAttribute("data-filter"));
         });
       });
     });

@@ -39,6 +39,15 @@ collections:
               - { label: "ID (leave as-is once set)", name: id, widget: string, hint: "Unique. Used in the product URL. e.g. 042-07" }
               - { label: "URL slug", name: slug, widget: string }
               - { label: "Name", name: name, widget: string }
+              - label: "Category"
+                name: category
+                widget: select
+                default: "vessels"
+                hint: "Which Shop filter this piece shows under."
+                options:
+                  - { label: "Vessels", value: "vessels" }
+                  - { label: "Tableware", value: "tableware" }
+                  - { label: "Lighting", value: "lighting" }
               - { label: "Spec line", name: spec, widget: string, hint: "e.g. Ash glaze · stoneware · h. 7cm" }
               - { label: "Price (AUD)", name: price, widget: number, value_type: int, min: 0 }
               - label: "Status"
