@@ -1,3 +1,6 @@
 .DS_Store
 **/.DS_Store
 Thumbs.db
+
+# Local Claude Code dev tooling (machine-specific paths; not part of the site)
+.claude/
