@@ -435,6 +435,26 @@ html.js .reveal--late{ transition-delay:.12s; }
 .closer .display{ font-size:clamp(28px,3.4vw,44px); margin-bottom:34px; }
 
 /* ============================================================
+   COMMISSIONS
+   ============================================================ */
+.commissions{ border-bottom:1px solid var(--rule); }
+.commission{ display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--rule); }
+.commission:last-child{ border-bottom:none; }
+.commission__media{ position:relative; min-height:560px; background:var(--graphite); border-right:1px solid var(--rule); overflow:hidden; }
+.commission__media img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .9s cubic-bezier(.2,.7,.2,1); }
+.commission:hover .commission__media img{ transform:scale(1.03); }
+.commission__body{ padding:clamp(48px,6vw,88px) var(--gutter); display:flex; flex-direction:column; justify-content:center; }
+.commission__body .display{ font-size:clamp(28px,3.2vw,42px); margin:16px 0 24px; }
+.commission__body p{ max-width:46ch; color:var(--ink); }
+.commission__body p + p{ margin-top:1em; }
+.commission--rev .commission__media{ order:2; border-right:none; border-left:1px solid var(--rule); }
+@media (max-width:880px){
+  .commission, .commission--rev{ grid-template-columns:1fr; }
+  .commission__media{ min-height:440px; border-right:none; }
+  .commission--rev .commission__media{ order:0; border-left:none; }
+}
+
+/* ============================================================
    JOURNAL
    ============================================================ */
 .page-head{ padding:56px var(--gutter); border-bottom:1px solid var(--rule); }

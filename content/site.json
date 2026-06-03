@@ -7,6 +7,10 @@
     "about": "images/about.jpg",
     "process-1": "images/process-1.jpg",
     "process-2": "images/process-2.jpg",
-    "process-3": "images/process-3.jpg"
+    "process-3": "images/process-3.jpg",
+    "commission-hero": "images/commission-hero.jpg",
+    "commission-pendant": "images/commission-pendant.jpg",
+    "commission-wall": "images/commission-wall.jpg",
+    "commission-lamps": "images/commission-lamps.jpg"
   }
 }

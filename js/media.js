@@ -18,6 +18,12 @@ window.MEDIA = {
   "process-2":   "50% 50%",
   "process-3":   "50% 50%",
 
+  /* commissions — lighting */
+  "commission-hero":    "50% 50%",
+  "commission-pendant": "50% 50%",
+  "commission-wall":    "50% 50%",
+  "commission-lamps":   "50% 50%",
+
   /* products — keyed by catalogue id */
   "042-01":      "50% 50%",
   "042-02":      "50% 45%",

@@ -93,3 +93,7 @@ collections:
               - { label: "Process 1 — The wheel", name: process-1, widget: image }
               - { label: "Process 2 — The glaze", name: process-2, widget: image }
               - { label: "Process 3 — The firing", name: process-3, widget: image }
+              - { label: "Commissions — Hero (wide)", name: "commission-hero", widget: image }
+              - { label: "Commissions — Pendant", name: "commission-pendant", widget: image }
+              - { label: "Commissions — Wall", name: "commission-wall", widget: image }
+              - { label: "Commissions — Table & floor", name: "commission-lamps", widget: image }
