@@ -69,11 +69,19 @@
   function initNav() {
     var burger = document.querySelector(".nav__burger");
     var menu = document.querySelector(".menu");
-    if (!burger || !menu) return;
-    burger.addEventListener("click", function () { menu.classList.toggle("open"); });
-    menu.querySelectorAll("a").forEach(function (a) {
-      a.addEventListener("click", function () { menu.classList.remove("open"); });
-    });
+    if (burger && menu) {
+      burger.addEventListener("click", function () { menu.classList.toggle("open"); });
+      menu.querySelectorAll("a").forEach(function (a) {
+        a.addEventListener("click", function () { menu.classList.remove("open"); });
+      });
+    }
+    // hero nav: fade to a solid bar once scrolled past the top
+    var heroNav = document.querySelector(".nav--dark");
+    if (heroNav) {
+      var onScroll = function () { heroNav.classList.toggle("nav--scrolled", window.scrollY > 80); };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+    }
   }
 
   /* ---------- add-to-cart (delegated, works for async-rendered buttons) ---------- */

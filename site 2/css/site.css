@@ -70,11 +70,22 @@ button{font-family:inherit; cursor:pointer;}
   position:absolute; top:0; left:0; right:0; z-index:40;
   display:flex; align-items:center; justify-content:space-between;
   padding:30px var(--gutter);
+  transition:background .35s ease, color .35s ease, border-color .35s ease, padding .35s ease;
 }
 .nav--solid{
   position:sticky; background:var(--chalk);
   border-bottom:1px solid var(--rule);
 }
+/* hero nav: fixed so it follows the page, transparent over the hero … */
+.nav--dark{ position:fixed; }
+/* … then fades to a solid bar once the user scrolls past the hero */
+.nav--dark.nav--scrolled{
+  background:var(--chalk); color:var(--ink);
+  border-bottom:1px solid var(--rule);
+  padding-top:18px; padding-bottom:18px;
+}
+.nav--dark.nav--scrolled .nav__links a[aria-current="page"]{ color:var(--ember); }
+.nav--dark.nav--scrolled .nav__links a[aria-current="page"]::after{ background:var(--ember); }
 .nav__brand{ font-size:17px; }
 .nav__links{ display:flex; gap:30px; align-items:center; }
 .nav__links a{
