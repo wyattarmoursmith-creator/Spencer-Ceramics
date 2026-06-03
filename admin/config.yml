@@ -125,3 +125,52 @@ collections:
           - { label: "Contact page — Commissions note", name: commissions_note, widget: string }
           - { label: "Contact page — Studio visits note", name: visits_note, widget: string }
           - { label: "Contact page — Reply time note", name: reply_note, widget: string }
+
+  # ---------------- PAGE TEXT ----------------
+  - name: pages
+    label: "Page Text"
+    files:
+      - name: pages
+        label: "Headlines & intro copy"
+        file: "content/pages.json"
+        description: "The wording on each page — hero headlines, the shop edition heading, the Commissions copy. (Photos live under Site Photos; products under Shop.)"
+        fields:
+          - label: "Home"
+            name: home
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Hero — small label", name: hero_label, widget: string }
+              - { label: "Hero — headline", name: hero_heading, widget: text, hint: "Each line you type shows on its own line." }
+              - { label: "Hero — release note", name: hero_cta, widget: string }
+              - { label: "Studio — heading", name: studio_heading, widget: text }
+              - { label: "Studio — paragraph", name: studio_body, widget: text }
+              - { label: "Selected work — heading", name: selected_heading, widget: text }
+          - label: "Shop"
+            name: shop
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Edition label", name: label, widget: string, hint: "e.g. Edition N° 042 — June 2026" }
+              - { label: "Heading", name: heading, widget: text }
+          - label: "About / Studio"
+            name: about
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Statement (opening line)", name: statement1, widget: text }
+          - label: "Commissions"
+            name: commissions
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Hero — label", name: hero_label, widget: string }
+              - { label: "Hero — headline", name: hero_heading, widget: text }
+              - { label: "Intro", name: intro, widget: text }
+              - { label: "Pendant — title", name: pendant_title, widget: text }
+              - { label: "Pendant — description", name: pendant_body, widget: text, hint: "Leave a blank line between paragraphs." }
+              - { label: "Wall — title", name: wall_title, widget: text }
+              - { label: "Wall — description", name: wall_body, widget: text, hint: "Leave a blank line between paragraphs." }
+              - { label: "Table & floor — title", name: lamps_title, widget: text }
+              - { label: "Table & floor — description", name: lamps_body, widget: text, hint: "Leave a blank line between paragraphs." }
+              - { label: "Closer line", name: closer, widget: text }

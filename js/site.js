@@ -263,6 +263,25 @@
     });
   }
 
+  /* ---------- apply editable page copy (headings, intros, bodies) ---------- */
+  function applyPages() {
+    var P = window.PAGES || {};
+    function get(path) { return path.split(".").reduce(function (o, k) { return (o && o[k] != null) ? o[k] : undefined; }, P); }
+    function esc(t) { return String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+    document.querySelectorAll("[data-text]").forEach(function (el) {
+      var v = get(el.getAttribute("data-text"));
+      if (v != null && v !== "") el.textContent = v;
+    });
+    document.querySelectorAll("[data-lines]").forEach(function (el) {     // headings: newlines -> <br>
+      var v = get(el.getAttribute("data-lines"));
+      if (v != null && v !== "") el.innerHTML = esc(v).replace(/\n/g, "<br>");
+    });
+    document.querySelectorAll("[data-richtext]").forEach(function (el) {  // bodies: blank lines -> paragraphs
+      var v = get(el.getAttribute("data-richtext"));
+      if (v != null && v !== "") el.innerHTML = esc(v).split(/\n{2,}/).map(function (p) { return "<p>" + p.replace(/\n/g, "<br>") + "</p>"; }).join("");
+    });
+  }
+
   /* ---------- boot ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
@@ -273,5 +292,6 @@
     paint();                                  // cart count (localStorage only)
     if (window.onData) window.onData(paint);          // render cart lines once content loads
     if (window.onData) window.onData(applySettings);  // footer + contact details
+    if (window.onData) window.onData(applyPages);     // editable page copy
   });
 })();
