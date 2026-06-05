@@ -80,6 +80,7 @@ collections:
               - { label: "Studio page — Selected work 3", name: "work-3", widget: image }
               - { label: "Studio page — Selected work 4", name: "work-4", widget: image }
               - { label: "Home — Manifesto background (wide)", name: "manifesto-bg", widget: image }
+              - { label: "Studio page — Statement background (wide)", name: "studio-scene", widget: image }
 
   # ---------------- SITE & CONTACT ----------------
   - name: settings
@@ -133,6 +134,9 @@ collections:
             collapsed: true
             fields:
               - { label: "Statement (opening line)", name: statement1, widget: text }
+              - { label: "Statement plate — heading", name: plate_heading, widget: text, hint: "Each line shows on its own line." }
+              - { label: "Statement plate — left column", name: plate_col1, widget: text }
+              - { label: "Statement plate — right column", name: plate_col2, widget: text }
               - { label: "Maker bio", name: bio, widget: text, hint: "Leave a blank line between paragraphs." }
           - label: "Commissions"
             name: commissions
@@ -149,3 +153,4 @@ collections:
               - { label: "Table & floor — title", name: lamps_title, widget: text }
               - { label: "Table & floor — description", name: lamps_body, widget: text, hint: "Leave a blank line between paragraphs." }
               - { label: "Closer line", name: closer, widget: text }
+              - { label: "Pull-quote", name: quote, widget: text }

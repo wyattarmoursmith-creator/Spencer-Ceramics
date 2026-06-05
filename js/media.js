@@ -39,6 +39,9 @@ window.MEDIA = {
   /* home — manifesto plate */
   "manifesto-bg": "50% 50%",
 
+  /* studio page — statement plate */
+  "studio-scene": "50% 55%",
+
   /* products — keyed by catalogue id */
   "042-01":      "50% 50%",
   "042-02":      "50% 45%",

@@ -258,7 +258,47 @@ button{font-family:inherit; cursor:pointer;}
 .manifesto__statement{ font-size:clamp(28px,3.6vw,46px); line-height:1.08; }
 .manifesto__cols{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(22px,3vw,44px); margin-top:clamp(30px,4vw,48px); }
 .manifesto__cols p{ font-size:14px; line-height:1.66; color:var(--bone); }
+/* studio variant — sits over a darker photo, so the panel is more sheer with a hairline edge */
+.manifesto--studio .manifesto__panel{ background:rgba(11,11,12,0.8); border:1px solid rgba(239,236,230,0.1); }
 @media (max-width:620px){ .manifesto__cols{ grid-template-columns:1fr; gap:18px; } }
+
+/* ============================================================
+   EDITORIAL METADATA + PULL-QUOTE (reference-style touches)
+   ============================================================ */
+/* catalogue masthead — a thin metadata strip under the nav on inner pages */
+.masthead{
+  display:flex; justify-content:space-between; gap:16px;
+  padding:13px var(--gutter);
+  font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
+  color:var(--smoke); border-bottom:1px solid var(--rule);
+}
+/* same idea inside a hero — top corners, light-on-dark; fades with the hero on scroll */
+.hero__meta{
+  position:absolute; top:clamp(86px,13vh,124px); left:var(--gutter); right:var(--gutter);
+  display:flex; justify-content:space-between; gap:16px;
+  font-family:var(--mono); font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+  color:rgba(239,236,230,0.6);
+}
+@media (max-width:620px){ .masthead, .hero__meta{ font-size:9px; letter-spacing:0.14em; } }
+
+/* pull-quote — justified, letter-spaced caps in a dark | light split (ref 3) */
+.pullquote{ display:grid; grid-template-columns:1.08fr 0.92fr; border-bottom:1px solid var(--rule); }
+.pullquote__text{
+  background:var(--obsidian); color:var(--chalk);
+  padding:clamp(52px,8vw,108px) clamp(30px,5vw,76px);
+  display:flex; flex-direction:column; justify-content:center;
+}
+.pullquote__text p{
+  font-family:var(--mono); font-size:clamp(12px,1.15vw,14px); line-height:2; letter-spacing:0.06em;
+  text-transform:uppercase; text-align:justify; color:var(--bone); margin:0;
+}
+.pullquote__text cite{
+  display:block; margin-top:30px; font-style:normal;
+  font-family:var(--mono); font-size:10px; letter-spacing:0.2em; color:var(--fog);
+}
+.pullquote__media{ position:relative; overflow:hidden; background:var(--paper); display:grid; place-items:center; padding:clamp(40px,6vw,84px); }
+.pullquote__media img{ width:min(74%,340px); aspect-ratio:3/4; object-fit:cover; }
+@media (max-width:760px){ .pullquote{ grid-template-columns:1fr; } .pullquote__media{ min-height:320px; } }
 
 /* dark statement band (e.g. Commissions intro) — leans into the obsidian palette */
 .statement.statement--dark{ background:var(--obsidian); color:var(--chalk); border-bottom:1px solid var(--rule-dark); }
