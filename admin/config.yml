@@ -79,6 +79,7 @@ collections:
               - { label: "Studio page — Selected work 2", name: "work-2", widget: image }
               - { label: "Studio page — Selected work 3", name: "work-3", widget: image }
               - { label: "Studio page — Selected work 4", name: "work-4", widget: image }
+              - { label: "Home — Manifesto background (wide)", name: "manifesto-bg", widget: image }
 
   # ---------------- SITE & CONTACT ----------------
   - name: settings
@@ -116,6 +117,9 @@ collections:
               - { label: "Studio — heading", name: studio_heading, widget: text }
               - { label: "Studio — paragraph", name: studio_body, widget: text }
               - { label: "Selected work — heading", name: selected_heading, widget: text }
+              - { label: "Manifesto — heading", name: manifesto_heading, widget: text, hint: "Each line shows on its own line." }
+              - { label: "Manifesto — left column", name: manifesto_col1, widget: text }
+              - { label: "Manifesto — right column", name: manifesto_col2, widget: text }
           - label: "Shop"
             name: shop
             widget: object
