@@ -9,8 +9,7 @@
    ============================================================ */
 (function () {
   var KEY = "sc_cart_v1";
-  var SHIPPING = 24;       // flat AUD; adjust or let Shopify calculate
-  var CURRENCY = "AUD";
+  var CURRENCY = (window.SHOPIFY && window.SHOPIFY.currency) || "NZD";   // shipping is calculated by Shopify at checkout
 
   /* ---------- storage ---------- */
   function load() {
@@ -120,7 +119,6 @@
     }
 
     var sub = window.Cart.subtotal();
-    var total = sub + SHIPPING;
 
     var lines = items.map(function (l) {
       var p = l.product;
@@ -128,7 +126,7 @@
       '<div class="cart-line">' +
         '<div class="cart-line__media"><img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '"></div>' +
         '<div>' +
-          '<div class="label" style="margin-bottom:10px">N° ' + p.id + ' · ' + p.state + '</div>' +
+          '<div class="label" style="margin-bottom:10px">N° ' + p.ref + ' · ' + p.state + '</div>' +
           '<div class="cart-line__name">' + p.name + '</div>' +
           '<div class="cart-line__spec">' + p.spec + '</div>' +
           '<div class="cart-line__controls">' +
@@ -155,11 +153,11 @@
         '<aside class="summary">' +
           '<div class="label" style="margin-bottom:24px">Summary</div>' +
           '<div class="summary__row"><span>Subtotal</span><span class="tnum">' + money(sub) + '</span></div>' +
-          '<div class="summary__row"><span>Shipping</span><span class="tnum">' + money(SHIPPING) + '</span></div>' +
-          '<div class="summary__total"><span>Total</span><span class="tnum">' + money(total) + ' ' + CURRENCY + '</span></div>' +
+          '<div class="summary__row"><span>Shipping</span><span>Calculated at checkout</span></div>' +
+          '<div class="summary__total"><span>Total</span><span class="tnum">' + money(sub) + ' ' + CURRENCY + '</span></div>' +
           '<button class="btn btn--fill btn--block" style="margin-top:30px" data-checkout>Checkout — Shopify <span class="arrow">&rarr;</span></button>' +
           '<button class="btn btn--ghost btn--block" style="margin-top:12px" data-checkout>Express · Shop Pay <span class="arrow">&rarr;</span></button>' +
-          '<div class="summary__note">Each piece is wrapped in unbleached paper and packed by hand. Ships from Tasmania within 7 days. Tracking provided.</div>' +
+          '<div class="summary__note">Each piece is wrapped in unbleached paper and packed by hand. Ships from New Zealand within 7 days. Tracking provided.</div>' +
         '</aside>' +
       '</div>';
 
@@ -181,8 +179,28 @@
     });
     wrap.querySelectorAll("[data-checkout]").forEach(function (b) {
       b.addEventListener("click", function () {
-        /* >>> Replace with your Shopify checkout URL / Buy Button checkout <<< */
-        alert("Connect Shopify to complete checkout.\n\nSee README — Step 3: wire this button to your Shopify cart/checkout URL.");
+        var items = window.Cart.items().filter(function (l) { return l.product && l.product.variantId; });
+        if (!items.length) { alert("Your bag is empty."); return; }
+        var s = window.SHOPIFY || {};
+        if (b.dataset.busy) return;
+        b.dataset.busy = "1"; b.textContent = "Redirecting…";
+        /* permalink straight to the Shopify cart — used as a fallback */
+        var permalink = "https://" + s.domain + "/cart/" +
+          items.map(function (l) { return l.product.variantNum + ":" + l.qty; }).join(",");
+        /* preferred: create a Shopify cart and jump straight to its secure checkout */
+        var lines = items.map(function (l) { return { merchandiseId: l.product.variantId, quantity: l.qty }; });
+        var q = "mutation($lines:[CartLineInput!]!){ cartCreate(input:{lines:$lines}){ cart{ checkoutUrl } userErrors{ message } } }";
+        fetch("https://" + s.domain + "/api/" + s.version + "/graphql.json", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": s.token },
+          body: JSON.stringify({ query: q, variables: { lines: lines } })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          var c = j && j.data && j.data.cartCreate && j.data.cartCreate.cart;
+          window.location.href = (c && c.checkoutUrl) ? c.checkoutUrl : permalink;
+        })
+        .catch(function () { window.location.href = permalink; });
       });
     });
   }

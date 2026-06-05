@@ -63,13 +63,18 @@
   <script src="js/site.js"></script>
   <script>
     window.onData(function () {
+      if (!window.CATALOG.length) {
+        document.querySelector("[data-pd-root]").innerHTML =
+          '<p class="label" style="padding:60px var(--gutter)">This piece is no longer available. <a class="link-underline" href="shop.html">Back to the shop &rarr;</a></p>';
+        return;
+      }
       var id = new URLSearchParams(location.search).get("id") || window.CATALOG[0].id;
       var p = window.byId(id) || window.CATALOG[0];
       document.title = p.name + " — Spencer Ceramics";
       var sold = p.state === "sold";
 
       // dimension/material split out of spec for the meta list
-      var parts = p.spec.split(" · ");
+      var parts = p.spec ? p.spec.split(" · ") : [];
 
       document.querySelector("[data-pd-root]").innerHTML =
         '<div class="pd__gallery">' +
@@ -80,10 +85,10 @@
           '</div>' +
         '</div>' +
         '<aside class="pd__panel">' +
-          '<div class="label">N° ' + p.id + ' · ' + (sold ? 'Sold' : p.state) + '</div>' +
+          '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : p.state) + '</div>' +
           '<h1 class="pd__name">' + p.name + '</h1>' +
-          '<div class="pd__price tnum">$ ' + p.price + '.00 AUD</div>' +
-          '<p class="pd__desc">Thrown and finished by hand, then fired in a small batch. The surface keeps the record of the making — slight movement at the rim, depth in the glaze where the flame caught it.</p>' +
+          '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD') + '</div>' +
+          '<p class="pd__desc">' + (p.desc || 'Thrown and finished by hand, then fired in a small batch. The surface keeps the record of the making — slight movement at the rim, depth in the glaze where the flame caught it.') + '</p>' +
           '<div class="pd__meta">' +
             parts.map(function (x, i) {
               var keys = ["Glaze / slip", "Body", "Dimensions"];
@@ -105,7 +110,7 @@
         .map(function (q) {
           return '' +
           '<a class="card" href="product.html?id=' + q.id + '">' +
-            '<div class="card__media"><span class="card__no">N° ' + q.id + '</span>' +
+            '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' +
               '<img src="' + q.img + '" alt="' + q.name + '" data-media="' + q.id + '"></div>' +
             '<div class="card__row"><div><div class="card__name">' + q.name + '</div>' +
               '<div class="card__spec">' + q.spec + '</div></div>' +
