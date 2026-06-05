@@ -23,8 +23,8 @@
     <a href="cart.html">Cart</a>
   </nav>
 
-  <!-- dark lighting hero -->
-  <header class="about-hero">
+  <!-- lighting hero — parallax + text/image fade on scroll, like the homepage -->
+  <header class="hero">
     <nav class="nav nav--dark" aria-label="Primary">
       <a class="nav__brand wordmark" href="index.html">Spencer&nbsp;&nbsp;Ceramics</a>
       <div class="nav__links">
@@ -38,11 +38,17 @@
       <button class="nav__burger" aria-label="Menu">☰</button>
     </nav>
 
-    <img src="images/commission-hero.jpg" alt="A hand-thrown ceramic lamp, lit, in the studio" data-media="commission-hero" />
-    <div class="about-hero__veil"></div>
-    <div class="about-hero__caption">
-      <div class="label" style="color:var(--fog)" data-text="commissions.hero_label">Commissions</div>
-      <div class="display" data-lines="commissions.hero_heading">Made by hand,<br />for the space.</div>
+    <div class="hero__media">
+      <img class="hero__img is-active" src="images/commission-hero.jpg" alt="A hand-thrown ceramic lamp, lit, in the studio" data-media="commission-hero" />
+    </div>
+    <div class="hero__veil"></div>
+
+    <div class="hero__inner">
+      <div class="hero__caption">
+        <div class="label" style="color:var(--fog)" data-text="commissions.hero_label">Commissions</div>
+        <div class="display" data-lines="commissions.hero_heading">Made by hand,<br />for the space.</div>
+      </div>
+      <div class="hero__scroll"><span>Scroll</span><span class="line"></span></div>
     </div>
   </header>
 
