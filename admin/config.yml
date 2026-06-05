@@ -20,42 +20,7 @@ display_url: https://spencerceramics.netlify.app
 publish_mode: simple
 
 collections:
-  # ---------------- SHOP ----------------
-  - name: products
-    label: "Shop — Products"
-    delete: false
-    files:
-      - name: products
-        label: "All products"
-        file: "content/products.json"
-        description: "Add, edit, reorder, or remove pieces in the shop."
-        fields:
-          - label: "Products"
-            name: products
-            widget: list
-            label_singular: "Product"
-            summary: "{{fields.name}} — ${{fields.price}} ({{fields.state}})"
-            fields:
-              - { label: "ID (leave as-is once set)", name: id, widget: string, hint: "Unique. Used in the product URL. e.g. 042-07" }
-              - { label: "URL slug", name: slug, widget: string }
-              - { label: "Name", name: name, widget: string }
-              - label: "Category"
-                name: category
-                widget: select
-                default: "vessels"
-                hint: "Which Shop filter this piece shows under."
-                options:
-                  - { label: "Vessels", value: "vessels" }
-                  - { label: "Tableware", value: "tableware" }
-                  - { label: "Lighting", value: "lighting" }
-              - { label: "Spec line", name: spec, widget: string, hint: "e.g. Ash glaze · stoneware · h. 7cm" }
-              - { label: "Price (AUD)", name: price, widget: number, value_type: int, min: 0 }
-              - label: "Status"
-                name: state
-                widget: select
-                options: ["available", "1 of 1", "2 of 8", "4 of 8", "sold"]
-                default: "available"
-              - { label: "Photo", name: img, widget: image, choose_url: false }
+  # ---------------- SHOP lives in Shopify now (Storefront API) — no CMS collection ----------------
 
   # ---------------- JOURNAL ----------------
   - name: journal

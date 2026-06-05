@@ -20,7 +20,8 @@ Bookmark the `/admin/` page.
 1. Go to **spencerceramics.netlify.app/admin/**
 2. Click **Sign in with GitHub** and approve
 3. You'll see the admin, with these sections listed down the side:
-   **Shop — Products · Journal — Posts · Site Photos · Page Text · Site & Contact**
+   **Journal — Posts · Site Photos · Page Text · Site & Contact**
+   *(Your shop pieces are managed in **Shopify**, not here — see below.)*
 
 ---
 
@@ -32,11 +33,8 @@ Every change is saved and version-tracked behind the scenes — nothing is ever 
 
 ## What each section does
 
-### 🏺 Shop — Products
-Your shop pieces. Each one has:
-- **Name** · **Category** (Vessels / Tableware / Lighting — this sets which Shop filter it shows under) · **Spec line** (e.g. *Ash glaze · stoneware · h. 7cm*) · **Price** · **Status** · **Photo**
-- **Status** controls the tag: *available, 1 of 1, 4 of 8, sold…* A piece marked **sold** shows a "Sold" tag and can't be added to the bag.
-- Drag pieces to **reorder** them.
+### 🛍 Shop — managed in Shopify
+Your shop pieces — names, prices, photos, and stock — now live in **Shopify**, not in this admin. Add or edit a piece in Shopify and the website updates on its own (no Publish needed). To mark something **sold**, set its inventory to **0** in Shopify and the site shows a "Sold" tag automatically. Use the product **Type** (Vessels / Tableware / Lighting) to set which Shop filter a piece appears under, and the variant **SKU** (e.g. *042‑07*) for its catalogue "N°". Checkout runs on Shopify's secure page.
 
 ### 📓 Journal — Posts
 Your writing. Each post has a Title, Date, Tag, Photo, a one-line Excerpt, and a Body. **Separate paragraphs with a blank line.**
@@ -55,14 +53,13 @@ Your **email, Instagram, and studio location**. These show in the footer of *eve
 ## Common tasks
 
 **Release a new monthly drop**
-1. *Page Text → Shop*: update the **Edition label** (e.g. "Edition N° 043 — July 2026") and heading.
-2. *Shop — Products*: remove last month's pieces (or set them to **sold**), then **Add** the new ones — Name, Category, Spec, Price, Status, Photo.
-3. *(Optional) Site Photos → Hero*: swap the homepage hero for a new shot.
-4. **Publish.**
+1. In **Shopify**, add the new pieces (set Type, price, photo, SKU, inventory), and set last month's pieces to **0** stock or remove them.
+2. In the admin, *Page Text → Shop*: update the **Edition label** (e.g. "Edition N° 043 — July 2026") and heading → **Publish**.
+3. *(Optional)* *Site Photos → Hero*: swap the homepage hero → **Publish**.
 
-**Add a lamp to the shop** → *Shop — Products → Add*, set **Category = Lighting**, fill the rest, upload a photo, Publish. It'll appear under the shop's **Lighting** filter.
+**Add a lamp to the shop** → in **Shopify**, add the product and set its **Type = Lighting**. It appears under the shop's **Lighting** filter automatically.
 
-**Mark a piece sold** → open it, set **Status = sold**, Publish.
+**Mark a piece sold** → in **Shopify**, set the product's inventory to **0**. The site shows "Sold" on its own.
 
 **Swap the homepage hero photo** → *Site Photos → Homepage Hero 1/2/3* → upload → Publish.
 
@@ -76,7 +73,7 @@ Your **email, Instagram, and studio location**. These show in the footer of *eve
 
 - **Photos:** export **landscape** (wide) shots for the hero and journal, and **portrait** (tall) shots for products and the process triptych. Around **1600–2000px wide** is plenty — smaller files load faster.
 - Always hit **Publish** (not just "Save") for a change to go live.
-- The shop's **cart/checkout is a demo** until it's connected to Shopify — your developer handles that part.
+- Your shop is **connected to Shopify** — products, stock, and checkout all run through Shopify. (Photos, journal, page text, and contact still live in this admin.)
 - The **404 page** and the overall design/layout aren't edited here — ask your developer for those.
 
 ---
