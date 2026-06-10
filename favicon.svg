@@ -1,4 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <rect width="64" height="64" rx="6" fill="#161513"></rect>
-  <text x="32" y="33" text-anchor="middle" dominant-baseline="central" font-family="Jost, Futura, &#39;Century Gothic&#39;, sans-serif" font-weight="600" font-size="38" letter-spacing="1" fill="#EFECE6">SC</text>
+  <text x="32" y="33" text-anchor="middle" dominant-baseline="central" font-family="Jost, Futura, &#39;Century Gothic&#39;, sans-serif" font-weight="300" font-size="36" letter-spacing="2" fill="#EFECE6">SC</text>
 </svg>
