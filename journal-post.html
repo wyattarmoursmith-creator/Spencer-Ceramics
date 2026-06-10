@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Journal — Spencer Ceramics</title>
+<title>Journal · Spencer Ceramics</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -55,7 +55,7 @@
     window.onData(function () {
       var id = new URLSearchParams(location.search).get("id");
       var p = window.postById(id) || window.JOURNAL[0];
-      document.title = p.title + " — Spencer Ceramics · Journal";
+      document.title = p.title + " · Spencer Ceramics · Journal";
       document.getElementById("a-hero").src = p.img;
       document.getElementById("a-hero").alt = p.title;
       document.getElementById("a-hero").setAttribute("data-media", p.id);

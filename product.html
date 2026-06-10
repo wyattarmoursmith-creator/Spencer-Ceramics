@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Spencer Ceramics — Piece</title>
+<title>Spencer Ceramics · Piece</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -70,7 +70,7 @@
       }
       var id = new URLSearchParams(location.search).get("id") || window.CATALOG[0].id;
       var p = window.byId(id) || window.CATALOG[0];
-      document.title = p.name + " — Spencer Ceramics";
+      document.title = p.name + " · Spencer Ceramics";
       var sold = p.state === "sold";
 
       // dimension/material split out of spec for the meta list
@@ -88,7 +88,7 @@
           '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : p.state) + '</div>' +
           '<h1 class="pd__name">' + p.name + '</h1>' +
           '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD') + '</div>' +
-          '<p class="pd__desc">' + (p.desc || 'Thrown and finished by hand, then fired in a small batch. The surface keeps the record of the making — slight movement at the rim, depth in the glaze where the flame caught it.') + '</p>' +
+          '<p class="pd__desc">' + (p.desc || 'Thrown and finished by hand, then fired in a small batch. The surface keeps a record of the making, with slight movement at the rim and depth in the glaze where the flame caught it.') + '</p>' +
           '<div class="pd__meta">' +
             parts.map(function (x, i) {
               var keys = ["Glaze / slip", "Body", "Dimensions"];
@@ -99,7 +99,7 @@
           '<div class="pd__buy">' +
             (sold
               ? '<button class="btn btn--ghost btn--block" disabled style="opacity:.5; cursor:not-allowed">Sold</button>'
-              : '<button class="btn btn--fill btn--block" data-add="' + p.id + '" data-label="Add to bag &mdash; $ ' + p.price + '">Add to bag &mdash; $ ' + p.price + ' <span class="arrow">&rarr;</span></button>') +
+              : '<button class="btn btn--fill btn--block" data-add="' + p.id + '" data-label="Add to bag · $ ' + p.price + '">Add to bag · $ ' + p.price + ' <span class="arrow">&rarr;</span></button>') +
           '</div>' +
           '<div class="pd__note">One of a kind where marked. Wrapped by hand · ships from New Zealand within 7 days.</div>' +
         '</aside>';
@@ -119,7 +119,7 @@
         }).join("");
 
       // Add-to-bag is wired once by js/site.js (initAddButtons), which runs on
-      // DOMContentLoaded — after this inline script injects the button. Do NOT
+      // DOMContentLoaded - after this inline script injects the button. Do NOT
       // bind a second handler here or the item gets added twice.
     });
   </script>
