@@ -165,6 +165,10 @@ button{font-family:inherit; cursor:pointer;}
 .footer__cell b{ color:var(--chalk); font-weight:400; }
 .footer__cell a{ color:var(--chalk); transition:color .3s ease; }
 .footer__cell a:hover{ color:var(--ember-bright); }
+.footer__credit{ grid-column:1 / -1; padding:16px var(--gutter); border-top:1px solid var(--rule-dark);
+  font-family:var(--mono); font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:var(--smoke); text-align:center; }
+.footer__credit a{ color:var(--fog); transition:color .3s ease; }
+.footer__credit a:hover{ color:var(--ember-bright); }
 
 /* ============================================================
    HOME
