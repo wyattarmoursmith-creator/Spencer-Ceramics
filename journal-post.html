@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>Journal · Spencer Ceramics</title>
+<title>Journal · Craig Spencer Ceramics</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Notes from the Spencer Ceramics studio in Auckland, New Zealand." />
+<meta name="description" content="Notes from the Craig Spencer Ceramics studio in Auckland, New Zealand." />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -23,7 +23,7 @@
   </nav>
 
   <nav class="nav nav--solid" aria-label="Primary">
-    <a class="nav__brand wordmark" href="index.html">Spencer&nbsp;&nbsp;Ceramics</a>
+    <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
     <div class="nav__links">
       <a href="shop.html">Shop</a>
       <a href="commissions.html">Commissions</a>
@@ -42,7 +42,7 @@
   </article>
 
   <footer class="footer">
-    <div class="footer__cell"><span>Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
+    <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
     <div class="footer__cell"><span>Journal</span><a href="journal.html">All notes →</a></div>
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="#">@spencerceramics</a></div>
@@ -57,7 +57,7 @@
     window.onData(function () {
       var id = new URLSearchParams(location.search).get("id");
       var p = window.postById(id) || window.JOURNAL[0];
-      document.title = p.title + " · Spencer Ceramics · Journal";
+      document.title = p.title + " · Craig Spencer Ceramics · Journal";
       document.getElementById("a-hero").src = p.img;
       document.getElementById("a-hero").alt = p.title;
       document.getElementById("a-hero").setAttribute("data-media", p.id);
