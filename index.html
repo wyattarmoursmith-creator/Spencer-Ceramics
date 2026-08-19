@@ -28,9 +28,7 @@
   <!-- mobile menu -->
   <nav class="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
-    <a href="commissions.html">Commissions</a>
     <a href="about.html">Studio</a>
-        <a href="journal.html">Journal</a>
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
@@ -41,9 +39,7 @@
       <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
       <div class="nav__links">
         <a href="shop.html">Shop</a>
-        <a href="commissions.html">Commissions</a>
         <a href="about.html">Studio</a>
-        <a href="journal.html">Journal</a>
         <a href="contact.html">Contact</a>
         <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
       </div>
@@ -52,7 +48,7 @@
 
     <div class="hero__media">
       <!-- Three photos slowly cross-fade. Swap any via /admin/ (Site Photos) or the images/ folder. -->
-      <img class="hero__img is-active" src="images/sc_cups-shoot_001.jpg" alt="Pulling an espresso shot into a hand-thrown cup" data-media="hero" />
+      <img class="hero__img is-active" fetchpriority="high" src="images/hero-1.jpg" alt="Dark hand-thrown bowls in silhouette against a golden curtain" data-media="hero" />
       <img class="hero__img" src="images/hero-2.jpg" alt="" aria-hidden="true" data-media="hero-2" />
       <img class="hero__img" src="images/hero-3.jpg" alt="" aria-hidden="true" data-media="hero-3" />
     </div>
@@ -85,39 +81,7 @@
       </div>
     </div>
     <div class="studio__media reveal reveal--late">
-      <img src="images/studio.jpg" alt="The studio" data-media="studio" />
-    </div>
-  </section>
-
-  <!-- RECENT WORK gallery (dark, image-forward) -->
-  <section class="gallery">
-    <div class="gallery__head reveal">
-      <div class="label">Recent work</div>
-      <a class="link-underline" href="commissions.html">Commissions <span>→</span></a>
-    </div>
-    <div class="gallery__grid stagger">
-      <div class="gallery__cell"><img src="images/gallery-1.jpg" alt="A ceramic lamp in an interior" data-media="gallery-1" /></div>
-      <div class="gallery__cell"><img src="images/gallery-2.jpg" alt="Hand-thrown vessels" data-media="gallery-2" /></div>
-      <div class="gallery__cell"><img src="images/gallery-3.jpg" alt="Bowls, from above" data-media="gallery-3" /></div>
-      <div class="gallery__cell"><img src="images/gallery-4.jpg" alt="A grouping of pieces" data-media="gallery-4" /></div>
-    </div>
-  </section>
-
-  <!-- MANIFESTO - statement plate: a dark panel floats over a full-bleed photo, framed with catalogue metadata -->
-  <section class="manifesto">
-    <img class="manifesto__bg" src="images/hero-3.jpg" alt="A grouping of hand-thrown bowls" data-media="manifesto-bg" />
-    <div class="manifesto__panel reveal">
-      <div class="manifesto__meta">
-        <span>On making</span>
-        <span>Auckland&nbsp;·&nbsp;MMXXVI</span>
-      </div>
-      <div class="manifesto__body">
-        <h2 class="display manifesto__statement" data-lines="home.manifesto_heading">Objects of beauty<br />and simplicity.</h2>
-        <div class="manifesto__cols">
-          <p data-text="home.manifesto_col1">I throw, trim and glaze each piece by hand. The work keeps a record of how it was made, and no two are the same.</p>
-          <p data-text="home.manifesto_col2">Ceramics and design share the same concerns: material, colour, texture. Useful things, quietly made, to be lived with for years.</p>
-        </div>
-      </div>
+      <img loading="lazy" decoding="async" src="images/studio.jpg" alt="Bowls on a wood table against a glowing curtain" data-media="studio" />
     </div>
   </section>
 
@@ -134,11 +98,49 @@
     <div class="grid grid--three reveal reveal--late" id="teaser"></div>
   </section>
 
+  <!-- RECENT WORK gallery (dark, image-forward) -->
+  <section class="gallery">
+    <div class="gallery__head reveal">
+      <div class="label">Recent work</div>
+      <a class="link-underline" href="shop.html">Browse the shop <span>→</span></a>
+    </div>
+    <div class="gallery__grid stagger">
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-1.jpg" alt="Stacked bowls on a table at the 100 bowls showcase" data-media="gallery-1" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-2.jpg" alt="A white pedestal bowl, up close" data-media="gallery-2" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-3.jpg" alt="Dark vessels on red marble" data-media="gallery-3" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-4.jpg" alt="A gold-lined bowl against a red wall" data-media="gallery-4" /></div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO - statement plate: a dark panel floats over a full-bleed photo, framed with catalogue metadata -->
+  <section class="manifesto">
+    <img loading="lazy" decoding="async" class="manifesto__bg" src="images/manifesto-bg.jpg" alt="Bowls gathered on a wood table in warm light" data-media="manifesto-bg" />
+    <div class="manifesto__panel reveal">
+      <div class="manifesto__meta">
+        <span>On making</span>
+        <span>Auckland&nbsp;·&nbsp;MMXXVI</span>
+      </div>
+      <div class="manifesto__body">
+        <h2 class="display manifesto__statement" data-lines="home.manifesto_heading">Objects of beauty<br />and simplicity.</h2>
+        <div class="manifesto__cols">
+          <p data-text="home.manifesto_col1">I throw, trim and glaze each piece by hand. The work keeps a record of how it was made, and no two are the same.</p>
+          <p data-text="home.manifesto_col2">Ceramics and design share the same concerns: material, colour, texture. Useful things, quietly made, to be lived with for years.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSER - the last word points at the shop -->
+  <section class="closer reveal">
+    <div class="display" data-lines="home.closer">Each piece is one of one.<br />Once it sells, it&rsquo;s gone.</div>
+    <a class="btn btn--fill btn--pill btn--ember" href="shop.html">Browse available pieces <span class="arrow">→</span></a>
+  </section>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
-    <div class="footer__cell"><span>Newsletter</span><a href="#">Subscribe →</a></div>
+    <div class="footer__cell"><span>Journal</span><a href="journal.html">Notes from the studio →</a></div>
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="#">@spencerceramics</a></div>
     <div class="footer__credit">Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
@@ -156,7 +158,7 @@
         '<a class="card" href="product.html?id=' + p.id + '">' +
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
-            '<img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
+            '<img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
           '</div>' +
           '<div class="card__row">' +
             '<div><div class="card__name">' + p.name + '</div>' +

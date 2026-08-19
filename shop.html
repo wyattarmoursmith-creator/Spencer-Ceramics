@@ -23,9 +23,7 @@
 
   <nav class="menu" aria-label="Mobile">
     <a href="shop.html" aria-current="page">Shop</a>
-    <a href="commissions.html">Commissions</a>
     <a href="about.html">Studio</a>
-        <a href="journal.html">Journal</a>
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
@@ -34,9 +32,7 @@
     <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
     <div class="nav__links">
       <a href="shop.html" aria-current="page">Shop</a>
-      <a href="commissions.html">Commissions</a>
       <a href="about.html">Studio</a>
-        <a href="journal.html">Journal</a>
       <a href="contact.html">Contact</a>
         <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
@@ -70,7 +66,7 @@
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
-    <div class="footer__cell"><span>Newsletter</span><a href="#">Subscribe →</a></div>
+    <div class="footer__cell"><span>Journal</span><a href="journal.html">Notes from the studio →</a></div>
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="#">@spencerceramics</a></div>
     <div class="footer__credit">Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
@@ -90,7 +86,7 @@
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
             (sold ? '<span class="card__tag">Sold</span>' : '') +
-            '<img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
+            '<img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
           '</div>' +
           '<div class="card__row">' +
             '<div>' +

@@ -23,9 +23,7 @@
 
   <nav class="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
-    <a href="commissions.html">Commissions</a>
     <a href="about.html" aria-current="page">Studio</a>
-    <a href="journal.html">Journal</a>
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
@@ -36,9 +34,7 @@
       <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
       <div class="nav__links">
         <a href="shop.html">Shop</a>
-        <a href="commissions.html">Commissions</a>
         <a href="about.html" aria-current="page">Studio</a>
-        <a href="journal.html">Journal</a>
         <a href="contact.html">Contact</a>
         <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
       </div>
@@ -46,7 +42,7 @@
     </nav>
 
     <div class="hero__media">
-      <img class="hero__img is-active" src="images/about.jpg" alt="Spencer in the studio" data-media="about" />
+      <img class="hero__img is-active" fetchpriority="high" src="images/about.jpg" alt="Craig Spencer holding a bowl at the 100 bowls showcase" data-media="about" />
     </div>
     <div class="hero__veil"></div>
 
@@ -62,7 +58,7 @@
 
   <!-- statement plate - panel floating over the studio scene -->
   <section class="manifesto manifesto--studio">
-    <img class="manifesto__bg" src="images/j-hero.jpg" alt="The studio, with finished pieces" data-media="studio-scene" />
+    <img loading="lazy" decoding="async" class="manifesto__bg" src="images/j-hero.jpg" alt="The studio, with finished pieces" data-media="studio-scene" />
     <div class="manifesto__panel reveal">
       <div class="manifesto__meta">
         <span>The studio</span>
@@ -85,10 +81,10 @@
       <a class="link-underline" href="shop.html">In the shop <span>→</span></a>
     </div>
     <div class="gallery__grid stagger">
-      <div class="gallery__cell"><img src="images/work-1.jpg" alt="A lit ceramic table lamp in the studio" data-media="work-1" /></div>
-      <div class="gallery__cell"><img src="images/work-2.jpg" alt="A large hand-thrown vessel" data-media="work-2" /></div>
-      <div class="gallery__cell"><img src="images/work-3.jpg" alt="A grouping of hand-formed vessels" data-media="work-3" /></div>
-      <div class="gallery__cell"><img src="images/work-4.jpg" alt="A lamp and stacked forms in warm light" data-media="work-4" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-1.jpg" alt="A pedestal bowl, backlit" data-media="work-1" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-2.jpg" alt="A stemmed vessel among bowls" data-media="work-2" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-3.jpg" alt="A white bowl interior, up close" data-media="work-3" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-4.jpg" alt="Pieces grouped on the table" data-media="work-4" /></div>
     </div>
   </section>
 
@@ -108,15 +104,15 @@
   <!-- process triptych -->
   <section class="strip">
     <div class="strip__cell">
-      <div class="ph"><img src="images/process-1.jpg" alt="Throwing on the wheel" data-media="process-1" /></div>
+      <div class="ph"><img loading="lazy" decoding="async" src="images/process-1.jpg" alt="Throwing rings in the clay, up close" data-media="process-1" /></div>
       <div class="cap label">01 · The wheel</div>
     </div>
     <div class="strip__cell">
-      <div class="ph"><img src="images/process-2.jpg" alt="Glazing" data-media="process-2" /></div>
+      <div class="ph"><img loading="lazy" decoding="async" src="images/process-2.jpg" alt="A glazed bowl, up close" data-media="process-2" /></div>
       <div class="cap label">02 · The glaze</div>
     </div>
     <div class="strip__cell">
-      <div class="ph"><img src="images/process-3.jpg" alt="The wood firing" data-media="process-3" /></div>
+      <div class="ph"><img loading="lazy" decoding="async" src="images/process-3.jpg" alt="A gold-lined piece from the kiln" data-media="process-3" /></div>
       <div class="cap label">03 · The firing</div>
     </div>
   </section>

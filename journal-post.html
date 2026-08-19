@@ -15,9 +15,7 @@
 
   <nav class="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
-    <a href="commissions.html">Commissions</a>
     <a href="about.html">Studio</a>
-    <a href="journal.html">Journal</a>
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
@@ -26,9 +24,7 @@
     <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
     <div class="nav__links">
       <a href="shop.html">Shop</a>
-      <a href="commissions.html">Commissions</a>
       <a href="about.html">Studio</a>
-      <a href="journal.html">Journal</a>
       <a href="contact.html">Contact</a>
         <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
@@ -58,6 +54,25 @@
       var id = new URLSearchParams(location.search).get("id");
       var p = window.postById(id) || window.JOURNAL[0];
       document.title = p.title + " · Craig Spencer Ceramics · Journal";
+
+      // SEO: per-post description, canonical, and Article schema so Google can reference each note
+      var desc = document.querySelector('meta[name="description"]');
+      if (desc && p.excerpt) desc.setAttribute("content", p.excerpt);
+      var base = "https://spencerceramics.netlify.app/journal-post.html?id=" + p.id;
+      var canon = document.querySelector('link[rel="canonical"]');
+      if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
+      canon.href = base;
+      var ld = document.createElement("script");
+      ld.type = "application/ld+json";
+      ld.textContent = JSON.stringify({
+        "@context": "https://schema.org", "@type": "Article",
+        "headline": p.title, "description": p.excerpt || "",
+        "image": "https://spencerceramics.netlify.app/" + p.img,
+        "author": { "@type": "Person", "name": "Craig Spencer" },
+        "publisher": { "@type": "Organization", "name": "Craig Spencer Ceramics" },
+        "mainEntityOfPage": base
+      });
+      document.head.appendChild(ld);
       document.getElementById("a-hero").src = p.img;
       document.getElementById("a-hero").alt = p.title;
       document.getElementById("a-hero").setAttribute("data-media", p.id);

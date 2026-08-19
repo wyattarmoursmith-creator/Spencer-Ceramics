@@ -1,0 +1,4 @@
+# commissions is hidden while the site focuses on direct shop sales ("!" forces the
+# redirect even though commissions.html still exists in the repo for easy restore)
+/commissions       /shop  301!
+/commissions.html  /shop  301!

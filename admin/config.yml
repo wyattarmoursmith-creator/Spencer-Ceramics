@@ -121,6 +121,7 @@ collections:
               - { label: "Manifesto — heading", name: manifesto_heading, widget: text, hint: "Each line shows on its own line." }
               - { label: "Manifesto — left column", name: manifesto_col1, widget: text }
               - { label: "Manifesto — right column", name: manifesto_col2, widget: text }
+              - { label: "Closer — line above the shop button", name: closer, widget: text }
           - label: "Shop"
             name: shop
             widget: object
