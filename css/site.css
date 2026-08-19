@@ -681,3 +681,37 @@ html.js .reveal--late{ transition-delay:.12s; }
 .card.is-sold img{ filter:grayscale(0.35); opacity:0.78; }
 .card.is-sold:hover img{ filter:grayscale(0.15); opacity:0.9; }
 .card.is-sold .card__price{ color:var(--smoke); text-decoration:line-through; text-decoration-thickness:1px; }
+
+/* ============================================================
+   CONTACT PLATE (2026-08) - one immersive plate over a set table,
+   replacing the old rigid light|dark split. Reuses the manifesto
+   pattern from home/studio so the whole site speaks one language.
+   ============================================================ */
+.manifesto--contact{ min-height:100svh; }
+.manifesto--contact .manifesto__panel{
+  width:min(1080px,100%); min-height:0;
+  background:rgba(11,11,12,0.86);
+  border:1px solid rgba(239,236,230,0.08);
+  justify-content:flex-start;
+}
+.contact-plate__body{
+  display:grid; grid-template-columns:0.9fr 1.1fr;
+  gap:clamp(30px,4.5vw,70px);
+  margin-top:clamp(28px,4vw,46px);
+}
+.contact-plate__info h1{ font-size:clamp(28px,3.2vw,42px); line-height:1.06; margin:0; }
+.contact-plate__intro{ margin:18px 0 30px; font-size:14px; line-height:1.66; color:var(--bone); max-width:34ch; }
+.channels--dark{ border-top-color:var(--rule-dark); }
+.channels--dark .channel{ border-bottom-color:var(--rule-dark); }
+.channels--dark .channel__label{ color:var(--fog); }
+.channels--dark .channel__value{ color:var(--chalk); border-color:var(--rule-dark); }
+.channels--dark .channel__value:hover{ color:var(--ember-bright); border-color:var(--ember-bright); }
+.contact-plate__note{
+  margin-top:26px; font-family:var(--mono); font-size:10px;
+  letter-spacing:0.16em; text-transform:uppercase; color:var(--smoke);
+}
+.contact-plate__form{ align-self:start; }
+@media (max-width:880px){
+  .contact-plate__body{ grid-template-columns:1fr; }
+  .manifesto--contact{ padding-left:16px; padding-right:16px; }
+}

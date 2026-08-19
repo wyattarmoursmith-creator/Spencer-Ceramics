@@ -41,33 +41,36 @@
 
   <div class="masthead"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
 
-  <section class="page-head">
-    <div class="label">Contact</div>
-    <h1 class="display">Say hello.</h1>
-  </section>
+  <!-- one immersive plate over a set table - the invitation to sit down and talk.
+       (replaced the old rigid light|dark split, 2026-08) -->
+  <section class="manifesto manifesto--contact">
+    <img class="manifesto__bg" src="images/contact-scene.jpg" alt="A table set with hand-thrown bowls" data-media="contact-scene" />
+    <div class="manifesto__panel contact-plate reveal">
+      <div class="manifesto__meta">
+        <span>Contact</span>
+        <span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span>
+      </div>
+      <div class="contact-plate__body">
+        <!-- left: the invitation + direct channels -->
+        <div class="contact-plate__info">
+          <h1 class="display">Start the<br />conversation.</h1>
+          <p class="contact-plate__intro" data-site="contact_intro">For commissions, wholesale, or general questions.</p>
 
-  <section class="contact-grid">
-    <!-- left: ways to reach the studio directly -->
-    <div class="contact-info">
-      <div class="label">Reach the studio</div>
-      <p class="contact-info__intro" data-site="contact_intro">For commissions, wholesale, or general questions.</p>
+          <ul class="channels channels--dark">
+            <li class="channel">
+              <span class="channel__label">Email</span>
+              <a class="channel__value" data-site="email" href="mailto:studio@spencerceramics.com">studio@spencerceramics.com</a>
+            </li>
+            <li class="channel">
+              <span class="channel__label">Instagram</span>
+              <a class="channel__value" data-site="instagram" href="https://www.instagram.com/spencerceramics">@spencerceramics</a>
+            </li>
+          </ul>
+          <p class="contact-plate__note">Every note gets a reply, usually within a few days.</p>
+        </div>
 
-      <ul class="channels">
-        <li class="channel">
-          <span class="channel__label">Email</span>
-          <a class="channel__value" data-site="email" href="mailto:studio@spencerceramics.com">studio@spencerceramics.com</a>
-        </li>
-        <li class="channel">
-          <span class="channel__label">Instagram</span>
-          <a class="channel__value" data-site="instagram" href="https://www.instagram.com/spencerceramics">@spencerceramics</a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- right: send a message (Netlify Forms - works once deployed to Netlify) -->
-    <div class="contact-form">
-      <div class="label contact-form__head">Send a message</div>
-      <div class="contact-form__card">
+        <!-- right: send a message (Netlify Forms - works once deployed to Netlify) -->
+        <div class="contact-form__card contact-plate__form">
       <form class="form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="contact-form">
         <input type="hidden" name="form-name" value="contact" />
         <p hidden><label>Leave this empty: <input name="bot-field" /></label></p>
@@ -103,6 +106,7 @@
         <div class="display">Thank you.</div>
         <p>Your note is on its way. I’ll reply within a few days.</p>
       </div>
+        </div>
       </div>
     </div>
   </section>

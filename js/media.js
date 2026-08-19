@@ -42,6 +42,9 @@ window.MEDIA = {
   /* studio page - statement plate */
   "studio-scene": "50% 55%",
 
+  /* contact - the plate backdrop */
+  "contact-scene": "50% 62%",
+
   /* products - keyed by catalogue id */
   "042-01":      "50% 50%",
   "042-02":      "50% 45%",

@@ -81,6 +81,7 @@ collections:
               - { label: "Studio page — Selected work 4", name: "work-4", widget: image }
               - { label: "Home — Manifesto background (wide)", name: "manifesto-bg", widget: image }
               - { label: "Studio page — Statement background (wide)", name: "studio-scene", widget: image }
+              - { label: "Contact — Plate background (wide)", name: "contact-scene", widget: image }
 
   # ---------------- SITE & CONTACT ----------------
   - name: settings
