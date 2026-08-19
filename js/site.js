@@ -1,10 +1,10 @@
 /* ============================================================
-   Spencer Ceramics — site behaviour
+   Spencer Ceramics - site behaviour
    Mobile nav, a lightweight localStorage cart, and cart rendering.
 
    NOTE ON CHECKOUT
    The cart here is a local demo so the Shop → Cart flow works the
-   moment you deploy. Real payment is handed off to Shopify — wire the
+   moment you deploy. Real payment is handed off to Shopify - wire the
    "Checkout" button to your Shopify cart / Buy Button (see README).
    ============================================================ */
 (function () {
@@ -111,7 +111,7 @@
     if (!items.length) {
       wrap.innerHTML =
         '<div class="cart-body"><div class="cart-empty">' +
-          '<div class="label">Bag — empty</div>' +
+          '<div class="label">Bag · empty</div>' +
           '<div class="display">Nothing here yet.</div>' +
           '<a class="btn btn--fill btn--pill" href="shop.html">Browse the shop <span class="arrow">&rarr;</span></a>' +
         '</div><div></div></div>';
@@ -146,7 +146,7 @@
       '<div class="cart-body">' +
         '<div class="cart-lines">' + lines +
           '<div style="padding:30px var(--gutter); display:flex; justify-content:space-between; align-items:center;">' +
-            '<span class="label">Add a note for Spencer at checkout</span>' +
+            '<span class="label">Add a note for Craig at checkout</span>' +
             '<a class="link-underline" href="shop.html">&larr; Keep browsing</a>' +
           '</div>' +
         '</div>' +
@@ -155,7 +155,7 @@
           '<div class="summary__row"><span>Subtotal</span><span class="tnum">' + money(sub) + '</span></div>' +
           '<div class="summary__row"><span>Shipping</span><span>Calculated at checkout</span></div>' +
           '<div class="summary__total"><span>Total</span><span class="tnum">' + money(sub) + ' ' + CURRENCY + '</span></div>' +
-          '<button class="btn btn--fill btn--block" style="margin-top:30px" data-checkout>Checkout — Shopify <span class="arrow">&rarr;</span></button>' +
+          '<button class="btn btn--fill btn--block" style="margin-top:30px" data-checkout>Secure checkout · Shopify <span class="arrow">&rarr;</span></button>' +
           '<button class="btn btn--ghost btn--block" style="margin-top:12px" data-checkout>Express · Shop Pay <span class="arrow">&rarr;</span></button>' +
           '<div class="summary__note">Each piece is wrapped in unbleached paper and packed by hand. Ships from New Zealand within 7 days. Tracking provided.</div>' +
         '</aside>' +
@@ -184,7 +184,7 @@
         var s = window.SHOPIFY || {};
         if (b.dataset.busy) return;
         b.dataset.busy = "1"; b.textContent = "Redirecting…";
-        /* permalink straight to the Shopify cart — used as a fallback */
+        /* permalink straight to the Shopify cart - used as a fallback */
         var permalink = "https://" + s.domain + "/cart/" +
           items.map(function (l) { return l.product.variantNum + ":" + l.qty; }).join(",");
         /* preferred: create a Shopify cart and jump straight to its secure checkout */
@@ -266,7 +266,7 @@
   }
 
   /* ---------- scroll motion: a gentle parallax INSIDE framed images, so the
-     still ceramics quietly drift within their frame as you pass — tactile, not
+     still ceramics quietly drift within their frame as you pass - tactile, not
      flashy. transform-only + rAF; no-ops under reduced motion (CSS hover-zoom
      then remains as the fallback). Heroes are handled separately (initScrollFX). ---------- */
   function initScrollMotion() {
@@ -278,7 +278,7 @@
     var BASE = 1.1, RANGE = 0.08;            // baseline scale (headroom) + travel as a fraction of frame height
     var active = [];
     imgs.forEach(function (im) {
-      im.style.transition = "none";          // parallax tracks scroll 1:1 — easing here would feel rubbery
+      im.style.transition = "none";          // parallax tracks scroll 1:1 - easing here would feel rubbery
       im.style.transform = "scale(" + BASE + ")";
     });
     var io = ("IntersectionObserver" in window) ? new IntersectionObserver(function (entries) {
@@ -348,7 +348,7 @@
 
       var last = words.length - 1;
       var WIDTH = 2.4;     // wave half-width, in words
-      var STROKE = 0.55;   // max faux-bold thickness (px) under the light — bolds the glyphs in place, no reflow (unlike font-weight)
+      var STROKE = 0.55;   // max faux-bold thickness (px) under the light - bolds the glyphs in place, no reflow (unlike font-weight)
 
       function rgbAt(t) {
         return "rgb(" + Math.round(INK[0] + (EMBER[0] - INK[0]) * t) + "," +
@@ -359,7 +359,7 @@
         for (var i = 0; i < words.length; i++) {
           var t = 1 - Math.abs(i - pos) / WIDTH;
           t = t < 0 ? 0 : (t > 1 ? 1 : t);
-          t = t * t * (3 - 2 * t);                            // smoothstep — soft leading/trailing edge
+          t = t * t * (3 - 2 * t);                            // smoothstep - soft leading/trailing edge
           var c = rgbAt(t);
           words[i].style.color = c;
           words[i].style.webkitTextStrokeColor = c;           // grows bolder under the light (stroke matches the fill colour)
@@ -383,7 +383,7 @@
           s.style.color = "var(--ink)";
           s.style.webkitTextStrokeWidth = "0px";
         });
-        // …then, after a beat, the phrase fades back on — as colour only (standard weight), and stays
+        // …then, after a beat, the phrase fades back on - as colour only (standard weight), and stays
         setTimeout(function () {
           sticky.forEach(function (s) { s.style.transition = "color .6s ease"; s.style.color = "var(--ember)"; });
         }, 800);

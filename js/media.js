@@ -1,11 +1,11 @@
 /* ============================================================
-   Spencer Ceramics — media focus config
+   Spencer Ceramics - media focus config
    Each key is an image "slot". The value is its CSS object-position
-   (focal point) — "horizontal% vertical%". 50% 50% = centred.
+   (focal point) - "horizontal% vertical%". 50% 50% = centred.
 
    You don't edit this by hand: open any page with ?edit at the end
    of the URL, drag each image to set its focus, then click
-   "Export media.js" and replace this file. (See README — Images.)
+   "Export media.js" and replace this file. (See README - Images.)
    ============================================================ */
 window.MEDIA = {
   /* full-bleed / feature images */
@@ -18,31 +18,31 @@ window.MEDIA = {
   "process-2":   "50% 50%",
   "process-3":   "50% 50%",
 
-  /* commissions — lighting */
+  /* commissions - lighting */
   "commission-hero":    "50% 50%",
   "commission-pendant": "50% 50%",
   "commission-wall":    "50% 50%",
   "commission-lamps":   "50% 50%",
 
-  /* home — recent-work gallery */
+  /* home - recent-work gallery */
   "gallery-1":   "50% 50%",
   "gallery-2":   "50% 50%",
   "gallery-3":   "50% 50%",
   "gallery-4":   "50% 50%",
 
-  /* studio page — selected work */
+  /* studio page - selected work */
   "work-1":      "45% 50%",
   "work-2":      "50% 50%",
   "work-3":      "50% 45%",
   "work-4":      "50% 55%",
 
-  /* home — manifesto plate */
+  /* home - manifesto plate */
   "manifesto-bg": "50% 50%",
 
-  /* studio page — statement plate */
+  /* studio page - statement plate */
   "studio-scene": "50% 55%",
 
-  /* products — keyed by catalogue id */
+  /* products - keyed by catalogue id */
   "042-01":      "50% 50%",
   "042-02":      "50% 45%",
   "042-03":      "50% 50%",
@@ -50,7 +50,7 @@ window.MEDIA = {
   "042-05":      "50% 50%",
   "042-06":      "50% 50%",
 
-  /* journal — keyed by post id */
+  /* journal - keyed by post id */
   "spring-firing":  "50% 50%",
   "wood-ash-chance":"50% 50%",
   "a-week-of-cups": "50% 50%"

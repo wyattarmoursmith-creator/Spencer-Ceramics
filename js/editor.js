@@ -1,5 +1,5 @@
 /* ============================================================
-   Spencer Ceramics — image focus + preview editor
+   Spencer Ceramics - image focus + preview editor
    Always-on (lightweight): applies saved focal points + any
    locally-previewed images to every [data-media] image.
 
@@ -166,12 +166,12 @@
       return '  ' + JSON.stringify(k) + ': ' + JSON.stringify(keys[k]);
     });
     var out =
-      "/* Spencer Ceramics — media focus config. Replace site/js/media.js with this. */\n" +
+      "/* Spencer Ceramics - media focus config. Replace site/js/media.js with this. */\n" +
       "window.MEDIA = {\n" + lines.join(",\n") + "\n};\n";
     var blob = new Blob([out], { type: "text/javascript" });
     var a = document.createElement("a");
     a.href = URL.createObjectURL(blob); a.download = "media.js"; a.click();
-    toast("Saved media.js — drop it into site/js/ and re-deploy to publish your focal points.");
+    toast("Saved media.js - drop it into site/js/ and re-deploy to publish your focal points.");
   }
 
   function injectStyles() {

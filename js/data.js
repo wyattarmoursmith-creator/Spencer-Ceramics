@@ -1,5 +1,5 @@
 /* ============================================================
-   Spencer Ceramics — content loader
+   Spencer Ceramics - content loader
    PRODUCTS load live from Shopify (Storefront API). Journal, site
    photos, contact settings and page copy still come from the CMS
    JSON files. Exposes window.CATALOG / JOURNAL / SITE / SETTINGS /
@@ -8,7 +8,7 @@
 
 /* ---- Shopify Storefront API ----------------------------------------
    This is the PUBLIC, read-only Storefront access token. It is DESIGNED
-   to live in client-side code and can only READ the shop — never put an
+   to live in client-side code and can only READ the shop - never put an
    Admin API key or password here. Products, prices, photos and stock are
    managed in Shopify; checkout completes on Shopify's secure page. */
 window.SHOPIFY = {
@@ -26,7 +26,7 @@ window.PAGES    = {};
 window.byId     = function (id) { return window.CATALOG.find(function (p) { return p.id === id; }); };
 window.postById = function (id) { return window.JOURNAL.find(function (p) { return p.id === id; }); };
 
-/* numeric tail of a Shopify GID — gid://shopify/ProductVariant/123 -> "123" */
+/* numeric tail of a Shopify GID - gid://shopify/ProductVariant/123 -> "123" */
 function scGidNum(gid) { var m = String(gid || "").match(/(\d+)\s*$/); return m ? m[1] : ""; }
 
 /* map one Shopify product onto the shape the pages already render */
@@ -46,7 +46,7 @@ function scMapProduct(node) {
   return {
     id:         node.handle,                                   // cart key + product URL (?id=)
     slug:       node.handle,
-    ref:        sku || scGidNum(node.id).slice(-4),            // catalogue "N°" — set a SKU in Shopify for a custom one
+    ref:        sku || scGidNum(node.id).slice(-4),            // catalogue "N°" - set a SKU in Shopify for a custom one
     name:       node.title,
     spec:       (node.spec && node.spec.value ? node.spec.value : "").trim(),
     desc:       node.description || "",
@@ -86,7 +86,7 @@ function scFetchProducts() {
 
 window._dataReady = Promise.all([
   scFetchProducts().catch(function (err) {
-    console.error("[shop] Shopify products failed to load — the shop will show empty until it's reachable.", err);
+    console.error("[shop] Shopify products failed to load - the shop will show empty until it's reachable.", err);
     return [];
   }),
   fetch("content/journal.json").then(function (r) { return r.ok ? r.json() : { posts: [] }; }).catch(function () { return { posts: [] }; }),

@@ -71,6 +71,28 @@
       document.title = p.name + " · Craig Spencer Ceramics";
       var sold = p.state === "sold";
 
+      // SEO: per-piece description, canonical, and Product schema (price + availability for Google Shopping surfaces)
+      var desc = document.querySelector('meta[name="description"]');
+      if (desc) desc.setAttribute("content", (p.desc || p.name + ", a hand-thrown piece") + " Made and signed by Craig Spencer in Auckland, New Zealand.");
+      var base = "https://spencerceramics.netlify.app/product.html?id=" + p.id;
+      var canon = document.querySelector('link[rel="canonical"]');
+      if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
+      canon.href = base;
+      var ld = document.createElement("script");
+      ld.type = "application/ld+json";
+      ld.textContent = JSON.stringify({
+        "@context": "https://schema.org", "@type": "Product",
+        "name": p.name, "sku": String(p.ref), "description": p.desc || "",
+        "image": p.img.indexOf("http") === 0 ? p.img : "https://spencerceramics.netlify.app/" + p.img,
+        "brand": { "@type": "Brand", "name": "Craig Spencer Ceramics" },
+        "offers": {
+          "@type": "Offer", "url": base,
+          "price": p.price.toFixed(2), "priceCurrency": (window.SHOPIFY ? window.SHOPIFY.currency : "NZD"),
+          "availability": sold ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
+        }
+      });
+      document.head.appendChild(ld);
+
       // dimension/material split out of spec for the meta list
       var parts = p.spec ? p.spec.split(" · ") : [];
 
@@ -78,8 +100,8 @@
         '<div class="pd__gallery">' +
           '<div class="pd__img"><img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '"></div>' +
           '<div class="pd__thumbs">' +
-            '<div class="pd__img"><img src="' + p.img + '" alt="" data-media="' + p.id + '"></div>' +
-            '<div class="pd__img"><img src="' + p.img + '" alt="" data-media="' + p.id + '"></div>' +
+            '<div class="pd__img"><img loading="lazy" decoding="async" src="' + p.img + '" alt="" data-media="' + p.id + '"></div>' +
+            '<div class="pd__img"><img loading="lazy" decoding="async" src="' + p.img + '" alt="" data-media="' + p.id + '"></div>' +
           '</div>' +
         '</div>' +
         '<aside class="pd__panel">' +
@@ -109,7 +131,7 @@
           return '' +
           '<a class="card" href="product.html?id=' + q.id + '">' +
             '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' +
-              '<img src="' + q.img + '" alt="' + q.name + '" data-media="' + q.id + '"></div>' +
+              '<img loading="lazy" decoding="async" src="' + q.img + '" alt="' + q.name + '" data-media="' + q.id + '"></div>' +
             '<div class="card__row"><div><div class="card__name">' + q.name + '</div>' +
               '<div class="card__spec">' + q.spec + '</div></div>' +
               '<div class="card__price tnum">$ ' + q.price + '</div></div>' +

@@ -129,6 +129,7 @@ collections:
             fields:
               - { label: "Edition label", name: label, widget: string, hint: "e.g. Edition N° 042 — June 2026" }
               - { label: "Heading", name: heading, widget: text }
+              - { label: "Note under the heading", name: note, widget: text }
           - label: "About / Studio"
             name: about
             widget: object

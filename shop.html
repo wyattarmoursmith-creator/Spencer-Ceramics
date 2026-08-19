@@ -46,6 +46,7 @@
     <div class="shop-head__title">
       <div class="label" data-text="shop.label">The current edition</div>
       <h1 class="display" data-lines="shop.heading">New pieces,<br />just in.</h1>
+      <p class="shop-head__note" data-text="shop.note">Each piece is one of one, thrown and signed in Auckland. Once it sells, it's gone.</p>
     </div>
     <div class="shop-head__bar">
       <div class="filters" role="group" aria-label="Filter">
@@ -54,13 +55,25 @@
         <button aria-pressed="false" data-filter="tableware">Tableware</button>
         <button aria-pressed="false" data-filter="lighting">Lighting</button>
       </div>
-      <div class="sort">Sort · newest ▾</div>
+      <label class="sort">Sort ·
+        <select id="sort" aria-label="Sort pieces">
+          <option value="newest">newest</option>
+          <option value="price-asc">price, low to high</option>
+          <option value="price-desc">price, high to low</option>
+        </select>
+      </label>
     </div>
   </section>
 
   <!-- grid -->
   <section class="shop-grid">
     <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- a path for custom-work interest, now that commissions is folded into contact -->
+  <section class="closer reveal">
+    <div class="display">After something<br />in particular?</div>
+    <a class="btn btn--ghost btn--pill" href="contact.html">Get in touch <span class="arrow">→</span></a>
   </section>
 
   <footer class="footer">
@@ -82,7 +95,7 @@
       function cardHTML(p) {
         var sold = p.state === "sold";
         return '' +
-        '<a class="card" href="product.html?id=' + p.id + '">' +
+        '<a class="card' + (sold ? ' is-sold' : '') + '" href="product.html?id=' + p.id + '">' +
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
             (sold ? '<span class="card__tag">Sold</span>' : '') +
@@ -101,16 +114,26 @@
         '</a>';
       }
 
+      var sortBy = "newest";
       function render(filter) {
         var items = window.CATALOG.filter(function (p) {
           return filter === "all" || (p.category || "") === filter;
         });
+        if (sortBy === "price-asc")  items = items.slice().sort(function (a, b) { return a.price - b.price; });
+        if (sortBy === "price-desc") items = items.slice().sort(function (a, b) { return b.price - a.price; });
         grid.innerHTML = items.length
           ? items.map(cardHTML).join("")
           : '<p class="label" style="grid-column:1/-1; padding:48px 0;">Nothing in this category yet.</p>';
       }
 
-      render("all");
+      var currentFilter = "all";
+      render(currentFilter);
+
+      // functional sort (the control used to be decorative)
+      document.getElementById("sort").addEventListener("change", function () {
+        sortBy = this.value;
+        render(currentFilter);
+      });
 
       // filter the grid by category when a filter is chosen
       document.querySelectorAll(".filters button").forEach(function (b) {
@@ -119,7 +142,8 @@
             x.setAttribute("aria-pressed", "false");
           });
           b.setAttribute("aria-pressed", "true");
-          render(b.getAttribute("data-filter"));
+          currentFilter = b.getAttribute("data-filter");
+          render(currentFilter);
         });
       });
     });

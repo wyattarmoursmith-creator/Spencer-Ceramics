@@ -666,3 +666,18 @@ html.js .reveal--late{ transition-delay:.12s; }
   .footer{ grid-template-columns:1fr; }
   .footer__cell{ border-right:none; }
 }
+
+/* ============================================================
+   SHOP-FIRST PASS (2026-08) - shop note, working sort, sold cards
+   ============================================================ */
+.shop-head__note{ margin-top:16px; max-width:38ch; font-size:14px; line-height:1.6; color:var(--smoke); }
+.sort select{
+  font:inherit; font-family:var(--mono); font-size:12px; letter-spacing:0.02em;
+  color:var(--ink); background:transparent; border:none; border-bottom:1px solid var(--rule);
+  padding:2px 2px 3px; cursor:pointer;
+}
+.sort select:focus-visible{ outline:1px solid var(--ember); outline-offset:3px; }
+/* sold pieces step back so the available work reads first */
+.card.is-sold img{ filter:grayscale(0.35); opacity:0.78; }
+.card.is-sold:hover img{ filter:grayscale(0.15); opacity:0.9; }
+.card.is-sold .card__price{ color:var(--smoke); text-decoration:line-through; text-decoration-thickness:1px; }
