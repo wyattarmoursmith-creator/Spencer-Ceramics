@@ -715,3 +715,43 @@ html.js .reveal--late{ transition-delay:.12s; }
   .contact-plate__body{ grid-template-columns:1fr; }
   .manifesto--contact{ padding-left:16px; padding-right:16px; }
 }
+
+/* ============================================================
+   FAQ + STOCKISTS (2026-08) - Craig's real policy copy and
+   stockist list, in the catalogue language
+   ============================================================ */
+.faq{ padding:0 var(--gutter) 110px; max-width:980px; }
+.faq-section{
+  display:grid; grid-template-columns:200px 1fr;
+  gap:clamp(24px,4vw,56px); padding:44px 0; border-top:1px solid var(--rule);
+}
+.faq-section h2{ margin:4px 0 0; }
+.faq-section__body h3{
+  font-family:var(--disp); font-weight:400; text-transform:uppercase;
+  letter-spacing:0.06em; font-size:15px; margin:34px 0 10px;
+}
+.faq-section__body h3:first-child{ margin-top:0; }
+.faq-section__body p{ font-size:14.5px; line-height:1.7; color:var(--ash); max-width:62ch; margin:0 0 14px; }
+.faq-section__body a{ border-bottom:1px solid var(--rule); transition:color .3s ease, border-color .3s ease; }
+.faq-section__body a:hover{ color:var(--ember); border-color:var(--ember); }
+.faq-foot{ display:flex; justify-content:space-between; gap:24px; padding-top:48px; border-top:1px solid var(--rule); flex-wrap:wrap; }
+@media (max-width:700px){ .faq-section{ grid-template-columns:1fr; gap:14px; padding:36px 0; } }
+
+.stockists{ padding:clamp(60px,8vw,110px) var(--gutter); border-top:1px solid var(--rule); }
+.stockists__grid{
+  display:grid; grid-template-columns:repeat(3,1fr);
+  gap:clamp(24px,4vw,56px); margin-top:34px;
+}
+.stockist{ display:flex; flex-direction:column; gap:6px; padding-top:18px; border-top:1px solid var(--rule); }
+.stockist__region{
+  font-family:var(--mono); font-size:10px; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--smoke); margin-bottom:6px;
+}
+.stockist b{
+  font-family:var(--disp); font-weight:400; text-transform:uppercase;
+  letter-spacing:0.06em; font-size:16px;
+}
+.stockist span:not(.stockist__region){ font-size:13px; color:var(--smoke); }
+.stockist a{ font-size:13px; color:var(--ash); width:fit-content; border-bottom:1px solid var(--rule); transition:color .3s ease, border-color .3s ease; }
+.stockist a:hover{ color:var(--ember); border-color:var(--ember); }
+@media (max-width:700px){ .stockists__grid{ grid-template-columns:1fr; gap:28px; } }
