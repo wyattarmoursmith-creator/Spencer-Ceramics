@@ -96,7 +96,7 @@
       if (btn.dataset.busy) return;
       btn.dataset.busy = "1";
       var prevHTML = btn.innerHTML;
-      btn.innerHTML = "Added to bag ✓";
+      btn.innerHTML = "Added to cart ✓";
       setTimeout(function () { btn.innerHTML = prevHTML; btn.dataset.busy = ""; }, 1400);
     });
   }
@@ -111,7 +111,7 @@
     if (!items.length) {
       wrap.innerHTML =
         '<div class="cart-body"><div class="cart-empty">' +
-          '<div class="label">Bag · empty</div>' +
+          '<div class="label">Cart · empty</div>' +
           '<div class="display">Nothing here yet.</div>' +
           '<a class="btn btn--fill btn--pill" href="shop.html">Browse the shop <span class="arrow">&rarr;</span></a>' +
         '</div><div></div></div>';
@@ -180,7 +180,7 @@
     wrap.querySelectorAll("[data-checkout]").forEach(function (b) {
       b.addEventListener("click", function () {
         var items = window.Cart.items().filter(function (l) { return l.product && l.product.variantId; });
-        if (!items.length) { alert("Your bag is empty."); return; }
+        if (!items.length) { alert("Your cart is empty."); return; }
         var s = window.SHOPIFY || {};
         if (b.dataset.busy) return;
         b.dataset.busy = "1"; b.textContent = "Redirecting…";

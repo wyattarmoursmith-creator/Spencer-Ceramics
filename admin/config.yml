@@ -82,6 +82,7 @@ collections:
               - { label: "Home — Manifesto background (wide)", name: "manifesto-bg", widget: image }
               - { label: "Studio page — Statement background (wide)", name: "studio-scene", widget: image }
               - { label: "Contact — Plate background (wide)", name: "contact-scene", widget: image }
+              - { label: "Studio page — Maker portrait (tall)", name: "maker-portrait", widget: image }
 
   # ---------------- SITE & CONTACT ----------------
   - name: settings
@@ -136,7 +137,6 @@ collections:
             widget: object
             collapsed: true
             fields:
-              - { label: "Statement (opening line)", name: statement1, widget: text }
               - { label: "Statement plate — heading", name: plate_heading, widget: text, hint: "Each line shows on its own line." }
               - { label: "Statement plate — left column", name: plate_col1, widget: text }
               - { label: "Statement plate — right column", name: plate_col2, widget: text }

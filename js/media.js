@@ -42,6 +42,9 @@ window.MEDIA = {
   /* studio page - statement plate */
   "studio-scene": "50% 55%",
 
+  /* studio page - the maker portrait beside the bio */
+  "maker-portrait": "50% 30%",
+
   /* contact - the plate backdrop */
   "contact-scene": "50% 62%",
 

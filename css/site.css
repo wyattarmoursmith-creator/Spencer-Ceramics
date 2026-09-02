@@ -755,3 +755,14 @@ html.js .reveal--late{ transition-delay:.12s; }
 .stockist a{ font-size:13px; color:var(--ash); width:fit-content; border-bottom:1px solid var(--rule); transition:color .3s ease, border-color .3s ease; }
 .stockist a:hover{ color:var(--ember); border-color:var(--ember); }
 @media (max-width:700px){ .stockists__grid{ grid-template-columns:1fr; gap:28px; } }
+
+/* the maker band: Craig's full bio ran as an unbroken wall of text, so the
+   portrait now holds the right side and stays with you while you read */
+.maker__layout{ display:grid; grid-template-columns:minmax(0,720px) 1fr; gap:clamp(40px,6vw,100px); align-items:start; }
+.maker__media{ position:sticky; top:96px; }
+.maker__media img{ width:100%; max-width:440px; margin-left:auto; }
+@media (max-width:880px){
+  .maker__layout{ grid-template-columns:1fr; }
+  .maker__media{ position:static; }
+  .maker__media img{ margin:8px 0 0; max-width:520px; }
+}

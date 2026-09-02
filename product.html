@@ -4,7 +4,12 @@
 <meta charset="utf-8" />
 <title>Craig Spencer Ceramics · Piece</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="A hand-thrown piece by Craig Spencer Ceramics, made and signed by hand in Auckland, New Zealand." />
+<meta name="description" content="A hand-thrown piece by Craig Spencer Ceramics, made and signed in Auckland, New Zealand." />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Craig Spencer Ceramics" />
+<meta property="og:title" content="A piece by Craig Spencer Ceramics" />
+<meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
+<meta name="twitter:card" content="summary_large_image" />
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -51,7 +56,7 @@
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
     <div class="footer__cell"><span>Journal</span><a href="journal.html">Notes from the studio →</a></div>
-    <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="#">@spencerceramics</a></div>
+    <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/spencerceramics">@spencerceramics</a></div>
     <div class="footer__credit">Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
 
@@ -105,21 +110,21 @@
           '</div>' +
         '</div>' +
         '<aside class="pd__panel">' +
-          '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : p.state) + '</div>' +
+          '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : (p.state.charAt(0).toUpperCase() + p.state.slice(1))) + '</div>' +
           '<h1 class="pd__name">' + p.name + '</h1>' +
           '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD') + '</div>' +
-          '<p class="pd__desc">' + (p.desc || 'Thrown and finished by hand, then fired in a small batch. The surface keeps a record of the making, with slight movement at the rim and depth in the glaze where the flame caught it.') + '</p>' +
+          '<p class="pd__desc">' + (p.desc || 'Thrown and finished by hand in the Auckland studio. Each one carries its own surface, and its own weight in the hand.') + '</p>' +
           '<div class="pd__meta">' +
             parts.map(function (x, i) {
               var keys = ["Glaze / slip", "Body", "Dimensions"];
               return '<div><span>' + (keys[i] || "Detail") + '</span><span>' + x + '</span></div>';
             }).join("") +
-            '<div><span>Edition</span><span>' + p.state + '</span></div>' +
+            (/\bof\b/.test(p.state) ? '<div><span>Edition</span><span>' + p.state + '</span></div>' : '') +
           '</div>' +
           '<div class="pd__buy">' +
             (sold
               ? '<button class="btn btn--ghost btn--block" disabled style="opacity:.5; cursor:not-allowed">Sold</button>'
-              : '<button class="btn btn--fill btn--block" data-add="' + p.id + '" data-label="Add to bag · $ ' + p.price + '">Add to bag · $ ' + p.price + ' <span class="arrow">&rarr;</span></button>') +
+              : '<button class="btn btn--fill btn--block" data-add="' + p.id + '" data-label="Add to cart · $ ' + p.price + '">Add to cart · $ ' + p.price + ' <span class="arrow">&rarr;</span></button>') +
           '</div>' +
           '<div class="pd__note">One of a kind where marked. Securely wrapped and packed by hand, tracking provided. <a class="link-underline" href="faq.html" style="font-size:12px">Shipping &amp; FAQ</a></div>' +
         '</aside>';
@@ -138,7 +143,7 @@
           '</a>';
         }).join("");
 
-      // Add-to-bag is wired once by js/site.js (initAddButtons), which runs on
+      // Add-to-cart is wired once by js/site.js (initAddButtons), which runs on
       // DOMContentLoaded - after this inline script injects the button. Do NOT
       // bind a second handler here or the item gets added twice.
     });

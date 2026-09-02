@@ -43,13 +43,21 @@ function scMapProduct(node) {
   var type   = (node.productType || "").trim().toLowerCase();
   var images = ((node.images && node.images.edges) || []).map(function (e) { return e.node.url; });
   var sku    = (v && v.sku && v.sku.trim()) || "";
+  // clean the Shopify body copy: no em/en dashes on the site, and the CSV import
+  // folded the spec line onto the end of some descriptions ("...made.Matte slip · stoneware · h. 34cm")
+  var desc = (node.description || "").replace(/\s*[—–]\s*/g, ", ");
+  var spec = (node.spec && node.spec.value ? node.spec.value : "").trim();
+  if (!spec) {
+    var folded = desc.match(/\.\s*([^.·]+·[^.·]+·[^.]*?h\.?\s?[\d.,]+\s?cm)\s*$/i);
+    if (folded) { spec = folded[1].trim(); desc = desc.slice(0, folded.index + 1).trim(); }
+  }
   return {
     id:         node.handle,                                   // cart key + product URL (?id=)
     slug:       node.handle,
     ref:        sku || scGidNum(node.id).slice(-4),            // catalogue "N°" - set a SKU in Shopify for a custom one
     name:       node.title,
-    spec:       (node.spec && node.spec.value ? node.spec.value : "").trim(),
-    desc:       node.description || "",
+    spec:       spec,
+    desc:       desc,
     price:      price,
     state:      state,
     img:        (node.featuredImage && node.featuredImage.url) || images[0] || "",
