@@ -249,48 +249,117 @@
   }
 
   /* ---------- reveal sections as they scroll into view ---------- */
-  /* ------------------------------------------------------------
-     Plate focus: a mid-page statement plate starts transparent and
-     blurred, then resolves into focus as its section rises through
-     the viewport. Scroll-linked (tracks 1:1, no easing lag), so the
-     photo behind is what you see first.
-     Mark a plate with data-focus. Reduced motion: shown as-is.
-     ------------------------------------------------------------ */
+  /* ---------- plate focus, "assembled type": the dark ground wipes in from the
+     left with a hard edge, then the contents are typeset in sequence as the
+     scroll continues - mono labels, heading line by line, then the two columns.
+     Each element owns a window of the overall progress (1:1 with scroll, so
+     scrolling back disassembles it). rAF-throttled, no timers, no blur, no
+     overshoot. At rest all inline styles are cleared: identical to the static
+     plate. Reduced motion: shown as-is. No JS: never hidden. ---------- */
   function initPlateFocus() {
     var panels = [].slice.call(document.querySelectorAll(".manifesto__panel[data-focus]"));
     if (!panels.length) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       panels.forEach(function (p) { p.style.opacity = 1; });
       return;
     }
-    // Timing is measured from the PLATE, not its section: the photo scrolls in
-    // on its own first, and the plate only starts to appear once its own top
-    // edge clears the bottom of the viewport (START), resolving by the time it
-    // reaches END. Then it floats into place: up, in from the right, and
-    // scaling up as it sharpens and solidifies.
-    var START = 0.96, END = 0.42;   // plate top, as a fraction of viewport height
-    var BLUR = 16, RISE = 96, DRIFT = 28, SCALE_FROM = 0.96;
-    panels.forEach(function (p) { p.style.transition = "none"; p.style.willChange = "opacity, filter, transform"; });
+
+    var START = 0.94, END = 0.34;   // plate top edge, as a fraction of viewport height: progress runs 0 -> 1 between these
+    var W_GROUND = [0.00, 0.26];    // window of overall progress: dark ground wipes in, left to right
+    var W_META   = [0.28, 0.44];    // window: the two mono labels, left then right
+    var W_HEAD   = [0.44, 0.82];    // window: heading lines, top to bottom
+    var W_COLS   = [0.80, 1.00];    // window: the two columns, left then right
+    var LEN_META = 0.12;            // how much progress each label takes to land (items overlap inside their window)
+    var LEN_LINE = 0.18;            // same, per heading line
+    var LEN_COL  = 0.14;            // same, per column
+    var RISE     = 8;               // px each element rises into place
+    var OP_LATE  = 0.4;             // fraction of an item's own window spent invisible before opacity ramps (solidifies late)
+    var WIPE_OK  = !!(window.CSS && CSS.supports && CSS.supports("clip-path", "inset(0 50% 0 0)"));
+
+    function clamp01(x) { return x < 0 ? 0 : (x > 1 ? 1 : x); }
+    function win(t, a, b) { return clamp01((t - a) / (b - a)); }   // local progress inside window [a, b]
+
+    // Spread els evenly across window w; each lasts len of the overall progress.
+    function spread(els, w, len) {
+      var span = w[1] - w[0], n = els.length;
+      len = Math.min(len, span);
+      var step = n > 1 ? (span - len) / (n - 1) : 0;
+      return els.map(function (el, i) { return { el: el, a: w[0] + i * step, b: w[0] + i * step + len }; });
+    }
+
+    // Wrap each <br>-separated heading line in a block span (the <br> is dropped;
+    // see the .pl rule in site.css). Idempotent: a heading already wrapped is left alone.
+    function wrapLines(h) {
+      if (!h) return [];
+      if (!h.querySelector(".pl")) {
+        var cur = null;
+        [].slice.call(h.childNodes).forEach(function (n) {
+          if (n.nodeType === 1 && n.tagName === "BR") { h.removeChild(n); cur = null; return; }
+          if (!cur) { cur = document.createElement("span"); cur.className = "pl"; h.insertBefore(cur, n); }
+          cur.appendChild(n);
+        });
+      }
+      return [].slice.call(h.querySelectorAll(".pl"));
+    }
+
+    // One element's move inside its own window: a short rise that eases to rest
+    // (never past it) while opacity stays at 0, then ramps late. Resolved: styles cleared.
+    function place(el, u) {
+      if (u >= 1) { el.style.transform = ""; el.style.opacity = ""; return; }
+      var r = 1 - u;
+      el.style.transform = "translateY(" + (RISE * r * r).toFixed(2) + "px)";
+      el.style.opacity = clamp01((u - OP_LATE) / (1 - OP_LATE)).toFixed(3);
+    }
+
+    // The ground: a hard-edged wipe from the left. Without clip-path support it
+    // simply solidifies in place instead. Resolved: the inline clip is removed.
+    function ground(p, u) {
+      if (u >= 1) { p.style.clipPath = ""; p.style.webkitClipPath = ""; if (!WIPE_OK) p.style.opacity = 1; return; }
+      if (!WIPE_OK) { p.style.opacity = u.toFixed(3); return; }
+      var v = "inset(0 " + (100 - u * 100).toFixed(2) + "% 0 0)";
+      p.style.clipPath = v; p.style.webkitClipPath = v;
+    }
+
+    var states = panels.map(function (p) {
+      p.style.opacity = WIPE_OK ? 1 : 0;    // overrides the .js [data-focus] { opacity: 0 } rule; the clip hides it instead
+      return { p: p, parts: [], last: -1 };
+    });
+
+    function build() {                      // (re)collect the parts and their windows, then paint synchronously (no flash)
+      states.forEach(function (s) {
+        var meta  = [].slice.call(s.p.querySelectorAll(".manifesto__meta span"));
+        var lines = wrapLines(s.p.querySelector(".manifesto__statement"));
+        var cols  = [].slice.call(s.p.querySelectorAll(".manifesto__cols p"));
+        s.parts = spread(meta, W_META, LEN_META).concat(spread(lines, W_HEAD, LEN_LINE), spread(cols, W_COLS, LEN_COL));
+        s.last = -1;
+      });
+      tick();
+    }
+
     var ticking = false;
     function tick() {
       ticking = false;
       var vh = window.innerHeight;
-      panels.forEach(function (p) {
-        var top = p.parentElement.getBoundingClientRect().top + p.offsetTop;   // untransformed plate top
-        var t = (vh * START - top) / (vh * (START - END));
-        t = t < 0 ? 0 : (t > 1 ? 1 : t);
-        var e = t * t * (3 - 2 * t);                       // smoothstep
-        var u = 1 - e;
-        p.style.opacity = e.toFixed(3);
-        p.style.filter = e >= 0.999 ? "none" : "blur(" + (u * BLUR).toFixed(1) + "px)";
-        p.style.transform = e >= 0.999 ? "none" :
-          "translate(" + (u * DRIFT).toFixed(1) + "px," + (u * RISE).toFixed(1) + "px) scale(" + (SCALE_FROM + e * (1 - SCALE_FROM)).toFixed(4) + ")";
+      states.forEach(function (s) {
+        var t = clamp01((vh * START - s.p.getBoundingClientRect().top) / (vh * (START - END)));
+        if (t === s.last) return;           // nothing moved: skip the style writes
+        s.last = t;
+        ground(s.p, win(t, W_GROUND[0], W_GROUND[1]));
+        s.parts.forEach(function (it) { place(it.el, win(t, it.a, it.b)); });
       });
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }
+
+    build();
+    // The CMS re-renders [data-lines] headings from JSON in applyPages, which is
+    // registered on onData AFTER this init. Registering from inside an onData
+    // callback queues ours behind everything registered before the data arrived,
+    // so we re-wrap the final heading text.
+    if (window.onData) window.onData(function () { window.onData(build); });
+
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    tick();
+    window.addEventListener("load", onScroll);   // lazy images above can shift the plate's position
   }
 
   function initReveals() {

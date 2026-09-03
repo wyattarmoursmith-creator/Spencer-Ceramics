@@ -878,3 +878,41 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 .manifesto--studio .manifesto__panel{ background:rgba(11,11,12,0.92); }
 /* plates that focus in on scroll start invisible (js/site.js initPlateFocus drives them) */
 .js .manifesto__panel[data-focus]{ opacity:0; }
+
+/* ============================================================
+   STATEMENT PLATE, REFINED (2026-09) - now that the plate is near
+   opaque, give it the site's texture: a graphite-to-obsidian ground,
+   a warm bloom in one corner (the kitchen light, the kiln), hairline
+   rules that structure it like a catalogue page, one ember tick.
+   Applies to every plate (home, studio, shop, contact).
+   ============================================================ */
+.manifesto__panel{
+  position:relative;
+  background:linear-gradient(158deg, rgba(42,41,37,0.93) 0%, rgba(22,21,19,0.94) 42%, rgba(11,11,12,0.95) 100%);
+  border:1px solid rgba(239,236,230,0.10);
+  box-shadow:inset 0 1px 0 rgba(239,236,230,0.06), 0 34px 90px rgba(0,0,0,0.38);
+}
+.manifesto__panel::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(58% 46% at 100% 0%, rgba(194,90,62,0.12), rgba(194,90,62,0) 72%);
+}
+.manifesto__panel > *{ position:relative; }
+.manifesto__meta{ padding-bottom:18px; border-bottom:1px solid var(--rule-dark); }
+/* a short ember tick sets the heading, the way a catalogue index mark does */
+.manifesto__statement::before{
+  content:""; display:block; width:28px; height:1px; background:var(--ember-bright); margin-bottom:22px;
+}
+.manifesto__cols{ border-top:1px solid var(--rule-dark); padding-top:clamp(22px,3vw,34px); }
+.manifesto__cols p + p{ border-left:1px solid var(--rule-dark); padding-left:clamp(22px,3vw,44px); }
+@media (max-width:620px){
+  .manifesto__cols p + p{ border-left:none; padding-left:0; border-top:1px solid var(--rule-dark); padding-top:18px; }
+}
+/* the per-page alpha overrides are folded into the one ground above */
+.manifesto--studio .manifesto__panel,
+.manifesto--contact .manifesto__panel,
+.manifesto--shop .manifesto__panel{
+  background:linear-gradient(158deg, rgba(42,41,37,0.93) 0%, rgba(22,21,19,0.94) 42%, rgba(11,11,12,0.95) 100%);
+}
+
+/* plate focus: one heading line per span, block-laid so it can move on its own */
+.manifesto__panel[data-focus] .manifesto__statement .pl{ display:block; }
