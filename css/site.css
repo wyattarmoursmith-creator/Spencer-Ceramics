@@ -766,3 +766,8 @@ html.js .reveal--late{ transition-delay:.12s; }
   .maker__media{ position:static; }
   .maker__media img{ margin:8px 0 0; max-width:520px; }
 }
+
+/* legal pages: the date line, and the details still waiting on Craig */
+.legal-date{ margin:14px 0 0; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--smoke); }
+.legal p b{ font-weight:500; color:var(--ink); }
+mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember); padding:0 4px; border-radius:2px; font-family:var(--mono); font-size:0.85em; }

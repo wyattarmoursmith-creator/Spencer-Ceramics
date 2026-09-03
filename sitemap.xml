@@ -6,6 +6,8 @@
   <url><loc>https://spencerceramics.netlify.app/journal</loc><priority>0.6</priority></url>
   <url><loc>https://spencerceramics.netlify.app/contact</loc><priority>0.5</priority></url>
   <url><loc>https://spencerceramics.netlify.app/faq</loc><priority>0.5</priority></url>
+  <url><loc>https://spencerceramics.netlify.app/privacy</loc><priority>0.2</priority></url>
+  <url><loc>https://spencerceramics.netlify.app/terms</loc><priority>0.2</priority></url>
   <url><loc>https://spencerceramics.netlify.app/journal-post.html?id=spring-firing</loc><priority>0.6</priority></url>
   <url><loc>https://spencerceramics.netlify.app/journal-post.html?id=spring-chance</loc><priority>0.6</priority></url>
   <url><loc>https://spencerceramics.netlify.app/journal-post.html?id=a-week-of-cups</loc><priority>0.6</priority></url>
