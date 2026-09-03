@@ -120,6 +120,8 @@ collections:
               - { label: "Studio — heading", name: studio_heading, widget: text }
               - { label: "Studio — paragraph", name: studio_body, widget: text }
               - { label: "Selected work — heading", name: selected_heading, widget: text }
+              - { label: "Highlights — heading", name: highlights_heading, widget: text, hint: "The dark gallery of favourite pieces. Photos live under Site Photos → Home gallery 1-4." }
+              - { label: "Highlights — intro line", name: highlights_intro, widget: text }
               - { label: "Manifesto — heading", name: manifesto_heading, widget: text, hint: "Each line shows on its own line." }
               - { label: "Manifesto — left column", name: manifesto_col1, widget: text }
               - { label: "Manifesto — right column", name: manifesto_col2, widget: text }

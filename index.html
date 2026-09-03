@@ -22,6 +22,9 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Store","name":"Craig Spencer Ceramics","description":"Hand-thrown stoneware, made and signed by hand in Auckland, New Zealand.","url":"https://spencerceramics.netlify.app/","image":"https://spencerceramics.netlify.app/images/og-cover.jpg","email":"shop@craigspencerceramics.com","address":{"@type":"PostalAddress","addressLocality":"Auckland","addressCountry":"NZ"},"sameAs":["https://www.instagram.com/spencerceramics"]}
 </script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Where do you ship from, and how?", "acceptedAnswer": {"@type": "Answer", "text": "From the studio in Auckland. Within New Zealand we use NZ Couriers, within Australia, Australia Post, and everywhere else DHL or FedEx. Tracking is provided once your order ships."}}, {"@type": "Question", "name": "Do you ship internationally?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, worldwide. Import duties, customs charges or taxes in the destination country are the customer's responsibility, and we can't control customs delays."}}, {"@type": "Question", "name": "What if my piece arrives broken?", "acceptedAnswer": {"@type": "Answer", "text": "Keep all packaging, photograph the box and the piece, and email shop@craigspencerceramics.com within 48 hours of delivery. Every case is reviewed individually; if a repair or replacement isn't possible, a refund is issued."}}, {"@type": "Question", "name": "Can I return or cancel an order?", "acceptedAnswer": {"@type": "Answer", "text": "All sales are final, including custom and sample pieces, and an order can't be changed once placed. Damaged, defective or incorrect pieces are always put right. Consumer Guarantees Act rights are unaffected."}}, {"@type": "Question", "name": "Why doesn't my piece look exactly like the photo?", "acceptedAnswer": {"@type": "Answer", "text": "Every piece is handmade. Small differences in colour, glaze, texture, shape and size, plus pinholes, speckles and kiln marks, are the character of the work, not defects."}}, {"@type": "Question", "name": "Are the pieces food-safe?", "acceptedAnswer": {"@type": "Answer", "text": "Unless a listing says otherwise, the stoneware is made to be used with food. Ask about the dishwasher or microwave for a particular piece."}}]}
+</script>
 </head>
 <body data-page="home">
 
@@ -77,11 +80,11 @@
       <h2 class="display" data-lines="home.studio_heading">Made and signed<br />by one pair<br />of hands.</h2>
       <p data-text="home.studio_body">I throw stoneware in short runs from my studio in Auckland. Every piece keeps the marks of how it was made, so no two come out quite the same.</p>
       <div style="margin-top:34px">
-        <a class="link-underline" href="shop.html">See what's available <span>→</span></a>
+        <a class="link-underline" href="about.html">Meet Craig <span>→</span></a>
       </div>
     </div>
     <div class="studio__media reveal reveal--late">
-      <img loading="lazy" decoding="async" src="images/studio.jpg" alt="Bowls on a wood table against a glowing curtain" data-media="studio" />
+      <img loading="lazy" decoding="async" src="images/studio.jpg" alt="Craig Spencer holding one of his bowls" data-media="studio" />
     </div>
   </section>
 
@@ -98,11 +101,15 @@
     <div class="grid grid--three reveal reveal--late" id="teaser"></div>
   </section>
 
-  <!-- RECENT WORK gallery (dark, image-forward) -->
-  <section class="gallery">
-    <div class="gallery__head reveal">
-      <div class="label">Recent work</div>
-      <a class="link-underline" href="shop.html">Browse the shop <span>→</span></a>
+  <!-- HIGHLIGHTS - Craig's favourite pieces and the style they show, not the shop (dark, image-forward) -->
+  <section class="gallery gallery--highlights">
+    <div class="gallery__head gallery__head--stacked reveal">
+      <div>
+        <div class="label">Highlights</div>
+        <h2 class="display" data-lines="home.highlights_heading">Pieces I keep<br />coming back to.</h2>
+        <p class="gallery__intro" data-text="home.highlights_intro">Not for sale, just the work I'm proudest of: the forms and surfaces that say the most about how I make.</p>
+      </div>
+      <a class="link-underline" href="about.html">About the work <span>→</span></a>
     </div>
     <div class="gallery__grid stagger">
       <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-1.jpg" alt="Stacked bowls on a table at the 100 bowls showcase" data-media="gallery-1" /></div>
@@ -130,6 +137,23 @@
     </div>
   </section>
 
+  <!-- FAQ - the questions people ask before they buy, answered before they have to ask -->
+  <section class="faqs reveal" id="faq">
+    <div class="faqs__head">
+      <div class="label">Good to know</div>
+      <h2 class="display">Before you buy.</h2>
+    </div>
+    <div class="faqs__list">
+      <details class="faq-item"><summary>Where do you ship from, and how?</summary><div class="faq-item__body"><p>From the studio in Auckland. Within New Zealand we use NZ Couriers, within Australia, Australia Post, and everywhere else DHL or FedEx. You'll get tracking as soon as your order ships.</p></div></details>
+      <details class="faq-item"><summary>Do you ship internationally?</summary><div class="faq-item__body"><p>Yes, worldwide. Any import duties, customs charges or taxes in your country are yours to cover, and we can't control customs delays. If a parcel is refused because charges weren't paid, the refund is reduced by the shipping and return costs.</p></div></details>
+      <details class="faq-item"><summary>What if my piece arrives broken?</summary><div class="faq-item__body"><p>Keep all the packaging, photograph both the box and the piece, and email <a href="mailto:shop@craigspencerceramics.com">shop@craigspencerceramics.com</a> within 48 hours of delivery. We look at every case individually. If a repair or replacement isn't possible, you'll be refunded.</p></div></details>
+      <details class="faq-item"><summary>Can I return or cancel an order?</summary><div class="faq-item__body"><p>All sales are final, including custom and sample pieces, and an order can't be changed once it's placed. Damaged, defective or incorrect pieces are always put right, and nothing here affects your rights under the Consumer Guarantees Act.</p></div></details>
+      <details class="faq-item"><summary>Why doesn't my piece look exactly like the photo?</summary><div class="faq-item__body"><p>Because it's handmade. Small differences in colour, glaze, texture, shape and size are normal, as are pinholes, speckles and kiln marks. They're the character of the work, not defects, and they don't qualify a piece for a return.</p></div></details>
+      <details class="faq-item"><summary>Are the pieces food-safe?</summary><div class="faq-item__body"><p>Unless a listing says otherwise, the stoneware is made to be used with food. If you're wondering about the dishwasher or microwave for a particular piece, email and we'll tell you.</p></div></details>
+    </div>
+    <div class="faqs__foot"><a class="link-underline" href="faq.html">Shipping &amp; FAQ in full <span>→</span></a></div>
+  </section>
+
   <!-- CLOSER - the last word points at the shop -->
   <section class="closer reveal">
     <div class="display" data-lines="home.closer">When a piece is gone,<br />it doesn&rsquo;t come back.</div>
@@ -142,7 +166,7 @@
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
     <div class="footer__cell"><span>Journal</span><a href="journal.html">Notes from the studio →</a></div>
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/spencerceramics">@spencerceramics</a></div>
-    <div class="footer__credit"><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
+    <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
 
   <script src="js/data.js"></script>

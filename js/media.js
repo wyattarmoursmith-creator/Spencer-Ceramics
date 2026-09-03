@@ -12,7 +12,7 @@ window.MEDIA = {
   "hero":        "50% 55%",
   "hero-2":      "50% 60%",
   "hero-3":      "50% 50%",
-  "studio":      "50% 50%",
+  "studio":      "50% 58%",
   "about":       "50% 42%",
   "process-1":   "50% 50%",
   "process-2":   "50% 50%",
