@@ -83,6 +83,8 @@ collections:
               - { label: "Studio page — Statement background (wide)", name: "studio-scene", widget: image }
               - { label: "Contact — Plate background (wide)", name: "contact-scene", widget: image }
               - { label: "Studio page — Maker portrait (tall)", name: "maker-portrait", widget: image }
+              - { label: "Shop — Plate background (wide)", name: "shop-scene", widget: image }
+              - { label: "Shop — Mid-grid break photo (wide)", name: "shop-break", widget: image }
 
   # ---------------- SITE & CONTACT ----------------
   - name: settings
@@ -134,6 +136,7 @@ collections:
               - { label: "Edition label", name: label, widget: string, hint: "e.g. Edition N° 042 — June 2026" }
               - { label: "Heading", name: heading, widget: text }
               - { label: "Note under the heading", name: note, widget: text }
+              - { label: "Mid-grid break line", name: break, widget: text, hint: "The line in the dark band between the first and second rows of pieces." }
           - label: "About / Studio"
             name: about
             widget: object

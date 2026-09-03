@@ -41,20 +41,31 @@
 
   <div class="masthead"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
 
-  <!-- header band -->
-  <section class="shop-head">
-    <div class="shop-head__title">
-      <div class="label" data-text="shop.label">The current edition</div>
-      <h1 class="display" data-lines="shop.heading">New pieces,<br />just in.</h1>
-      <p class="shop-head__note" data-text="shop.note">Every piece is thrown and signed in Auckland, released in small editions. Once it sells, it's gone. Prices are in NZD.</p>
-    </div>
-    <div class="shop-head__bar">
-      <div class="filters" role="group" aria-label="Filter">
-        <button aria-pressed="true" data-filter="all">All</button>
-        <button aria-pressed="false" data-filter="vessels">Vessels</button>
-        <button aria-pressed="false" data-filter="tableware">Tableware</button>
-        <button aria-pressed="false" data-filter="lighting">Lighting</button>
+  <!-- shop plate - the edition, framed like the rest of the site (photo + floating panel) -->
+  <section class="manifesto manifesto--shop">
+    <img class="manifesto__bg" fetchpriority="high" src="images/shop-scene.jpg" alt="Hand-thrown bowls lined up on a console table" data-media="shop-scene" />
+    <div class="manifesto__panel shop-plate reveal">
+      <div class="manifesto__meta">
+        <span data-text="shop.label">The current edition</span>
+        <span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span>
       </div>
+      <div class="shop-plate__body">
+        <h1 class="display" data-lines="shop.heading">New pieces,<br />just in.</h1>
+        <p class="shop-plate__note" data-text="shop.note">Every piece is thrown and signed in Auckland, released in small editions. Once it sells, it's gone. Prices are in NZD.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- filter + sort bar: sticks under the nav while you scroll the grid -->
+  <div class="shop-bar" id="shop-bar">
+    <div class="filters" role="group" aria-label="Filter">
+      <button aria-pressed="true" data-filter="all">All</button>
+      <button aria-pressed="false" data-filter="vessels">Vessels</button>
+      <button aria-pressed="false" data-filter="tableware">Tableware</button>
+      <button aria-pressed="false" data-filter="lighting">Lighting</button>
+    </div>
+    <div class="shop-bar__right">
+      <span class="label shop-bar__count" id="shop-count"></span>
       <label class="sort">Sort ·
         <select id="sort" aria-label="Sort pieces">
           <option value="newest">newest</option>
@@ -63,7 +74,7 @@
         </select>
       </label>
     </div>
-  </section>
+  </div>
 
   <!-- grid -->
   <section class="shop-grid">
@@ -121,13 +132,36 @@
         });
         if (sortBy === "price-asc")  items = items.slice().sort(function (a, b) { return a.price - b.price; });
         if (sortBy === "price-desc") items = items.slice().sort(function (a, b) { return b.price - a.price; });
-        grid.innerHTML = items.length
-          ? items.map(cardHTML).join("")
+        var cards = items.map(cardHTML);
+        // a breath between the first and second rows: a dark band with a line from Craig
+        if (filter === "all" && cards.length > 3) {
+          cards.splice(3, 0,
+            '<div class="shop-break">' +
+              '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/shop-break.jpg" alt="The collection, seen from above" data-media="shop-break"></div>' +
+              '<div class="shop-break__text">' +
+                '<span class="label">From the studio</span>' +
+                '<p data-text="shop.break">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.break) || "Everything here came out of the last few firings. When a piece sells it isn\'t remade, so what you see is what there is.") + '</p>' +
+              '</div>' +
+            '</div>');
+        }
+        grid.innerHTML = cards.length
+          ? cards.join("")
           : '<p class="label" style="grid-column:1/-1; padding:48px 0;">Nothing in this category yet.</p>';
+        if (window.applyFocus) window.applyFocus();
+        var avail = items.filter(function (p) { return p.state !== "sold"; }).length;
+        document.getElementById("shop-count").textContent =
+          items.length + (items.length === 1 ? " piece" : " pieces") + " · " + avail + " available";
       }
 
       var currentFilter = "all";
       render(currentFilter);
+
+      // the bar sticks just under the (sticky) nav
+      function setNavH() {
+        var nav = document.querySelector(".nav");
+        document.documentElement.style.setProperty("--nav-h", (nav ? nav.offsetHeight : 76) + "px");
+      }
+      setNavH(); window.addEventListener("resize", setNavH);
 
       // functional sort (the control used to be decorative)
       document.getElementById("sort").addEventListener("change", function () {

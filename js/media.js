@@ -45,6 +45,10 @@ window.MEDIA = {
   /* studio page - the maker portrait beside the bio */
   "maker-portrait": "50% 30%",
 
+  /* shop - plate backdrop + the mid-grid break */
+  "shop-scene":  "50% 55%",
+  "shop-break":  "50% 50%",
+
   /* contact - the plate backdrop */
   "contact-scene": "50% 62%",
 
