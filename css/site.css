@@ -806,3 +806,10 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 /* contact: the FAQ sits under the dark plate, on the light ground */
 .faqs--contact{ border-top:none; }
 @media (prefers-reduced-motion:reduce){ .faq-item summary::after{ transition:none; } }
+
+/* contact plate, leaner: the form is the one path, the left column just frames it */
+.contact-plate__info{ align-self:center; }
+.contact-plate__promise{ margin:26px 0 0; padding-top:22px; border-top:1px solid var(--rule-dark); font-size:14px; line-height:1.66; color:var(--bone); max-width:32ch; }
+.contact-plate__aside{ margin:14px 0 0; font-size:13px; color:var(--fog); }
+.contact-plate__aside a{ color:var(--chalk); border-bottom:1px solid var(--rule-dark); transition:color .3s ease, border-color .3s ease; }
+.contact-plate__aside a:hover{ color:var(--ember-bright); border-color:var(--ember-bright); }
