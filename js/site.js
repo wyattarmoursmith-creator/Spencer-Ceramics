@@ -249,6 +249,44 @@
   }
 
   /* ---------- reveal sections as they scroll into view ---------- */
+  /* ------------------------------------------------------------
+     Plate focus: a mid-page statement plate starts transparent and
+     blurred, then resolves into focus as its section rises through
+     the viewport. Scroll-linked (tracks 1:1, no easing lag), so the
+     photo behind is what you see first.
+     Mark a plate with data-focus. Reduced motion: shown as-is.
+     ------------------------------------------------------------ */
+  function initPlateFocus() {
+    var panels = [].slice.call(document.querySelectorAll(".manifesto__panel[data-focus]"));
+    if (!panels.length) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      panels.forEach(function (p) { p.style.opacity = 1; });
+      return;
+    }
+    var TRAVEL = 0.62;   // fraction of the viewport the section travels while the plate resolves
+    var BLUR   = 14;     // px of blur at the start
+    var RISE   = 26;     // px the plate settles upward as it resolves
+    panels.forEach(function (p) { p.style.transition = "none"; p.style.willChange = "opacity, filter, transform"; });
+    var ticking = false;
+    function tick() {
+      ticking = false;
+      var vh = window.innerHeight;
+      panels.forEach(function (p) {
+        var r = p.parentElement.getBoundingClientRect();
+        var t = (vh - r.top) / (vh * TRAVEL);
+        t = t < 0 ? 0 : (t > 1 ? 1 : t);
+        var e = t * t * (3 - 2 * t);                       // smoothstep
+        p.style.opacity = e.toFixed(3);
+        p.style.filter = e >= 0.999 ? "none" : "blur(" + ((1 - e) * BLUR).toFixed(1) + "px)";
+        p.style.transform = "translateY(" + ((1 - e) * RISE).toFixed(1) + "px)";
+      });
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    tick();
+  }
+
   function initReveals() {
     var els = document.querySelectorAll(".reveal, .stagger");
     if (!els.length) return;
@@ -445,6 +483,7 @@
     initHeroCrossfade();
     initScrollFX();
     initReveals();
+    initPlateFocus();
     initScrollMotion();
     initTextSweep();
     paint();                                  // cart count (localStorage only)

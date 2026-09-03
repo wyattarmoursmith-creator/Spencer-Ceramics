@@ -1,5 +1,5 @@
 /* ============================================================
-   Spencer Ceramics — site styles
+   Spencer Ceramics - site styles
    Tokens, type, layout, components. Used by every page.
    ============================================================ */
 
@@ -243,7 +243,7 @@ button{font-family:inherit; cursor:pointer;}
 .gallery__cell:hover img{ transform:scale(1.04); }
 @media (max-width:880px){ .gallery__grid{ grid-template-columns:repeat(2,1fr); } }
 
-/* manifesto — a statement plate: dark panel floating over a full-bleed photo, framed with catalogue metadata */
+/* manifesto - a statement plate: dark panel floating over a full-bleed photo, framed with catalogue metadata */
 .manifesto{
   position:relative; overflow:hidden;
   min-height:90vh; display:grid; place-items:center;
@@ -262,21 +262,21 @@ button{font-family:inherit; cursor:pointer;}
 .manifesto__statement{ font-size:clamp(28px,3.6vw,46px); line-height:1.08; }
 .manifesto__cols{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(22px,3vw,44px); margin-top:clamp(30px,4vw,48px); }
 .manifesto__cols p{ font-size:14px; line-height:1.66; color:var(--bone); }
-/* studio variant — sits over a darker photo, so the panel is more sheer with a hairline edge */
+/* studio variant - sits over a darker photo, so the panel is more sheer with a hairline edge */
 .manifesto--studio .manifesto__panel{ background:rgba(11,11,12,0.8); border:1px solid rgba(239,236,230,0.1); }
 @media (max-width:620px){ .manifesto__cols{ grid-template-columns:1fr; gap:18px; } }
 
 /* ============================================================
    EDITORIAL METADATA + PULL-QUOTE (reference-style touches)
    ============================================================ */
-/* catalogue masthead — a thin metadata strip under the nav on inner pages */
+/* catalogue masthead - a thin metadata strip under the nav on inner pages */
 .masthead{
   display:flex; justify-content:space-between; gap:16px;
   padding:13px var(--gutter);
   font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase;
   color:var(--smoke); border-bottom:1px solid var(--rule);
 }
-/* same idea inside a hero — top corners, light-on-dark; fades with the hero on scroll */
+/* same idea inside a hero - top corners, light-on-dark; fades with the hero on scroll */
 .hero__meta{
   position:absolute; top:clamp(86px,13vh,124px); left:var(--gutter); right:var(--gutter);
   display:flex; justify-content:space-between; gap:16px;
@@ -285,7 +285,7 @@ button{font-family:inherit; cursor:pointer;}
 }
 @media (max-width:620px){ .masthead, .hero__meta{ font-size:9px; letter-spacing:0.14em; } }
 
-/* pull-quote — justified, letter-spaced caps in a dark | light split (ref 3) */
+/* pull-quote - justified, letter-spaced caps in a dark | light split (ref 3) */
 .pullquote{ display:grid; grid-template-columns:1.08fr 0.92fr; border-bottom:1px solid var(--rule); }
 .pullquote__text{
   background:var(--obsidian); color:var(--chalk);
@@ -304,7 +304,7 @@ button{font-family:inherit; cursor:pointer;}
 .pullquote__media img{ width:min(74%,340px); aspect-ratio:3/4; object-fit:cover; }
 @media (max-width:760px){ .pullquote{ grid-template-columns:1fr; } .pullquote__media{ min-height:320px; } }
 
-/* dark statement band (e.g. Commissions intro) — leans into the obsidian palette */
+/* dark statement band (e.g. Commissions intro) - leans into the obsidian palette */
 .statement.statement--dark{ background:var(--obsidian); color:var(--chalk); border-bottom:1px solid var(--rule-dark); }
 .statement.statement--dark .label{ color:var(--fog); }
 .statement.statement--dark p{ color:var(--bone); } /* compound selector beats the later, equal-specificity `.statement p` so the text stays light on the dark band */
@@ -460,7 +460,7 @@ html.js .reveal--late{ transition-delay:.12s; }
    ============================================================ */
 .contact-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); border-bottom:1px solid var(--rule); }
 
-/* left — ways to reach the studio. hierarchy: tiny label -> lead line -> prominent links */
+/* left - ways to reach the studio. hierarchy: tiny label -> lead line -> prominent links */
 .contact-info{ background:var(--bone); padding:clamp(40px,5vw,72px) var(--gutter); }
 .contact-info .label{ color:var(--ash); }
 .contact-info__intro{
@@ -482,7 +482,7 @@ html.js .reveal--late{ transition-delay:.12s; }
 }
 .channel__value:hover{ color:var(--ember); border-color:var(--ember); }
 
-/* RIGHT — "Send a message" on an obsidian backdrop, the form lifted onto a floating card.
+/* RIGHT - "Send a message" on an obsidian backdrop, the form lifted onto a floating card.
    A deliberate departure from the site's flat language: adds depth, with an ember CTA for warmth. */
 .contact-form{ background:var(--obsidian); padding:clamp(40px,5vw,72px) var(--gutter); }
 .contact-form__head{ display:block; color:var(--fog); margin-bottom:24px; }
@@ -871,3 +871,10 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 @media (max-width:880px){
   .stack .selected{ margin-top:-20px; box-shadow:0 -14px 34px rgba(11,11,12,0.18); }
 }
+
+/* statement plates: more opaque + a soft backdrop blur so busy photos stop
+   fighting the type; the studio plate sits on the busiest photo of all */
+.manifesto__panel{ -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px); }
+.manifesto--studio .manifesto__panel{ background:rgba(11,11,12,0.92); }
+/* plates that focus in on scroll start invisible (js/site.js initPlateFocus drives them) */
+.js .manifesto__panel[data-focus]{ opacity:0; }
