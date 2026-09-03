@@ -133,7 +133,7 @@ collections:
             widget: object
             collapsed: true
             fields:
-              - { label: "Edition label", name: label, widget: string, hint: "e.g. Edition N° 042 — June 2026" }
+              - { label: "Edition label", name: label, widget: string, hint: "e.g. The current firing" }
               - { label: "Heading", name: heading, widget: text }
               - { label: "Note under the heading", name: note, widget: text }
               - { label: "Mid-grid break line", name: break, widget: text, hint: "The line in the dark band between the first and second rows of pieces." }
