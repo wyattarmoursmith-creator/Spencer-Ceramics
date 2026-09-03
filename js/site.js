@@ -263,22 +263,28 @@
       panels.forEach(function (p) { p.style.opacity = 1; });
       return;
     }
-    var TRAVEL = 0.62;   // fraction of the viewport the section travels while the plate resolves
-    var BLUR   = 14;     // px of blur at the start
-    var RISE   = 26;     // px the plate settles upward as it resolves
+    // Timing is measured from the PLATE, not its section: the photo scrolls in
+    // on its own first, and the plate only starts to appear once its own top
+    // edge clears the bottom of the viewport (START), resolving by the time it
+    // reaches END. Then it floats into place: up, in from the right, and
+    // scaling up as it sharpens and solidifies.
+    var START = 0.96, END = 0.42;   // plate top, as a fraction of viewport height
+    var BLUR = 16, RISE = 96, DRIFT = 28, SCALE_FROM = 0.96;
     panels.forEach(function (p) { p.style.transition = "none"; p.style.willChange = "opacity, filter, transform"; });
     var ticking = false;
     function tick() {
       ticking = false;
       var vh = window.innerHeight;
       panels.forEach(function (p) {
-        var r = p.parentElement.getBoundingClientRect();
-        var t = (vh - r.top) / (vh * TRAVEL);
+        var top = p.parentElement.getBoundingClientRect().top + p.offsetTop;   // untransformed plate top
+        var t = (vh * START - top) / (vh * (START - END));
         t = t < 0 ? 0 : (t > 1 ? 1 : t);
         var e = t * t * (3 - 2 * t);                       // smoothstep
+        var u = 1 - e;
         p.style.opacity = e.toFixed(3);
-        p.style.filter = e >= 0.999 ? "none" : "blur(" + ((1 - e) * BLUR).toFixed(1) + "px)";
-        p.style.transform = "translateY(" + ((1 - e) * RISE).toFixed(1) + "px)";
+        p.style.filter = e >= 0.999 ? "none" : "blur(" + (u * BLUR).toFixed(1) + "px)";
+        p.style.transform = e >= 0.999 ? "none" :
+          "translate(" + (u * DRIFT).toFixed(1) + "px," + (u * RISE).toFixed(1) + "px) scale(" + (SCALE_FROM + e * (1 - SCALE_FROM)).toFixed(4) + ")";
       });
     }
     function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }
