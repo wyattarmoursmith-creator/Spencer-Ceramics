@@ -7,7 +7,7 @@
 <meta name="description" content="Notes from the Craig Spencer Ceramics studio. Australia + New Zealand." />
 <meta property="og:type" content="article" />
 <meta property="og:site_name" content="Craig Spencer Ceramics" />
-<meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
+<meta property="og:image" content="https://craigspencerceramics.com/images/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <!-- @partial head-assets -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -85,7 +85,7 @@
       // SEO: per-post description, canonical, and Article schema so Google can reference each note
       var desc = document.querySelector('meta[name="description"]');
       if (desc && p.excerpt) desc.setAttribute("content", p.excerpt);
-      var base = "https://spencerceramics.netlify.app/journal-post.html?id=" + p.id;
+      var base = "https://craigspencerceramics.com/journal-post.html?id=" + p.id;
       var canon = document.querySelector('link[rel="canonical"]');
       if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
       canon.href = base;
@@ -94,7 +94,7 @@
       ld.textContent = JSON.stringify({
         "@context": "https://schema.org", "@type": "Article",
         "headline": p.title, "description": p.excerpt || "",
-        "image": "https://spencerceramics.netlify.app/" + p.img,
+        "image": "https://craigspencerceramics.com/" + p.img,
         "author": { "@type": "Person", "name": "Craig Spencer" },
         "publisher": { "@type": "Organization", "name": "Craig Spencer Ceramics" },
         "mainEntityOfPage": base

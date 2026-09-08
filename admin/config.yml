@@ -15,8 +15,8 @@ media_folder: "images"
 # … and the URL they’re served from on the live site.
 public_folder: "/images"
 
-site_url: https://spencerceramics.netlify.app
-display_url: https://spencerceramics.netlify.app
+site_url: https://craigspencerceramics.com
+display_url: https://craigspencerceramics.com
 publish_mode: simple
 
 collections:

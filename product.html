@@ -8,7 +8,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Craig Spencer Ceramics" />
 <meta property="og:title" content="A piece by Craig Spencer Ceramics" />
-<meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
+<meta property="og:image" content="https://craigspencerceramics.com/images/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
 <!-- @partial head-assets -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -108,7 +108,7 @@
       var desc = document.querySelector('meta[name="description"]');
       var summary = (p.intro && p.intro[0]) || p.desc || (p.name + ", a handcrafted piece.");
       if (desc) desc.setAttribute("content", (summary.length > 150 ? summary.slice(0, 147).replace(/\s+\S*$/, "") + "..." : summary) + " Made and signed by Craig Spencer. Australia + New Zealand.");
-      var base = "https://spencerceramics.netlify.app/product.html?id=" + p.id;
+      var base = "https://craigspencerceramics.com/product.html?id=" + p.id;
       var canon = document.querySelector('link[rel="canonical"]');
       if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
       canon.href = base;
@@ -118,7 +118,7 @@
       ld.textContent = JSON.stringify({
         "@context": "https://schema.org", "@type": "Product",
         "name": p.name, "sku": String(p.ref), "description": summary,
-        "image": p.img.indexOf("http") === 0 ? p.img : "https://spencerceramics.netlify.app/" + p.img,
+        "image": p.img.indexOf("http") === 0 ? p.img : "https://craigspencerceramics.com/" + p.img,
         "brand": { "@type": "Brand", "name": "Craig Spencer Ceramics" },
         "offers": {
           "@type": "Offer", "url": base,
