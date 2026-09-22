@@ -933,3 +933,4 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 .pd__finish .label{ display:block; margin-bottom:8px; }
 .pd__finish p{ margin:0; max-width:46ch; font-size:13.5px; line-height:1.6; color:var(--smoke); }
 .pd__finish a{ font-size:12px; }
+.currency__note{ display:block; margin-top:6px; font-family:var(--body, inherit); font-size:12px; letter-spacing:0; color:var(--smoke); }

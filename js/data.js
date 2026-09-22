@@ -24,10 +24,33 @@ window.SHOPIFY = {
    Shoppers pick a currency; prices are requested from Shopify in that
    market and checkout opens in it. The list comes from the markets set
    up in Shopify, so enabling a currency there is all it takes for it
-   to appear on the site. Default is AUD when the store offers it. */
+   to appear on the site. Order of preference: the currency the shopper
+   chose, else the currency of the country they are visiting from (Netlify
+   geolocation via /geo, else the browser locale), else AUD, else the
+   store currency. Checkout is always charged in the shipping country's
+   currency, so matching the visitor's location keeps the two the same. */
 window.SC_CURRENCY_KEY = "sc_currency";
 window.SC_DEFAULT_CURRENCY = "AUD";
 function scPreferredCurrency() { try { return localStorage.getItem(window.SC_CURRENCY_KEY) || ""; } catch (e) { return ""; } }
+window.SC_GEO_KEY = "sc_geo";
+/* two-letter country the visitor is in; cached for a week, never blocks for long */
+function scGeoCountry() {
+  try {
+    var c = JSON.parse(localStorage.getItem(window.SC_GEO_KEY) || "null");
+    if (c && c.code && (Date.now() - c.at) < 7 * 864e5) return Promise.resolve(c.code);
+  } catch (e) {}
+  function fromLocale() {
+    var m = String((navigator.languages && navigator.languages[0]) || navigator.language || "").match(/[-_]([A-Za-z]{2})\b/);
+    return m ? m[1].toUpperCase() : "";
+  }
+  function remember(code) { try { localStorage.setItem(window.SC_GEO_KEY, JSON.stringify({ code: code, at: Date.now() })); } catch (e) {} return code; }
+  var ctl = ("AbortController" in window) ? new AbortController() : null;
+  var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 1500);
+  return fetch("/geo", { signal: ctl ? ctl.signal : undefined })
+    .then(function (r) { return r.ok ? r.json() : {}; })
+    .then(function (j) { clearTimeout(timer); var c = j && j.country; return c ? remember(c) : fromLocale(); })   // only a real answer is cached
+    .catch(function () { clearTimeout(timer); return fromLocale(); });
+}
 function scGql(query) {
   var s = window.SHOPIFY;
   return fetch("https://" + s.domain + "/api/" + s.version + "/graphql.json", {
@@ -41,20 +64,29 @@ function scGql(query) {
 function scResolveMarket() {
   var s = window.SHOPIFY;
   var HOME = { AUD: "AU", NZD: "NZ", USD: "US", GBP: "GB", EUR: "DE", CAD: "CA", JPY: "JP", SGD: "SG" };
-  return scGql("{ localization { country { isoCode currency { isoCode } } availableCountries { isoCode currency { isoCode } } } }")
-  .then(function (j) {
+  return Promise.all([
+    scGql("{ localization { country { isoCode currency { isoCode } } availableCountries { isoCode currency { isoCode } } } }"),
+    scGeoCountry()
+  ])
+  .then(function (res) {
+    var j = res[0], geo = (res[1] || "").toUpperCase();
     var loc = j && j.data && j.data.localization;
     if (!loc) return;
-    var seen = {}, list = [];
+    var seen = {}, list = [], byCountry = {};
     (loc.availableCountries || []).forEach(function (c) {
       var code = c.currency && c.currency.isoCode; if (!code) return;
+      byCountry[c.isoCode] = code;
       if (!seen[code]) { seen[code] = { code: code, country: c.isoCode }; list.push(seen[code]); }
       if (HOME[code] === c.isoCode) seen[code].country = c.isoCode;
     });
     list.sort(function (a, b) { return a.code < b.code ? -1 : 1; });
-    var want = scPreferredCurrency() || window.SC_DEFAULT_CURRENCY;
-    var pick = seen[want] || (loc.country && seen[loc.country.currency.isoCode]) || list[0];
+    var chosen = scPreferredCurrency();
+    var pick = null;
+    if (chosen && seen[chosen]) pick = seen[chosen];                                   // the shopper picked one
+    else if (!chosen && geo && byCountry[geo]) pick = { code: byCountry[geo], country: geo };   // where they are
+    else pick = seen[window.SC_DEFAULT_CURRENCY] || (loc.country && seen[loc.country.currency.isoCode]) || list[0];
     s.currencies = list;
+    s.geo = geo;
     if (pick) { s.currency = pick.code; s.country = pick.country; }
   })
   .catch(function () { /* fall through to the store's own currency */ });

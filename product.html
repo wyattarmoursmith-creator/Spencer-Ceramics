@@ -113,7 +113,7 @@
           '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : (p.state.charAt(0).toUpperCase() + p.state.slice(1))) + '</div>' +
           '<h1 class="pd__name">' + p.name + '</h1>' +
           '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (p.currency || (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD')) + '</div>' +
-          '<label class="sort currency pd__currency" data-currency data-currency-hide-single><span class="currency__one"></span><span class="currency__pick" hidden>Show prices in · <select aria-label="Currency"></select></span></label>' +
+          '<label class="sort currency pd__currency" data-currency data-currency-hide-single><span class="currency__one"></span><span class="currency__pick" hidden>Show prices in · <select aria-label="Currency"></select><span class="currency__note">Charged in the currency of your shipping country.</span></span></label>' +
           '<p class="pd__desc">' + (p.desc || 'Thrown and finished by hand in the Auckland studio. Each one carries its own surface, and its own weight in the hand.') + '</p>' +
           '<div class="pd__meta">' +
             parts.map(function (x, i) {

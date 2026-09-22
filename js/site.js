@@ -158,7 +158,7 @@
           '<div class="summary__total"><span>Total</span><span class="tnum">' + money(sub) + ' ' + cur() + '</span></div>' +
           '<button class="btn btn--fill btn--block" style="margin-top:30px" data-checkout>Secure checkout · Shopify <span class="arrow">&rarr;</span></button>' +
           '<button class="btn btn--ghost btn--block" style="margin-top:12px" data-checkout>Express · Shop Pay <span class="arrow">&rarr;</span></button>' +
-          '<div class="summary__note">Every piece is securely wrapped and packed by hand. Tracking provided once your order ships. <a href="faq.html" style="border-bottom:1px solid currentColor">Shipping &amp; FAQ</a></div>' +
+          '<div class="summary__note">Orders are charged in the currency of the shipping country. Every piece is securely wrapped and packed by hand. Tracking provided once your order ships. <a href="faq.html" style="border-bottom:1px solid currentColor">Shipping &amp; FAQ</a></div>' +
         '</aside>' +
       '</div>';
 
