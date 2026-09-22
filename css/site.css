@@ -916,3 +916,20 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 
 /* plate focus: one heading line per span, block-laid so it can move on its own */
 .manifesto__panel[data-focus] .manifesto__statement .pl{ display:block; }
+
+/* ============================================================
+   CURRENCY PICKER + FIRING NOTE (2026-09)
+   ============================================================ */
+.currency select{
+  font:inherit; font-family:var(--mono); font-size:12px; letter-spacing:0.02em;
+  color:var(--ink); background:transparent; border:none; border-bottom:1px solid var(--rule);
+  padding:2px 2px 3px; cursor:pointer;
+}
+.currency select:focus-visible{ outline:1px solid var(--ember); outline-offset:3px; }
+.currency__one b{ font-weight:500; color:var(--ink); }
+.pd__currency{ display:block; margin:-14px 0 24px; }
+.summary .currency select{ font-size:13px; color:inherit; }
+.pd__finish{ margin-top:22px; padding-top:18px; border-top:1px solid var(--rule); }
+.pd__finish .label{ display:block; margin-bottom:8px; }
+.pd__finish p{ margin:0; max-width:46ch; font-size:13.5px; line-height:1.6; color:var(--smoke); }
+.pd__finish a{ font-size:12px; }

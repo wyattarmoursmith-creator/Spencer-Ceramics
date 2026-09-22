@@ -15,8 +15,50 @@ window.SHOPIFY = {
   domain:   "spencer-ceramics-2.myshopify.com",
   token:    "d1c2f3c092fff343f37ed2e12b6f2e73",
   version:  "2025-10",
-  currency: "NZD"
+  currency: "NZD",        // updated to the shopper's currency once the catalogue loads
+  country:  "",           // market the prices were fetched for (drives checkout too)
+  currencies: []          // [{ code, country }] offered by the store's markets
 };
+
+/* ---- currency ----------------------------------------------------
+   Shoppers pick a currency; prices are requested from Shopify in that
+   market and checkout opens in it. The list comes from the markets set
+   up in Shopify, so enabling a currency there is all it takes for it
+   to appear on the site. Default is AUD when the store offers it. */
+window.SC_CURRENCY_KEY = "sc_currency";
+window.SC_DEFAULT_CURRENCY = "AUD";
+function scPreferredCurrency() { try { return localStorage.getItem(window.SC_CURRENCY_KEY) || ""; } catch (e) { return ""; } }
+function scGql(query) {
+  var s = window.SHOPIFY;
+  return fetch("https://" + s.domain + "/api/" + s.version + "/graphql.json", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": s.token },
+    body: JSON.stringify({ query: query })
+  }).then(function (r) { return r.json(); });
+}
+/* one entry per currency; the representative country is the one that
+   uses it at home (AU for AUD, NZ for NZD), else the first market that offers it */
+function scResolveMarket() {
+  var s = window.SHOPIFY;
+  var HOME = { AUD: "AU", NZD: "NZ", USD: "US", GBP: "GB", EUR: "DE", CAD: "CA", JPY: "JP", SGD: "SG" };
+  return scGql("{ localization { country { isoCode currency { isoCode } } availableCountries { isoCode currency { isoCode } } } }")
+  .then(function (j) {
+    var loc = j && j.data && j.data.localization;
+    if (!loc) return;
+    var seen = {}, list = [];
+    (loc.availableCountries || []).forEach(function (c) {
+      var code = c.currency && c.currency.isoCode; if (!code) return;
+      if (!seen[code]) { seen[code] = { code: code, country: c.isoCode }; list.push(seen[code]); }
+      if (HOME[code] === c.isoCode) seen[code].country = c.isoCode;
+    });
+    list.sort(function (a, b) { return a.code < b.code ? -1 : 1; });
+    var want = scPreferredCurrency() || window.SC_DEFAULT_CURRENCY;
+    var pick = seen[want] || (loc.country && seen[loc.country.currency.isoCode]) || list[0];
+    s.currencies = list;
+    if (pick) { s.currency = pick.code; s.country = pick.country; }
+  })
+  .catch(function () { /* fall through to the store's own currency */ });
+}
 
 window.CATALOG  = [];
 window.JOURNAL  = [];
@@ -36,6 +78,8 @@ function scMapProduct(node) {
   var amount = (v && v.price && v.price.amount) ||
                (node.priceRange && node.priceRange.minVariantPrice && node.priceRange.minVariantPrice.amount) || "0";
   var price  = Math.round(parseFloat(amount) * 100) / 100;
+  var cur    = (v && v.price && v.price.currencyCode) ||
+               (node.priceRange && node.priceRange.minVariantPrice && node.priceRange.minVariantPrice.currencyCode) || window.SHOPIFY.currency;
   var avail  = !!node.availableForSale && (!v || v.availableForSale);
   var qty    = (v && typeof v.quantityAvailable === "number") ? v.quantityAvailable
              : (typeof node.totalInventory === "number" ? node.totalInventory : null);
@@ -59,6 +103,7 @@ function scMapProduct(node) {
     spec:       spec,
     desc:       desc,
     price:      price,
+    currency:   cur,
     state:      state,
     img:        (node.featuredImage && node.featuredImage.url) || images[0] || "",
     images:     images,
@@ -71,20 +116,16 @@ function scMapProduct(node) {
 
 function scFetchProducts() {
   var s = window.SHOPIFY;
-  var query =
+  var ctx = s.country ? "query @inContext(country: " + s.country + ") " : "";
+  var query = ctx +
     "{ products(first: 60, sortKey: CREATED_AT, reverse: true) { edges { node { " +
       "id handle title description productType availableForSale totalInventory " +
       "featuredImage { url } images(first: 6) { edges { node { url } } } " +
       "spec: metafield(namespace: \"custom\", key: \"spec\") { value } " +
-      "priceRange { minVariantPrice { amount } } " +
-      "variants(first: 1) { edges { node { id sku availableForSale quantityAvailable price { amount } } } } " +
+      "priceRange { minVariantPrice { amount currencyCode } } " +
+      "variants(first: 1) { edges { node { id sku availableForSale quantityAvailable price { amount currencyCode } } } } " +
     "} } } }";
-  return fetch("https://" + s.domain + "/api/" + s.version + "/graphql.json", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": s.token },
-    body: JSON.stringify({ query: query })
-  })
-  .then(function (r) { return r.json(); })
+  return scGql(query)
   .then(function (j) {
     if (j && j.errors) throw new Error("Shopify Storefront errors: " + JSON.stringify(j.errors));
     if (!j || !j.data || !j.data.products) throw new Error("Shopify: unexpected response");
@@ -93,7 +134,7 @@ function scFetchProducts() {
 }
 
 window._dataReady = Promise.all([
-  scFetchProducts().catch(function (err) {
+  scResolveMarket().then(scFetchProducts).catch(function (err) {
     console.error("[shop] Shopify products failed to load - the shop will show empty until it's reachable.", err);
     return [];
   }),

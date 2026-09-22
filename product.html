@@ -56,7 +56,7 @@
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
     <div class="footer__cell"><span>Journal</span><a href="journal.html">Notes from the studio →</a></div>
-    <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/spencerceramics">@spencerceramics</a></div>
+    <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
 
@@ -92,7 +92,7 @@
         "brand": { "@type": "Brand", "name": "Craig Spencer Ceramics" },
         "offers": {
           "@type": "Offer", "url": base,
-          "price": p.price.toFixed(2), "priceCurrency": (window.SHOPIFY ? window.SHOPIFY.currency : "NZD"),
+          "price": p.price.toFixed(2), "priceCurrency": p.currency || (window.SHOPIFY ? window.SHOPIFY.currency : "NZD"),
           "availability": sold ? "https://schema.org/SoldOut" : "https://schema.org/InStock"
         }
       });
@@ -112,7 +112,8 @@
         '<aside class="pd__panel">' +
           '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : (p.state.charAt(0).toUpperCase() + p.state.slice(1))) + '</div>' +
           '<h1 class="pd__name">' + p.name + '</h1>' +
-          '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD') + '</div>' +
+          '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (p.currency || (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD')) + '</div>' +
+          '<label class="sort currency pd__currency" data-currency data-currency-hide-single><span class="currency__one"></span><span class="currency__pick" hidden>Show prices in · <select aria-label="Currency"></select></span></label>' +
           '<p class="pd__desc">' + (p.desc || 'Thrown and finished by hand in the Auckland studio. Each one carries its own surface, and its own weight in the hand.') + '</p>' +
           '<div class="pd__meta">' +
             parts.map(function (x, i) {
@@ -121,6 +122,7 @@
             }).join("") +
             (/\bof\b/.test(p.state) ? '<div><span>Edition</span><span>' + p.state + '</span></div>' : '') +
           '</div>' +
+          '<div class="pd__finish"><span class="label">Firing &amp; finish</span><p data-text="product.finish">' + ((window.PAGES && window.PAGES.product && window.PAGES.product.finish) || 'Fired to 1220°C with food-safe glazes. Unglazed surfaces are sealed with Liquid Quartz®, a clear silica-based sealer that leaves a durable, non-toxic, water-resistant finish, safe for everyday food contact once cured.') + ' <a class="link-underline" href="faq.html#materials">More on materials</a></p></div>' +
           '<div class="pd__buy">' +
             (sold
               ? '<button class="btn btn--ghost btn--block" disabled style="opacity:.5; cursor:not-allowed">Sold</button>'

@@ -137,6 +137,12 @@ collections:
               - { label: "Heading", name: heading, widget: text }
               - { label: "Note under the heading", name: note, widget: text }
               - { label: "Mid-grid break line", name: break, widget: text, hint: "The line in the dark band between the first and second rows of pieces." }
+          - label: "Product page"
+            name: product
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Firing & finish note", name: finish, widget: text, hint: "Shown on every piece under the details. The full version lives on the FAQ page." }
           - label: "About / Studio"
             name: about
             widget: object

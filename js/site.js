@@ -9,7 +9,7 @@
    ============================================================ */
 (function () {
   var KEY = "sc_cart_v1";
-  var CURRENCY = (window.SHOPIFY && window.SHOPIFY.currency) || "NZD";   // shipping is calculated by Shopify at checkout
+  function cur() { return (window.SHOPIFY && window.SHOPIFY.currency) || "NZD"; }   // read late: data.js sets it once the catalogue loads
 
   /* ---------- storage ---------- */
   function load() {
@@ -154,12 +154,15 @@
           '<div class="label" style="margin-bottom:24px">Summary</div>' +
           '<div class="summary__row"><span>Subtotal</span><span class="tnum">' + money(sub) + '</span></div>' +
           '<div class="summary__row"><span>Shipping</span><span>Calculated at checkout</span></div>' +
-          '<div class="summary__total"><span>Total</span><span class="tnum">' + money(sub) + ' ' + CURRENCY + '</span></div>' +
+          '<div class="summary__row"><span>Currency</span><span class="currency" data-currency><span class="currency__one" data-currency-code>' + cur() + '</span><span class="currency__pick" hidden><select aria-label="Currency"></select></span></span></div>' +
+          '<div class="summary__total"><span>Total</span><span class="tnum">' + money(sub) + ' ' + cur() + '</span></div>' +
           '<button class="btn btn--fill btn--block" style="margin-top:30px" data-checkout>Secure checkout · Shopify <span class="arrow">&rarr;</span></button>' +
           '<button class="btn btn--ghost btn--block" style="margin-top:12px" data-checkout>Express · Shop Pay <span class="arrow">&rarr;</span></button>' +
           '<div class="summary__note">Every piece is securely wrapped and packed by hand. Tracking provided once your order ships. <a href="faq.html" style="border-bottom:1px solid currentColor">Shipping &amp; FAQ</a></div>' +
         '</aside>' +
       '</div>';
+
+    initCurrency();
 
     // wire row controls
     wrap.querySelectorAll("[data-inc]").forEach(function (b) {
@@ -189,11 +192,13 @@
           items.map(function (l) { return l.product.variantNum + ":" + l.qty; }).join(",");
         /* preferred: create a Shopify cart and jump straight to its secure checkout */
         var lines = items.map(function (l) { return { merchandiseId: l.product.variantId, quantity: l.qty }; });
-        var q = "mutation($lines:[CartLineInput!]!){ cartCreate(input:{lines:$lines}){ cart{ checkoutUrl } userErrors{ message } } }";
+        /* buyerIdentity carries the chosen market so checkout opens in the same currency */
+        var q = "mutation($lines:[CartLineInput!]!,$buyer:CartBuyerIdentityInput){ cartCreate(input:{lines:$lines,buyerIdentity:$buyer}){ cart{ checkoutUrl } userErrors{ message } } }";
+        var buyer = s.country ? { countryCode: s.country } : null;
         fetch("https://" + s.domain + "/api/" + s.version + "/graphql.json", {
           method: "POST",
           headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": s.token },
-          body: JSON.stringify({ query: q, variables: { lines: lines } })
+          body: JSON.stringify({ query: q, variables: { lines: lines, buyer: buyer } })
         })
         .then(function (r) { return r.json(); })
         .then(function (j) {
@@ -204,6 +209,30 @@
       });
     });
   }
+
+  /* ---------- currency picker ----------
+     Any [data-currency] element: shows the active currency, and becomes a
+     select once the store offers more than one. Changing it reloads so
+     every price on the page is re-fetched in the new currency. */
+  function initCurrency() {
+    var s = window.SHOPIFY || {}; var list = s.currencies || [];
+    document.querySelectorAll("[data-currency]").forEach(function (el) {
+      if (el.dataset.currencyReady) return;
+      el.dataset.currencyReady = "1";
+      el.querySelectorAll("[data-currency-code]").forEach(function (c) { c.textContent = s.currency || "NZD"; });
+      var one = el.querySelector(".currency__one"), pick = el.querySelector(".currency__pick"), sel = el.querySelector("select");
+      if (list.length < 2 || !sel) { if (el.hasAttribute("data-currency-hide-single")) el.hidden = true; return; }
+      sel.innerHTML = list.map(function (c) { return '<option value="' + c.code + '">' + c.code + '</option>'; }).join("");
+      sel.value = s.currency;
+      if (one) one.hidden = true; if (pick) pick.hidden = false;
+      sel.addEventListener("change", function () {
+        try { localStorage.setItem(window.SC_CURRENCY_KEY || "sc_currency", sel.value); } catch (e) {}
+        window.location.reload();
+      });
+    });
+  }
+
+  window.scInitCurrency = initCurrency;   // pages that re-render their own markup can call this
 
   function currentQty(id) {
     var l = window.Cart.items().find(function (x) { return x.product.id === id; });
@@ -565,5 +594,6 @@
     if (window.onData) window.onData(paint);          // render cart lines once content loads
     if (window.onData) window.onData(applySettings);  // footer + contact details
     if (window.onData) window.onData(applyPages);     // editable page copy
+    if (window.onData) window.onData(function () { window.onData(initCurrency); });  // after each page has rendered its own markup
   });
 })();
