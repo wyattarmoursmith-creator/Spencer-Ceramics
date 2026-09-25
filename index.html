@@ -181,16 +181,23 @@
     window.onData(function () {
       var pick = window.CATALOG.slice(0, 3);
       document.getElementById("teaser").innerHTML = pick.map(function (p) {
+        var sold = p.state === "sold";
         return '' +
-        '<a class="card" href="product.html?id=' + p.id + '">' +
+        '<a class="card' + (sold ? ' is-sold' : '') + '" href="product.html?id=' + p.id + '">' +
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
+            (sold ? '<span class="card__tag">Sold</span>' : '') +
             '<img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
           '</div>' +
           '<div class="card__row">' +
-            '<div><div class="card__name">' + p.name + '</div>' +
-            '<div class="card__spec">' + p.spec + '</div></div>' +
+            '<div class="card__name">' + p.name + '</div>' +
             '<div class="card__price tnum">$ ' + p.price + '</div>' +
+          '</div>' +
+          '<div class="card__actions">' +
+            (sold
+              ? '<span class="card__state">Sold</span>'
+              : '<button class="btn btn--ghost btn--pill card__add" type="button" data-add="' + p.id + '">Add to cart <span class="arrow">&rarr;</span></button>' +
+                '<span class="card__state">' + p.state + '</span>') +
           '</div>' +
         '</a>';
       }).join("");

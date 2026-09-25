@@ -149,13 +149,19 @@
       document.getElementById("related").innerHTML = window.CATALOG
         .filter(function (x) { return x.id !== p.id; }).slice(0, 3)
         .map(function (q) {
+          var qs = q.state === "sold";
           return '' +
-          '<a class="card" href="product.html?id=' + q.id + '">' +
-            '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' +
+          '<a class="card' + (qs ? ' is-sold' : '') + '" href="product.html?id=' + q.id + '">' +
+            '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' + (qs ? '<span class="card__tag">Sold</span>' : '') +
               '<img loading="lazy" decoding="async" src="' + q.img + '" alt="' + q.name + '" data-media="' + q.id + '"></div>' +
-            '<div class="card__row"><div><div class="card__name">' + q.name + '</div>' +
-              '<div class="card__spec">' + q.spec + '</div></div>' +
+            '<div class="card__row"><div class="card__name">' + q.name + '</div>' +
               '<div class="card__price tnum">$ ' + q.price + '</div></div>' +
+            '<div class="card__actions">' +
+              (qs
+                ? '<span class="card__state">Sold</span>'
+                : '<button class="btn btn--ghost btn--pill card__add" type="button" data-add="' + q.id + '">Add to cart <span class="arrow">&rarr;</span></button>' +
+                  '<span class="card__state">' + q.state + '</span>') +
+            '</div>' +
           '</a>';
         }).join("");
 
