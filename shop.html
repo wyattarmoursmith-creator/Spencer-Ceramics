@@ -66,6 +66,7 @@
       <button aria-pressed="false" data-filter="tableware">Tableware</button>
       <button aria-pressed="false" data-filter="petite-pots">Petite pots</button>
       <button aria-pressed="false" data-filter="canisters">Canisters</button>
+      <button aria-pressed="false" data-filter="everyday" class="filters__everyday">The Everyday</button>
       <!-- Lighting filter hidden for now (no lighting pieces listed yet): remove `hidden` to bring it back -->
       <button aria-pressed="false" data-filter="lighting" hidden>Lighting</button>
     </div>
@@ -149,8 +150,11 @@
         var wrap = document.getElementById("subfilters");
         if (filter === "all") { wrap.hidden = true; wrap.innerHTML = ""; return; }
         var counts = {}, order = [];
-        inCat.forEach(function (p) { (p.tags || []).forEach(function (t) { if (!counts[t]) { counts[t] = 0; order.push(t); } counts[t]++; }); });
+        inCat.forEach(function (p) { (p.tags || []).forEach(function (t) { if (t === "everyday") return; if (!counts[t]) { counts[t] = 0; order.push(t); } counts[t]++; }); });
         if (order.length < 2) { wrap.hidden = true; wrap.innerHTML = ""; return; }
+        // table first, then objects; anything unlisted follows by size
+        var PREF = ["Coffee cups", "Bowls", "Lidded canisters", "Incense holders", "Oil burners", "Petite vases", "Small vases", "Tall vases", "Handbuilt vases", "Sculptural vases", "Pedestal bowls"];
+        order.sort(function (a, b) { var ia = PREF.indexOf(a), ib = PREF.indexOf(b); if (ia < 0) ia = 99; if (ib < 0) ib = 99; return ia - ib || counts[b] - counts[a]; });
         wrap.hidden = false;
         wrap.innerHTML = ['<button aria-pressed="' + (currentSub ? "false" : "true") + '" data-sub="">All</button>'].concat(order.map(function (t) {
           return '<button aria-pressed="' + (currentSub === t ? "true" : "false") + '" data-sub="' + t.replace(/"/g, "&quot;") + '">' + t + ' <i>' + counts[t] + '</i></button>';
@@ -161,6 +165,7 @@
       }
       function render(filter) {
         var inCat = window.CATALOG.filter(function (p) {
+          if (filter === "everyday") return (p.tags || []).indexOf("everyday") >= 0;   // the ongoing runs, whatever their type
           return filter === "all" || (p.category || "") === filter;
         });
         renderSubfilters(filter, inCat);
@@ -172,6 +177,18 @@
         if (sortBy === "price-asc")  items = items.slice().sort(function (a, b) { return a.price - b.price; });
         if (sortBy === "price-desc") items = items.slice().sort(function (a, b) { return b.price - a.price; });
         var cards = items.map(cardHTML);
+        // the Everyday, for people who start in the shop: a band after the second row, or at the top of its own filter
+        var everydayBand = '' +
+          '<div class="shop-break shop-break--everyday">' +
+            '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/stock/loop-cup.jpg" alt="Cups from the current run" data-media="everyday-scene"></div>' +
+            '<div class="shop-break__text">' +
+              '<span class="label">The Everyday</span>' +
+              '<p data-text="shop.everyday">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.everyday) || "Cups, tumblers, tea bowls and canisters, made in ongoing runs. Always here, sold singly or in sets.") + '</p>' +
+              '<a class="btn btn--ghost btn--pill shop-break__cta" href="everyday.html">See the Everyday <span class="arrow">&rarr;</span></a>' +
+            '</div>' +
+          '</div>';
+        if (filter === "everyday" && cards.length) cards.unshift(everydayBand);
+        else if (filter === "all" && cards.length > 6) cards.splice(6, 0, everydayBand);
         // a breath between the first and second rows: a dark band with a line from Craig
         if (filter === "all" && cards.length > 3) {
           cards.splice(3, 0,

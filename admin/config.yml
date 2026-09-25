@@ -85,6 +85,7 @@ collections:
               - { label: "Studio page — Maker portrait (tall)", name: "maker-portrait", widget: image }
               - { label: "Shop — Plate background (wide)", name: "shop-scene", widget: image }
               - { label: "Shop — Mid-grid break photo (wide)", name: "shop-break", widget: image }
+              - { label: "Shop — Everyday band photo (cups from the run)", name: "everyday-scene", widget: image }
 
   # ---------------- SITE & CONTACT ----------------
   - name: settings
@@ -140,6 +141,7 @@ collections:
               - { label: "Heading", name: heading, widget: text }
               - { label: "Note under the heading", name: note, widget: text }
               - { label: "Mid-grid break line", name: break, widget: text, hint: "The line in the dark band between the first and second rows of pieces." }
+              - { label: "Everyday band line", name: everyday, widget: text, hint: "The light band after the second row that points to The Everyday page." }
           - label: "The Everyday page"
             name: everyday
             widget: object
