@@ -225,10 +225,13 @@
 
       /* the bar folds to one line while you scroll down the grid and opens again on the way back up */
       var bar = document.getElementById("shop-bar"), mini = bar.querySelector(".shop-bar__mini");
-      var lastY = window.scrollY, collapsed = false;
+      var lastY = window.scrollY, collapsed = false, travel = 0, quietUntil = 0;
+      var FOLD_AFTER = 140, OPEN_AFTER = 90, QUIET = 350;   // px of travel in one direction before changing; ms to ignore after a change
       function setCollapsed(on) {
         if (on === collapsed) return;
         collapsed = on; bar.classList.toggle("is-collapsed", on); mini.setAttribute("aria-expanded", on ? "false" : "true");
+        travel = 0; quietUntil = Date.now() + QUIET;   // the bar changed height, so the next few scroll events are its own doing
+        lastY = window.scrollY;
       }
       function miniLabel() {
         var el = document.querySelector(".shop-bar__mini-label"); if (!el) return;
@@ -239,11 +242,16 @@
       }
       window.addEventListener("scroll", function () {
         var y = window.scrollY, dy = y - lastY; lastY = y;
-        var nav = document.querySelector(".nav");
-        var stuck = bar.getBoundingClientRect().top <= (nav ? nav.offsetHeight : 76) + 1;
-        if (!stuck) { setCollapsed(false); return; }
-        if (dy > 6) setCollapsed(true);          // heading down into the grid: fold away
-        else if (dy < -6) setCollapsed(false);   // coming back up: open
+        if (Date.now() < quietUntil) return;
+        var nav = document.querySelector(".nav"), navH = nav ? nav.offsetHeight : 76;
+        var grid = document.querySelector(".shop-grid");
+        // only once the reader is properly into the grid (a full bar-height past the point where it sticks)
+        var inGrid = y > grid.offsetTop - navH + 40;
+        if (!inGrid) { setCollapsed(false); return; }
+        // accumulate travel in one direction; a change of direction starts the count again
+        travel = (dy > 0) === (travel > 0) ? travel + dy : dy;
+        if (!collapsed && travel > FOLD_AFTER) setCollapsed(true);        // heading down into the grid: fold away
+        else if (collapsed && travel < -OPEN_AFTER) setCollapsed(false);  // coming back up: open
       }, { passive: true });
       mini.addEventListener("click", function () { setCollapsed(false); });
 
