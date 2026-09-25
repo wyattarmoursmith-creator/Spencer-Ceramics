@@ -74,6 +74,10 @@
     <div class="shop-bar__right">
       <span class="label shop-bar__count" id="shop-count"></span>
       <label class="toggle"><input type="checkbox" id="avail-only"><span>Available only</span></label>
+      <div class="density" role="group" aria-label="Card size">
+        <button type="button" data-density="roomy" aria-pressed="true" aria-label="Larger cards"><i></i><i></i></button>
+        <button type="button" data-density="compact" aria-pressed="false" aria-label="Smaller cards, more pieces"><i></i><i></i><i></i><i></i></button>
+      </div>
       <label class="sort currency" data-currency><span class="currency__one">Prices in <b data-currency-code>NZD</b></span><span class="currency__pick" hidden>Currency ·
         <select aria-label="Currency"></select></span></label>
       <label class="sort">Sort ·
@@ -85,6 +89,12 @@
       </label>
     </div>
   </div>
+
+  <!-- the latest firing: whatever Craig tags "new", else the most recently added pieces -->
+  <section class="newin" id="newin" hidden>
+    <div class="newin__head"><span class="label">New in</span><span class="label newin__count"></span></div>
+    <div class="newin__row" id="newin-row"></div>
+  </section>
 
   <!-- grid -->
   <section class="shop-grid">
@@ -169,6 +179,7 @@
           return filter === "all" || (p.category || "") === filter;
         });
         renderSubfilters(filter, inCat);
+        var newin = document.getElementById("newin"); if (newin && newin.dataset.ready) newin.hidden = (filter !== "all" || availOnly);
         var items = inCat.filter(function (p) {
           if (currentSub && (p.tags || []).indexOf(currentSub) < 0) return false;
           if (availOnly && p.state === "sold") return false;
@@ -211,6 +222,38 @@
 
       var currentFilter = "all";
       render(currentFilter);
+
+      /* New in: pieces tagged "new", else the batch added most recently (same day), newest first, up to 8 */
+      function renderNewIn() {
+        var all = window.CATALOG.filter(function (p) { return p.state !== "sold"; });
+        var tagged = all.filter(function (p) { return (p.tags || []).some(function (t) { return /^new( in)?$/i.test(t); }); });
+        var pick = tagged;
+        if (!pick.length) {
+          var latest = all.reduce(function (m, p) { var d = (p.created || "").slice(0, 10); return d > m ? d : m; }, "");
+          pick = all.filter(function (p) { return (p.created || "").slice(0, 10) === latest; });
+        }
+        pick = pick.slice().sort(function (a, b) { return (b.created || "") < (a.created || "") ? -1 : 1; }).slice(0, 8);
+        var sec = document.getElementById("newin");
+        if (pick.length < 2) { sec.hidden = true; return; }
+        document.getElementById("newin-row").innerHTML = pick.map(cardHTML).join("");
+        sec.querySelector(".newin__count").textContent = pick.length + " pieces";
+        sec.hidden = false; sec.dataset.ready = "1";
+        if (window.applyFocus) window.applyFocus();
+      }
+      renderNewIn();
+
+      /* card size: two-up (roomy) or four-up (compact), remembered */
+      var gridWrap = document.querySelector(".shop-grid");
+      function setDensity(d, save) {
+        gridWrap.setAttribute("data-density", d);
+        document.querySelectorAll(".density button").forEach(function (b) { b.setAttribute("aria-pressed", b.getAttribute("data-density") === d ? "true" : "false"); });
+        if (save) { try { localStorage.setItem("sc_density", d); } catch (e) {} }
+      }
+      var savedDensity = ""; try { savedDensity = localStorage.getItem("sc_density") || ""; } catch (e) {}
+      setDensity(savedDensity === "compact" ? "compact" : "roomy", false);
+      document.querySelectorAll(".density button").forEach(function (b) {
+        b.addEventListener("click", function () { setDensity(b.getAttribute("data-density"), true); });
+      });
 
       // the bar sticks just under the (sticky) nav
       function setNavH() {
