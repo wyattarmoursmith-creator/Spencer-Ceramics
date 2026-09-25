@@ -62,6 +62,7 @@
   <div class="shop-bar" id="shop-bar">
     <!-- collapsed state: one slim line while scrolling down through the grid; tap or scroll up to open -->
     <button class="shop-bar__mini" type="button" aria-expanded="true" aria-controls="shop-bar"><span class="shop-bar__mini-label">All</span><span class="shop-bar__mini-hint">Filters &amp; sort</span></button>
+    <div class="shop-bar__full">
     <div class="filters" role="group" aria-label="Filter">
       <button aria-pressed="true" data-filter="all">All</button>
       <button aria-pressed="false" data-filter="everyday" class="filters__everyday">The Everyday</button>
@@ -87,6 +88,7 @@
           <option value="price-desc">price, high to low</option>
         </select>
       </label>
+    </div>
     </div>
   </div>
 
@@ -227,9 +229,19 @@
       var bar = document.getElementById("shop-bar"), mini = bar.querySelector(".shop-bar__mini");
       var lastY = window.scrollY, collapsed = false, travel = 0, quietUntil = 0;
       var FOLD_AFTER = 140, OPEN_AFTER = 90, QUIET = 350;   // px of travel in one direction before changing; ms to ignore after a change
+      /* height is animated by hand so the fold reads as one continuous move, not a jump */
+      var settleTimer;
       function setCollapsed(on) {
         if (on === collapsed) return;
-        collapsed = on; bar.classList.toggle("is-collapsed", on); mini.setAttribute("aria-expanded", on ? "false" : "true");
+        collapsed = on; mini.setAttribute("aria-expanded", on ? "false" : "true");
+        var from = bar.offsetHeight;
+        bar.classList.toggle("is-collapsed", on);
+        bar.style.height = "auto"; var to = bar.offsetHeight;         // natural height of the new state
+        bar.style.height = from + "px"; void bar.offsetHeight;          // start from where it was
+        bar.classList.add("is-moving");
+        bar.style.height = to + "px";
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(function () { bar.classList.remove("is-moving"); if (!collapsed) bar.style.height = ""; }, 400);
         travel = 0; quietUntil = Date.now() + QUIET;   // the bar changed height, so the next few scroll events are its own doing
         lastY = window.scrollY;
       }

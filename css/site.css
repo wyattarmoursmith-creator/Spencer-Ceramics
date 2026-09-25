@@ -829,9 +829,9 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 
 .shop-bar{
   position:sticky; top:var(--nav-h,76px); z-index:30;
-  display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;
   padding:16px var(--gutter); background:var(--chalk); border-bottom:1px solid var(--rule);
 }
+.shop-bar__full{ display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap; }
 .shop-bar .filters{ gap:20px; }
 .shop-bar__right{ display:flex; align-items:center; gap:28px; }
 .shop-bar__count{ font-variant-numeric:tabular-nums; }
@@ -1028,7 +1028,8 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 @media (max-width:620px){ .shop-grid[data-density="compact"] .grid{ grid-template-columns:repeat(2, 1fr); gap:32px 14px; } .density{ display:none; } }
 /* shop bar folds to a single line while scrolling down the grid */
 .shop-bar__mini{
-  display:none; width:100%; justify-content:space-between; align-items:center; gap:16px;
+  position:absolute; left:var(--gutter); right:var(--gutter); top:11px; display:flex; justify-content:space-between; align-items:center; gap:16px;
+  opacity:0; transform:translateY(8px); pointer-events:none;
   background:none; border:none; padding:0; cursor:pointer; color:var(--ink);
   font-family:var(--body); font-size:13px; letter-spacing:0.02em; text-align:left;
 }
@@ -1036,5 +1037,16 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 .shop-bar__mini-hint{ font-family:var(--mono); font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--smoke); }
 .shop-bar__mini-hint::after{ content:" ↓"; }
 .shop-bar.is-collapsed{ padding-top:11px; padding-bottom:11px; }
-.shop-bar.is-collapsed .filters, .shop-bar.is-collapsed .subfilters, .shop-bar.is-collapsed .shop-bar__right{ display:none; }
-.shop-bar.is-collapsed .shop-bar__mini{ display:flex; }
+.shop-bar.is-collapsed .shop-bar__full{ display:none; }
+.shop-bar.is-collapsed .shop-bar__mini{ opacity:1; transform:none; pointer-events:auto; }
+/* the move: height eases by hand (JS sets it), the two layers cross-fade with a small vertical drift, no bounce */
+.shop-bar{ overflow:hidden; transition:height .38s cubic-bezier(.22,.61,.36,1); will-change:height; }
+.shop-bar__full{ transition:opacity .22s ease, transform .38s cubic-bezier(.22,.61,.36,1); }
+.shop-bar.is-moving .shop-bar__full{ display:flex; }
+.shop-bar.is-moving.is-collapsed .shop-bar__full{ opacity:0; transform:translateY(-10px); pointer-events:none; }
+.shop-bar__mini{ transition:opacity .24s ease .1s, transform .38s cubic-bezier(.22,.61,.36,1); }
+@media (prefers-reduced-motion: reduce){ .shop-bar, .shop-bar__full, .shop-bar__mini{ transition:none; } }
+.shop-bar.is-collapsed{ min-height:43px; }
+@keyframes barFullIn{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
+.shop-bar.is-moving:not(.is-collapsed) .shop-bar__full{ animation:barFullIn .3s ease .08s both; }
+@media (prefers-reduced-motion: reduce){ .shop-bar.is-moving:not(.is-collapsed) .shop-bar__full{ animation:none; } }
