@@ -140,6 +140,18 @@ function scParseDescription(html, plain) {
   return { intro: intro, sections: sections.filter(function (s) { return s.lines.length; }), dims: dims };
 }
 
+/* Shopify "Product type" -> shop filter. Set the type in Shopify to one of the
+   names on the left (case does not matter); anything else shows only under All. */
+function scCategory(type) {
+  var map = {
+    "vessels": "vessels", "vessel": "vessels", "sculptural vessels": "vessels", "sculptural vessel": "vessels", "sculptural": "vessels",
+    "tableware": "tableware",
+    "petite pots": "petite-pots", "petite pot": "petite-pots", "pots": "petite-pots", "petite": "petite-pots",
+    "lighting": "lighting", "lamps": "lighting", "lamp": "lighting"
+  };
+  return map[String(type || "").trim().toLowerCase()] || "";
+}
+
 /* map one Shopify product onto the shape the pages already render */
 function scMapProduct(node) {
   var ve = (node.variants && node.variants.edges) || [];
@@ -182,7 +194,7 @@ function scMapProduct(node) {
     state:      state,
     img:        (node.featuredImage && node.featuredImage.url) || images[0] || "",
     images:     images,
-    category:   (["vessels", "tableware", "lighting"].indexOf(type) >= 0) ? type : "",
+    category:   scCategory(type),
     variantId:  v ? v.id : "",
     variantNum: v ? scGidNum(v.id) : "",
     available:  avail
