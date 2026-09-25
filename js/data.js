@@ -103,6 +103,43 @@ window.postById = function (id) { return window.JOURNAL.find(function (p) { retu
 /* numeric tail of a Shopify GID - gid://shopify/ProductVariant/123 -> "123" */
 function scGidNum(gid) { var m = String(gid || "").match(/(\d+)\s*$/); return m ? m[1] : ""; }
 
+/* Shopify descriptions arrive as HTML pasted from wherever Craig wrote them
+   (Canva, Docs...) with junk classes. Read only the structure: paragraphs,
+   list items and headings. A paragraph that is entirely bold, or a short
+   ALL-CAPS line ("FINISH", "CARE", "*LIQUID QUARTZ"), is a section label;
+   a short trailing line with measurements ("h.9 d.7.5 / 12cm incl. handle")
+   is the dimensions. Em dashes are turned into commas per the site rule. */
+function scTidy(t) { return String(t || "").replace(/\s*[—–]\s*/g, ", ").replace(/\s+/g, " ").trim(); }
+function scTitleCase(t) {
+  return t.replace(/^\*+\s*/, "").toLowerCase().replace(/(^|\s)(\S)/g, function (m, a, b) { return a + b.toUpperCase(); });
+}
+function scParseDescription(html, plain) {
+  var blocks = [];
+  if (html && typeof DOMParser !== "undefined") {
+    var doc = new DOMParser().parseFromString(html, "text/html");
+    doc.body.querySelectorAll("p, li, h1, h2, h3, h4, h5, h6").forEach(function (el) {
+      if (el.querySelector("p, li")) return;                      // container, its children are handled
+      var text = scTidy(el.textContent); if (!text) return;
+      var bold = el.querySelector("strong, b");
+      var boldOnly = !!bold && scTidy(bold.textContent) === text;
+      var caps = text.length < 32 && /^[*\s]*[A-Z][A-Z0-9\s&/*]+$/.test(text) && /[A-Z]{3}/.test(text);
+      var label = /^H[1-6]$/.test(el.tagName) || boldOnly || caps;
+      blocks.push({ type: label ? "label" : "p", text: text });
+    });
+  }
+  if (!blocks.length) scTidy(plain).split(/\n{2,}/).forEach(function (t) { t = scTidy(t); if (t) blocks.push({ type: "p", text: t }); });
+  var dims = "";
+  var last = blocks[blocks.length - 1];
+  if (last && last.type === "p" && last.text.length < 60 && /(^|\s)(h|d|w|dia)\.?\s?\d|\d\s?cm\b/i.test(last.text)) { dims = last.text; blocks.pop(); }
+  var intro = [], sections = [], cur = null;
+  blocks.forEach(function (b) {
+    if (b.type === "label") { cur = { label: scTitleCase(b.text), lines: [] }; sections.push(cur); }
+    else if (cur) cur.lines.push(b.text);
+    else intro.push(b.text);
+  });
+  return { intro: intro, sections: sections.filter(function (s) { return s.lines.length; }), dims: dims };
+}
+
 /* map one Shopify product onto the shape the pages already render */
 function scMapProduct(node) {
   var ve = (node.variants && node.variants.edges) || [];
@@ -121,12 +158,15 @@ function scMapProduct(node) {
   var sku    = (v && v.sku && v.sku.trim()) || "";
   // clean the Shopify body copy: no em/en dashes on the site, and the CSV import
   // folded the spec line onto the end of some descriptions ("...made.Matte slip · stoneware · h. 34cm")
-  var desc = (node.description || "").replace(/\s*[—–]\s*/g, ", ");
+  var desc = scTidy(node.description);
   var spec = (node.spec && node.spec.value ? node.spec.value : "").trim();
   if (!spec) {
     var folded = desc.match(/\.\s*([^.·]+·[^.·]+·[^.]*?h\.?\s?[\d.,]+\s?cm)\s*$/i);
     if (folded) { spec = folded[1].trim(); desc = desc.slice(0, folded.index + 1).trim(); }
   }
+  var rich = scParseDescription(node.descriptionHtml, desc);
+  if (rich.intro.length) desc = rich.intro.join("\n\n");   // the summary: what the meta description and cards use
+  if (!spec && rich.dims) spec = rich.dims;
   return {
     id:         node.handle,                                   // cart key + product URL (?id=)
     slug:       node.handle,
@@ -134,6 +174,9 @@ function scMapProduct(node) {
     name:       node.title,
     spec:       spec,
     desc:       desc,
+    intro:      rich.intro,
+    sections:   rich.sections,
+    dims:       rich.dims,
     price:      price,
     currency:   cur,
     state:      state,
@@ -151,7 +194,7 @@ function scFetchProducts() {
   var ctx = s.country ? "query @inContext(country: " + s.country + ") " : "";
   var query = ctx +
     "{ products(first: 60, sortKey: CREATED_AT, reverse: true) { edges { node { " +
-      "id handle title description productType availableForSale totalInventory " +
+      "id handle title description descriptionHtml productType availableForSale totalInventory " +
       "featuredImage { url } images(first: 6) { edges { node { url } } } " +
       "spec: metafield(namespace: \"custom\", key: \"spec\") { value } " +
       "priceRange { minVariantPrice { amount currencyCode } } " +

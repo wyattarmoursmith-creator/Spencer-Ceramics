@@ -78,7 +78,8 @@
 
       // SEO: per-piece description, canonical, and Product schema (price + availability for Google Shopping surfaces)
       var desc = document.querySelector('meta[name="description"]');
-      if (desc) desc.setAttribute("content", (p.desc || p.name + ", a hand-thrown piece") + " Made and signed by Craig Spencer in Auckland, New Zealand.");
+      var summary = (p.intro && p.intro[0]) || p.desc || (p.name + ", a hand-thrown piece.");
+      if (desc) desc.setAttribute("content", (summary.length > 150 ? summary.slice(0, 147).replace(/\s+\S*$/, "") + "..." : summary) + " Made and signed by Craig Spencer in Auckland, New Zealand.");
       var base = "https://spencerceramics.netlify.app/product.html?id=" + p.id;
       var canon = document.querySelector('link[rel="canonical"]');
       if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
@@ -87,7 +88,7 @@
       ld.type = "application/ld+json";
       ld.textContent = JSON.stringify({
         "@context": "https://schema.org", "@type": "Product",
-        "name": p.name, "sku": String(p.ref), "description": p.desc || "",
+        "name": p.name, "sku": String(p.ref), "description": summary,
         "image": p.img.indexOf("http") === 0 ? p.img : "https://spencerceramics.netlify.app/" + p.img,
         "brand": { "@type": "Brand", "name": "Craig Spencer Ceramics" },
         "offers": {
@@ -98,8 +99,21 @@
       });
       document.head.appendChild(ld);
 
-      // dimension/material split out of spec for the meta list
+      // dimension/material split out of spec for the meta list; a lone measurement line is just Dimensions
       var parts = p.spec ? p.spec.split(" · ") : [];
+      // label each part by what it says rather than by position, so "Reduction · h. 18cm" reads Glaze / Dimensions
+      var metaKeys = parts.map(function (x) {
+        if (/\d\s?cm\b|(^|\s)(h|d|w|dia)\.?\s?\d/i.test(x)) return "Dimensions";
+        if (/stoneware|porcelain|earthenware|terracotta|clay/i.test(x)) return "Body";
+        return "Glaze / slip";
+      });
+      var introHTML = (p.intro && p.intro.length ? p.intro : [p.desc || "Thrown and finished by hand in the Auckland studio. Each one carries its own surface, and its own weight in the hand."])
+        .map(function (t) { return "<p class=\"pd__desc\">" + t + "</p>"; }).join("");
+      var sectionsHTML = (p.sections || []).map(function (s) {
+        return "<div class=\"pd__section\"><span class=\"label\">" + s.label + "</span><p>" + s.lines.join("<br>") + "</p></div>";
+      }).join("");
+      // the standard firing note steps aside when the listing already covers the finish itself
+      var coversFinish = (p.sections || []).some(function (s) { return /finish|quartz|glaze|care/i.test(s.label); });
 
       document.querySelector("[data-pd-root]").innerHTML =
         '<div class="pd__gallery">' +
@@ -114,15 +128,15 @@
           '<h1 class="pd__name">' + p.name + '</h1>' +
           '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (p.currency || (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD')) + '</div>' +
           '<label class="sort currency pd__currency" data-currency data-currency-hide-single><span class="currency__one"></span><span class="currency__pick" hidden>Show prices in · <select aria-label="Currency"></select><span class="currency__note">Charged in the currency of your shipping country.</span></span></label>' +
-          '<p class="pd__desc">' + (p.desc || 'Thrown and finished by hand in the Auckland studio. Each one carries its own surface, and its own weight in the hand.') + '</p>' +
+          introHTML +
           '<div class="pd__meta">' +
             parts.map(function (x, i) {
-              var keys = ["Glaze / slip", "Body", "Dimensions"];
-              return '<div><span>' + (keys[i] || "Detail") + '</span><span>' + x + '</span></div>';
+              return '<div><span>' + (metaKeys[i] || "Detail") + '</span><span>' + x + '</span></div>';
             }).join("") +
             (/\bof\b/.test(p.state) ? '<div><span>Edition</span><span>' + p.state + '</span></div>' : '') +
           '</div>' +
-          '<div class="pd__finish"><span class="label">Firing &amp; finish</span><p data-text="product.finish">' + ((window.PAGES && window.PAGES.product && window.PAGES.product.finish) || 'Fired to 1220°C with food-safe glazes. Unglazed surfaces are sealed with Liquid Quartz®, a clear silica-based sealer that leaves a durable, non-toxic, water-resistant finish, safe for everyday food contact once cured.') + ' <a class="link-underline" href="faq.html#materials">More on materials</a></p></div>' +
+          sectionsHTML +
+          (coversFinish ? '' : '<div class="pd__finish"><span class="label">Firing &amp; finish</span><p data-text="product.finish">' + ((window.PAGES && window.PAGES.product && window.PAGES.product.finish) || 'Fired to 1220°C with food-safe glazes. Unglazed surfaces are sealed with Liquid Quartz®, a clear silica-based sealer that leaves a durable, non-toxic, water-resistant finish, safe for everyday food contact once cured.') + ' <a class="link-underline" href="faq.html#materials">More on materials</a></p></div>') +
           '<div class="pd__buy">' +
             (sold
               ? '<button class="btn btn--ghost btn--block" disabled style="opacity:.5; cursor:not-allowed">Sold</button>'
