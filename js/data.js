@@ -203,21 +203,33 @@ function scMapProduct(node) {
 
 function scFetchProducts() {
   var s = window.SHOPIFY;
-  var ctx = s.country ? "query @inContext(country: " + s.country + ") " : "";
+  var ctx = s.country ? "query($after: String) @inContext(country: " + s.country + ") " : "query($after: String) ";
   var query = ctx +
-    "{ products(first: 60, sortKey: CREATED_AT, reverse: true) { edges { node { " +
+    "{ products(first: 250, after: $after, sortKey: CREATED_AT, reverse: true) { pageInfo { hasNextPage endCursor } edges { node { " +
       "id handle title description descriptionHtml productType availableForSale totalInventory " +
       "featuredImage { url } images(first: 6) { edges { node { url } } } " +
       "spec: metafield(namespace: \"custom\", key: \"spec\") { value } " +
       "priceRange { minVariantPrice { amount currencyCode } } " +
       "variants(first: 1) { edges { node { id sku availableForSale quantityAvailable price { amount currencyCode } } } } " +
     "} } } }";
-  return scGql(query)
-  .then(function (j) {
-    if (j && j.errors) throw new Error("Shopify Storefront errors: " + JSON.stringify(j.errors));
-    if (!j || !j.data || !j.data.products) throw new Error("Shopify: unexpected response");
-    return j.data.products.edges.map(function (e) { return scMapProduct(e.node); });
-  });
+  var all = [];
+  function page(after) {
+    return fetch("https://" + s.domain + "/api/" + s.version + "/graphql.json", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Shopify-Storefront-Access-Token": s.token },
+      body: JSON.stringify({ query: query, variables: { after: after || null } })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (j) {
+      if (j && j.errors) throw new Error("Shopify Storefront errors: " + JSON.stringify(j.errors));
+      if (!j || !j.data || !j.data.products) throw new Error("Shopify: unexpected response");
+      var pr = j.data.products;
+      all = all.concat(pr.edges.map(function (e) { return scMapProduct(e.node); }));
+      // the whole catalogue, however large it grows: follow the cursor until Shopify says there is no more
+      return (pr.pageInfo && pr.pageInfo.hasNextPage && all.length < 2000) ? page(pr.pageInfo.endCursor) : all;
+    });
+  }
+  return page(null);
 }
 
 window._dataReady = Promise.all([
