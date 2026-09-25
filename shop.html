@@ -72,8 +72,6 @@
     </div>
     <div class="subfilters" id="subfilters" role="group" aria-label="Narrow down" hidden></div>
     <div class="shop-bar__right">
-      <span class="label shop-bar__count" id="shop-count"></span>
-      <label class="toggle"><input type="checkbox" id="avail-only"><span>Available only</span></label>
       <div class="density" role="group" aria-label="Card size">
         <button type="button" data-density="roomy" aria-pressed="true" aria-label="Larger cards"><i></i><i></i></button>
         <button type="button" data-density="compact" aria-pressed="false" aria-label="Smaller cards, more pieces"><i></i><i></i><i></i><i></i></button>
@@ -198,11 +196,13 @@
               '<a class="btn btn--ghost btn--pill shop-break__cta" href="everyday.html">See the Everyday <span class="arrow">&rarr;</span></a>' +
             '</div>' +
           '</div>';
+        // full-width bands only ever sit between complete rows: measure the live column count
+        var cols = getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length || 2;
         if (filter === "everyday" && cards.length) cards.unshift(everydayBand);
-        else if (filter === "all" && cards.length > 6) cards.splice(6, 0, everydayBand);
+        else if (filter === "all" && cards.length > cols * 4) cards.splice(cols * 4, 0, everydayBand);
         // a breath between the first and second rows: a dark band with a line from Craig
-        if (filter === "all" && cards.length > 3) {
-          cards.splice(3, 0,
+        if (filter === "all" && cards.length > cols * 2) {
+          cards.splice(cols * 2, 0,
             '<div class="shop-break">' +
               '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/shop-break.jpg" alt="The collection, seen from above" data-media="shop-break"></div>' +
               '<div class="shop-break__text">' +
@@ -215,9 +215,6 @@
           ? cards.join("")
           : '<p class="label" style="grid-column:1/-1; padding:48px 0;">' + (availOnly ? "Nothing available here right now." : "Nothing in this category yet.") + '</p>';
         if (window.applyFocus) window.applyFocus();
-        var avail = items.filter(function (p) { return p.state !== "sold"; }).length;
-        document.getElementById("shop-count").textContent =
-          items.length + (items.length === 1 ? " piece" : " pieces") + " · " + avail + " available";
       }
 
       var currentFilter = "all";
@@ -251,8 +248,16 @@
       }
       var savedDensity = ""; try { savedDensity = localStorage.getItem("sc_density") || ""; } catch (e) {}
       setDensity(savedDensity === "compact" ? "compact" : "roomy", false);
+      var lastCols = 0;
+      function colsNow() { return getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length; }
+      lastCols = colsNow();
+      var resizeTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { var c = colsNow(); if (c !== lastCols) { lastCols = c; render(currentFilter); } }, 120);
+      });
       document.querySelectorAll(".density button").forEach(function (b) {
-        b.addEventListener("click", function () { setDensity(b.getAttribute("data-density"), true); });
+        b.addEventListener("click", function () { setDensity(b.getAttribute("data-density"), true); lastCols = colsNow(); render(currentFilter); });
       });
 
       // the bar sticks just under the (sticky) nav
@@ -261,11 +266,6 @@
         document.documentElement.style.setProperty("--nav-h", (nav ? nav.offsetHeight : 76) + "px");
       }
       setNavH(); window.addEventListener("resize", setNavH);
-
-      // available-only toggle
-      document.getElementById("avail-only").addEventListener("change", function () {
-        availOnly = this.checked; render(currentFilter); resetScroll();
-      });
 
       // functional sort (the control used to be decorative)
       document.getElementById("sort").addEventListener("change", function () {
