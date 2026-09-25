@@ -60,6 +60,8 @@
 
   <!-- filter + sort bar: sticks under the nav while you scroll the grid -->
   <div class="shop-bar" id="shop-bar">
+    <!-- collapsed state: one slim line while scrolling down through the grid; tap or scroll up to open -->
+    <button class="shop-bar__mini" type="button" aria-expanded="true" aria-controls="shop-bar"><span class="shop-bar__mini-label">All</span><span class="shop-bar__mini-hint">Filters &amp; sort</span></button>
     <div class="filters" role="group" aria-label="Filter">
       <button aria-pressed="true" data-filter="all">All</button>
       <button aria-pressed="false" data-filter="everyday" class="filters__everyday">The Everyday</button>
@@ -172,6 +174,7 @@
         });
       }
       function render(filter) {
+        if (typeof miniLabel === "function") miniLabel();
         var inCat = window.CATALOG.filter(function (p) {
           if (filter === "everyday") return (p.tags || []).indexOf("everyday") >= 0;   // the ongoing runs, whatever their type
           return filter === "all" || (p.category || "") === filter;
@@ -219,6 +222,30 @@
 
       var currentFilter = "all";
       render(currentFilter);
+
+      /* the bar folds to one line while you scroll down the grid and opens again on the way back up */
+      var bar = document.getElementById("shop-bar"), mini = bar.querySelector(".shop-bar__mini");
+      var lastY = window.scrollY, collapsed = false;
+      function setCollapsed(on) {
+        if (on === collapsed) return;
+        collapsed = on; bar.classList.toggle("is-collapsed", on); mini.setAttribute("aria-expanded", on ? "false" : "true");
+      }
+      function miniLabel() {
+        var el = document.querySelector(".shop-bar__mini-label"); if (!el) return;
+        var f = document.querySelector(".filters button[aria-pressed=true]");
+        var t = f ? f.textContent.trim() : "All";
+        if (currentSub) t += " · " + currentSub;
+        el.textContent = t;
+      }
+      window.addEventListener("scroll", function () {
+        var y = window.scrollY, dy = y - lastY; lastY = y;
+        var nav = document.querySelector(".nav");
+        var stuck = bar.getBoundingClientRect().top <= (nav ? nav.offsetHeight : 76) + 1;
+        if (!stuck) { setCollapsed(false); return; }
+        if (dy > 6) setCollapsed(true);          // heading down into the grid: fold away
+        else if (dy < -6) setCollapsed(false);   // coming back up: open
+      }, { passive: true });
+      mini.addEventListener("click", function () { setCollapsed(false); });
 
       /* New in: pieces tagged "new", else the batch added most recently (same day), newest first, up to 8 */
       function renderNewIn() {
