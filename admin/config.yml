@@ -128,6 +128,9 @@ collections:
               - { label: "Manifesto — left column", name: manifesto_col1, widget: text }
               - { label: "Manifesto — right column", name: manifesto_col2, widget: text }
               - { label: "Closer — line above the shop button", name: closer, widget: text }
+              - { label: "Everyday band — small label", name: everyday_label, widget: string }
+              - { label: "Everyday band — heading", name: everyday_heading, widget: text }
+              - { label: "Everyday band — line", name: everyday_body, widget: text }
           - label: "Shop"
             name: shop
             widget: object
@@ -137,6 +140,16 @@ collections:
               - { label: "Heading", name: heading, widget: text }
               - { label: "Note under the heading", name: note, widget: text }
               - { label: "Mid-grid break line", name: break, widget: text, hint: "The line in the dark band between the first and second rows of pieces." }
+          - label: "The Everyday page"
+            name: everyday
+            widget: object
+            collapsed: true
+            fields:
+              - { label: "Small label", name: label, widget: string }
+              - { label: "Heading", name: heading, widget: text, hint: "Each line shows on its own line." }
+              - { label: "Intro paragraph", name: intro, widget: text }
+              - { label: "Sets note (under the pieces)", name: note, widget: text }
+              - { label: "Closer", name: closer, widget: text }
           - label: "Product page"
             name: product
             widget: object

@@ -11,13 +11,23 @@
     "manifesto_col2": "For Craig, ceramics and design share the same concerns: material, colour, texture. Useful things, quietly made, to live with for years.",
     "closer": "When a piece is gone,\nit doesn't come back.",
     "highlights_heading": "Pieces Craig keeps\ncoming back to.",
-    "highlights_intro": "Not for sale, just the work Craig is proudest of: the forms and surfaces that say the most about how he makes."
+    "highlights_intro": "Not for sale, just the work Craig is proudest of: the forms and surfaces that say the most about how he makes.",
+    "everyday_label": "The Everyday",
+    "everyday_heading": "Made in ongoing runs.\nAlways here.",
+    "everyday_body": "Cups, tumblers, tea bowls and canisters, thrown to sit together and sold singly or as a set."
   },
   "shop": {
     "label": "The current firing",
     "heading": "New pieces,\njust in.",
     "note": "Every piece is thrown and signed in Auckland, released in small editions. Once it sells, it's gone.",
     "break": "Everything here came out of the last few firings. When a piece sells it isn't remade, so what you see is what there is."
+  },
+  "everyday": {
+    "label": "The Everyday",
+    "heading": "Made in ongoing runs.\nAlways here.",
+    "intro": "Not every piece is one of one. These are the forms Craig returns to firing after firing: the cups, tumblers, tea bowls and canisters that live on the bench and the table. Each run is thrown to sit together, so they can be bought singly or built into a set over time.",
+    "note": "For a set, add the same piece as many times as you need. Every piece in a run is thrown to sit alongside the others.",
+    "closer": "After a matched set\nor a larger order?"
   },
   "product": {
     "finish": "Fired to 1220°C with food-safe glazes. Unglazed surfaces are sealed with Liquid Quartz®, a clear silica-based sealer that leaves a durable, non-toxic, water-resistant finish, safe for everyday food contact once cured."
