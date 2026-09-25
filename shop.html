@@ -133,6 +133,15 @@
       }
 
       var sortBy = "newest", currentSub = "", availOnly = false;
+      /* after any filter change, start the grid from its first row: the bar pins under the nav
+         and the first cards sit right beneath it. Only when the reader is already down in the grid. */
+      function resetScroll() {
+        var bar = document.getElementById("shop-bar"), grid = document.querySelector(".shop-grid");
+        var nav = document.querySelector(".nav");
+        // the bar is sticky, so measure from the grid (which never moves) and leave room for nav + bar above it
+        var top = grid.offsetTop - (nav ? nav.offsetHeight : 76) - bar.offsetHeight;
+        if (window.scrollY > top) window.scrollTo(0, top);
+      }
       /* second row of filters: the finer groups (tags from Shopify) present in the chosen category */
       function renderSubfilters(filter, inCat) {
         var wrap = document.getElementById("subfilters");
@@ -145,7 +154,7 @@
           return '<button aria-pressed="' + (currentSub === t ? "true" : "false") + '" data-sub="' + t.replace(/"/g, "&quot;") + '">' + t + ' <i>' + counts[t] + '</i></button>';
         })).join("");
         wrap.querySelectorAll("button").forEach(function (b) {
-          b.addEventListener("click", function () { currentSub = b.getAttribute("data-sub"); render(currentFilter); });
+          b.addEventListener("click", function () { currentSub = b.getAttribute("data-sub"); render(currentFilter); resetScroll(); });
         });
       }
       function render(filter) {
@@ -193,13 +202,13 @@
 
       // available-only toggle
       document.getElementById("avail-only").addEventListener("change", function () {
-        availOnly = this.checked; render(currentFilter);
+        availOnly = this.checked; render(currentFilter); resetScroll();
       });
 
       // functional sort (the control used to be decorative)
       document.getElementById("sort").addEventListener("change", function () {
         sortBy = this.value;
-        render(currentFilter);
+        render(currentFilter); resetScroll();
       });
 
       // filter the grid by category when a filter is chosen
@@ -211,7 +220,7 @@
           b.setAttribute("aria-pressed", "true");
           currentFilter = b.getAttribute("data-filter");
           currentSub = "";
-          render(currentFilter);
+          render(currentFilter); resetScroll();
         });
       });
     });
