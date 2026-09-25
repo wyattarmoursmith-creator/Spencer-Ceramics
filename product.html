@@ -124,7 +124,7 @@
           '</div>' +
         '</div>' +
         '<aside class="pd__panel">' +
-          '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : (p.state.charAt(0).toUpperCase() + p.state.slice(1))) + '</div>' +
+          '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : (p.one ? 'One of one' : 'Available')) + '</div>' +
           '<h1 class="pd__name">' + p.name + '</h1>' +
           '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (p.currency || (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD')) + '</div>' +
           '<label class="sort currency pd__currency" data-currency data-currency-hide-single><span class="currency__one"></span><span class="currency__pick" hidden>Show prices in · <select aria-label="Currency"></select><span class="currency__note">Charged in the currency of your shipping country.</span></span></label>' +
@@ -152,7 +152,7 @@
           var qs = q.state === "sold";
           return '' +
           '<a class="card' + (qs ? ' is-sold' : '') + '" href="product.html?id=' + q.id + '">' +
-            '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' + (qs ? '<span class="card__tag">Sold</span>' : '') +
+            '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' + (qs ? '<span class="card__tag">Sold</span>' : (q.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
               '<img loading="lazy" decoding="async" src="' + q.img + '" alt="' + q.name + '" data-media="' + q.id + '"></div>' +
             '<div class="card__row"><div class="card__name">' + q.name + '</div>' +
               '<div class="card__price tnum">$ ' + q.price + '</div></div>' +
@@ -160,7 +160,7 @@
               (qs
                 ? '<span class="card__state">Sold</span>'
                 : '<button class="btn btn--ghost btn--pill card__add" type="button" data-add="' + q.id + '">Add to cart <span class="arrow">&rarr;</span></button>' +
-                  '<span class="card__state">' + q.state + '</span>') +
+                  '<span class="card__state">Available</span>') +
             '</div>' +
           '</a>';
         }).join("");

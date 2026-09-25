@@ -196,6 +196,8 @@ function scMapProduct(node) {
     img:        (node.featuredImage && node.featuredImage.url) || images[0] || "",
     images:     images,
     category:   scCategory(type),
+    tags:       (node.tags || []).map(function (t) { return String(t).trim(); }).filter(Boolean),
+    one:        avail && qty === 1,                              // the last (usually only) one of this piece
     variantId:  v ? v.id : "",
     variantNum: v ? scGidNum(v.id) : "",
     available:  avail
@@ -207,7 +209,7 @@ function scFetchProducts() {
   var ctx = s.country ? "query($after: String) @inContext(country: " + s.country + ") " : "query($after: String) ";
   var query = ctx +
     "{ products(first: 250, after: $after, sortKey: CREATED_AT, reverse: true) { pageInfo { hasNextPage endCursor } edges { node { " +
-      "id handle title description descriptionHtml productType availableForSale totalInventory " +
+      "id handle title description descriptionHtml productType tags availableForSale totalInventory " +
       "featuredImage { url } images(first: 6) { edges { node { url } } } " +
       "spec: metafield(namespace: \"custom\", key: \"spec\") { value } " +
       "priceRange { minVariantPrice { amount currencyCode } } " +

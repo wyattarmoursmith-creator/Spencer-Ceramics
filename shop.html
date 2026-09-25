@@ -67,8 +67,10 @@
       <!-- Lighting filter hidden for now (no lighting pieces listed yet): remove `hidden` to bring it back -->
       <button aria-pressed="false" data-filter="lighting" hidden>Lighting</button>
     </div>
+    <div class="subfilters" id="subfilters" role="group" aria-label="Narrow down" hidden></div>
     <div class="shop-bar__right">
       <span class="label shop-bar__count" id="shop-count"></span>
+      <label class="toggle"><input type="checkbox" id="avail-only"><span>Available only</span></label>
       <label class="sort currency" data-currency><span class="currency__one">Prices in <b data-currency-code>NZD</b></span><span class="currency__pick" hidden>Currency ·
         <select aria-label="Currency"></select></span></label>
       <label class="sort">Sort ·
@@ -114,7 +116,7 @@
         '<a class="card' + (sold ? ' is-sold' : '') + '" href="product.html?id=' + p.id + '">' +
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
-            (sold ? '<span class="card__tag">Sold</span>' : '') +
+            (sold ? '<span class="card__tag">Sold</span>' : (p.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
             '<img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
           '</div>' +
           '<div class="card__row">' +
@@ -125,15 +127,36 @@
             (sold
               ? '<span class="card__state">Sold</span>'
               : '<button class="btn btn--ghost btn--pill card__add" type="button" data-add="' + p.id + '">Add to cart <span class="arrow">&rarr;</span></button>' +
-                '<span class="card__state">' + p.state + '</span>') +
+                '<span class="card__state">Available</span>') +
           '</div>' +
         '</a>';
       }
 
-      var sortBy = "newest";
+      var sortBy = "newest", currentSub = "", availOnly = false;
+      /* second row of filters: the finer groups (tags from Shopify) present in the chosen category */
+      function renderSubfilters(filter, inCat) {
+        var wrap = document.getElementById("subfilters");
+        if (filter === "all") { wrap.hidden = true; wrap.innerHTML = ""; return; }
+        var counts = {}, order = [];
+        inCat.forEach(function (p) { (p.tags || []).forEach(function (t) { if (!counts[t]) { counts[t] = 0; order.push(t); } counts[t]++; }); });
+        if (order.length < 2) { wrap.hidden = true; wrap.innerHTML = ""; return; }
+        wrap.hidden = false;
+        wrap.innerHTML = ['<button aria-pressed="' + (currentSub ? "false" : "true") + '" data-sub="">All</button>'].concat(order.map(function (t) {
+          return '<button aria-pressed="' + (currentSub === t ? "true" : "false") + '" data-sub="' + t.replace(/"/g, "&quot;") + '">' + t + ' <i>' + counts[t] + '</i></button>';
+        })).join("");
+        wrap.querySelectorAll("button").forEach(function (b) {
+          b.addEventListener("click", function () { currentSub = b.getAttribute("data-sub"); render(currentFilter); });
+        });
+      }
       function render(filter) {
-        var items = window.CATALOG.filter(function (p) {
+        var inCat = window.CATALOG.filter(function (p) {
           return filter === "all" || (p.category || "") === filter;
+        });
+        renderSubfilters(filter, inCat);
+        var items = inCat.filter(function (p) {
+          if (currentSub && (p.tags || []).indexOf(currentSub) < 0) return false;
+          if (availOnly && p.state === "sold") return false;
+          return true;
         });
         if (sortBy === "price-asc")  items = items.slice().sort(function (a, b) { return a.price - b.price; });
         if (sortBy === "price-desc") items = items.slice().sort(function (a, b) { return b.price - a.price; });
@@ -151,7 +174,7 @@
         }
         grid.innerHTML = cards.length
           ? cards.join("")
-          : '<p class="label" style="grid-column:1/-1; padding:48px 0;">Nothing in this category yet.</p>';
+          : '<p class="label" style="grid-column:1/-1; padding:48px 0;">' + (availOnly ? "Nothing available here right now." : "Nothing in this category yet.") + '</p>';
         if (window.applyFocus) window.applyFocus();
         var avail = items.filter(function (p) { return p.state !== "sold"; }).length;
         document.getElementById("shop-count").textContent =
@@ -168,6 +191,11 @@
       }
       setNavH(); window.addEventListener("resize", setNavH);
 
+      // available-only toggle
+      document.getElementById("avail-only").addEventListener("change", function () {
+        availOnly = this.checked; render(currentFilter);
+      });
+
       // functional sort (the control used to be decorative)
       document.getElementById("sort").addEventListener("change", function () {
         sortBy = this.value;
@@ -182,6 +210,7 @@
           });
           b.setAttribute("aria-pressed", "true");
           currentFilter = b.getAttribute("data-filter");
+          currentSub = "";
           render(currentFilter);
         });
       });

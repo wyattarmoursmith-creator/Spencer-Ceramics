@@ -946,3 +946,23 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 .card__add{ font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; padding:9px 16px; }
 .card__add .arrow{ margin-left:6px; }
 .card.is-sold .card__actions{ justify-content:flex-end; }
+/* ============================================================
+   SHOP: sub-filters, one-of-one badge, available-only toggle (2026-09)
+   ============================================================ */
+.subfilters{ flex-basis:100%; display:flex; flex-wrap:wrap; gap:6px 22px; padding-top:12px; border-top:1px solid var(--rule); }
+.subfilters button{
+  background:none; border:none; padding:0 0 3px; color:var(--smoke); cursor:pointer;
+  font-family:var(--mono); font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase;
+  border-bottom:1px solid transparent; white-space:nowrap;
+}
+.subfilters button i{ font-style:normal; opacity:0.55; margin-left:3px; }
+.subfilters button[aria-pressed="true"]{ color:var(--ember); border-bottom-color:var(--ember); }
+.toggle{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-family:var(--mono); font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--smoke); white-space:nowrap; }
+.toggle input{ appearance:none; -webkit-appearance:none; width:28px; height:16px; margin:0; border:1px solid var(--rule-strong, rgba(21,20,15,0.32)); background:transparent; position:relative; cursor:pointer; }
+.toggle input::after{ content:""; position:absolute; top:3px; left:3px; width:8px; height:8px; background:var(--smoke); transition:transform .18s ease, background .18s ease; }
+.toggle input:checked{ border-color:var(--ember); }
+.toggle input:checked::after{ transform:translateX(12px); background:var(--ember); }
+.toggle input:focus-visible{ outline:1px solid var(--ember); outline-offset:3px; }
+.toggle:has(input:checked){ color:var(--ink); }
+.card__tag--one{ background:rgba(239,236,230,0.92); color:var(--ink); border:1px solid rgba(21,20,15,0.12); }
+@media (max-width:620px){ .toggle span{ display:none; } .toggle::after{ content:"Available"; } }

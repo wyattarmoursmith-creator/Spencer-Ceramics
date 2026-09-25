@@ -186,7 +186,7 @@
         '<a class="card' + (sold ? ' is-sold' : '') + '" href="product.html?id=' + p.id + '">' +
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
-            (sold ? '<span class="card__tag">Sold</span>' : '') +
+            (sold ? '<span class="card__tag">Sold</span>' : (p.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
             '<img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
           '</div>' +
           '<div class="card__row">' +
@@ -197,7 +197,7 @@
             (sold
               ? '<span class="card__state">Sold</span>'
               : '<button class="btn btn--ghost btn--pill card__add" type="button" data-add="' + p.id + '">Add to cart <span class="arrow">&rarr;</span></button>' +
-                '<span class="card__state">' + p.state + '</span>') +
+                '<span class="card__state">Available</span>') +
           '</div>' +
         '</a>';
       }).join("");
