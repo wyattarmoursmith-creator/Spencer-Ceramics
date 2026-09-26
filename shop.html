@@ -13,15 +13,23 @@
 <meta property="og:url" content="https://spencerceramics.netlify.app/shop" />
 <meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<!-- @partial head-assets -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="apple-touch-icon-180.png" />
+<link rel="manifest" href="site.webmanifest" />
+<meta name="theme-color" content="#EFECE6" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
+  <!-- /@partial head-assets -->
 </head>
 <body data-page="shop">
   <a class="skip" href="#main">Skip to content</a>
 
+  <!-- @partial menu -->
   <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html" aria-current="page">Shop</a>
     <a href="everyday.html">Everyday</a>
@@ -29,7 +37,9 @@
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
+  <!-- /@partial menu -->
 
+  <!-- @partial nav variant="nav--solid" -->
   <nav class="nav nav--solid" aria-label="Primary">
     <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
     <div class="nav__links">
@@ -37,10 +47,11 @@
       <a href="everyday.html">Everyday</a>
       <a href="about.html">Studio</a>
       <a href="contact.html">Contact</a>
-        <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
+      <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
     <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
+  <!-- /@partial nav -->
 
   <div class="masthead"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
 
@@ -48,7 +59,7 @@
 
   <!-- shop plate - the edition, framed like the rest of the site (photo + floating panel) -->
   <section class="manifesto manifesto--shop">
-    <img class="manifesto__bg" fetchpriority="high" src="images/shop-scene.jpg" alt="Hand-thrown bowls lined up on a console table" data-media="shop-scene" />
+    <img class="manifesto__bg" fetchpriority="high" src="images/shop-scene.jpg" srcset="images/shop-scene-800.jpg 800w, images/shop-scene-1200.jpg 1200w, images/shop-scene-1600.jpg 1600w, images/shop-scene.jpg 2000w" sizes="100vw" alt="Hand-thrown bowls lined up on a console table" data-media="shop-scene" />
     <div class="manifesto__panel shop-plate reveal">
       <div class="manifesto__meta">
         <span data-text="shop.label">The current firing</span>
@@ -115,6 +126,7 @@
 
   </main>
 
+  <!-- @partial footer -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
@@ -122,11 +134,14 @@
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
+  <!-- /@partial footer -->
 
+  <!-- @partial scripts -->
   <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
+  <!-- /@partial scripts -->
   <script>
     window.onData(function () {
       var grid = document.getElementById("grid");
@@ -139,7 +154,7 @@
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
             (sold ? '<span class="card__tag">Sold</span>' : (p.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
-            '<img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
+            '<img loading="lazy" decoding="async" src="' + window.scImg(p.img, 800) + '" srcset="' + window.scSrcset(p.img, [400, 800, 1200]) + '" sizes="(max-width:620px) 92vw, (max-width:880px) 46vw, 40vw" alt="' + p.name + '" data-media="' + p.id + '">' +
           '</div>' +
           '<div class="card__row">' +
             '<div class="card__name">' + p.name + '</div>' +
@@ -202,7 +217,7 @@
         // the Everyday, for people who start in the shop: a band after the second row, or at the top of its own filter
         var everydayBand = '' +
           '<div class="shop-break shop-break--everyday">' +
-            '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/stock/loop-cup.jpg" alt="Cups from the current run" data-media="everyday-scene"></div>' +
+            '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/stock/loop-cup.jpg" srcset="images/stock/loop-cup-800.jpg 800w, images/stock/loop-cup.jpg 1600w" sizes="(max-width:880px) 100vw, 45vw" alt="Cups from the current run" data-media="everyday-scene"></div>' +
             '<div class="shop-break__text">' +
               '<span class="label">The Everyday</span>' +
               '<p data-text="shop.everyday">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.everyday) || "Cups, tumblers, tea bowls and canisters, made in ongoing runs. Always here, sold singly or in sets.") + '</p>' +
@@ -217,7 +232,7 @@
         if (filter === "all" && cards.length > cols * 2) {
           cards.splice(cols * 2, 0,
             '<div class="shop-break">' +
-              '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/shop-break.jpg" alt="The collection, seen from above" data-media="shop-break"></div>' +
+              '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/shop-break.jpg" srcset="images/shop-break-800.jpg 800w, images/shop-break-1200.jpg 1200w, images/shop-break.jpg 1600w" sizes="(max-width:880px) 100vw, 50vw" alt="The collection, seen from above" data-media="shop-break"></div>' +
               '<div class="shop-break__text">' +
                 '<span class="label">From the studio</span>' +
                 '<p data-text="shop.break">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.break) || "Everything here came out of the last few firings. When a piece sells it isn\'t remade, so what you see is what there is.") + '</p>' +

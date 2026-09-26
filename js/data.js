@@ -100,6 +100,17 @@ window.PAGES    = {};
 window.byId     = function (id) { return window.CATALOG.find(function (p) { return p.id === id; }); };
 window.postById = function (id) { return window.JOURNAL.find(function (p) { return p.id === id; }); };
 
+/* a Shopify CDN image at a given width (the CDN resizes on the fly); other URLs pass through */
+window.scImg = function (url, w) {
+  if (!url || url.indexOf("cdn.shopify.com") < 0) return url;
+  return url + (url.indexOf("?") >= 0 ? "&" : "?") + "width=" + w;
+};
+/* srcset across the sizes a card or hero might be drawn at */
+window.scSrcset = function (url, widths) {
+  if (!url || url.indexOf("cdn.shopify.com") < 0) return "";
+  return widths.map(function (w) { return window.scImg(url, w) + " " + w + "w"; }).join(", ");
+};
+
 /* numeric tail of a Shopify GID - gid://shopify/ProductVariant/123 -> "123" */
 function scGidNum(gid) { var m = String(gid || "").match(/(\d+)\s*$/); return m ? m[1] : ""; }
 

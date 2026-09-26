@@ -10,15 +10,23 @@
 <meta property="og:title" content="A piece by Craig Spencer Ceramics" />
 <meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<!-- @partial head-assets -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="apple-touch-icon-180.png" />
+<link rel="manifest" href="site.webmanifest" />
+<meta name="theme-color" content="#EFECE6" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
+  <!-- /@partial head-assets -->
 </head>
 <body data-page="product">
   <a class="skip" href="#main">Skip to content</a>
 
+  <!-- @partial menu -->
   <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
     <a href="everyday.html">Everyday</a>
@@ -26,7 +34,9 @@
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
+  <!-- /@partial menu -->
 
+  <!-- @partial nav variant="nav--solid" -->
   <nav class="nav nav--solid" aria-label="Primary">
     <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
     <div class="nav__links">
@@ -34,10 +44,11 @@
       <a href="everyday.html">Everyday</a>
       <a href="about.html">Studio</a>
       <a href="contact.html">Contact</a>
-        <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
+      <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
     <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
+  <!-- /@partial nav -->
 
   <div style="padding:22px var(--gutter); border-bottom:1px solid var(--rule);">
     <a class="link-underline" href="shop.html" style="font-size:13px; white-space:nowrap"><span>←</span> Back to shop</a>
@@ -55,6 +66,7 @@
     <div class="grid grid--three" id="related"></div>
   </section>
 
+  <!-- @partial footer -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
@@ -62,11 +74,14 @@
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
+  <!-- /@partial footer -->
 
+  <!-- @partial scripts -->
   <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
+  <!-- /@partial scripts -->
   <script>
     window.onData(function () {
       if (!window.CATALOG.length) {
@@ -120,10 +135,10 @@
 
       document.querySelector("[data-pd-root]").innerHTML =
         '<div class="pd__gallery">' +
-          '<div class="pd__img"><img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '"></div>' +
+          '<div class="pd__img pd__img--main" data-loupe="' + window.scImg(p.img, 2400) + '"><img src="' + window.scImg(p.img, 1600) + '" srcset="' + window.scSrcset(p.img, [800, 1200, 1600, 2000]) + '" sizes="(max-width:880px) 100vw, 56vw" fetchpriority="high" alt="' + p.name + '" data-media="' + p.id + '"><span class="loupe" aria-hidden="true"></span></div>' +
           // further angles only when Shopify has them; a single photo stands alone rather than repeating
           ((p.images || []).length > 1
-            ? '<div class="pd__thumbs">' + p.images.slice(1, 3).map(function (src, i) { return '<div class="pd__img"><img loading="lazy" decoding="async" src="' + src + '" alt="' + p.name + ', view ' + (i + 2) + '"></div>'; }).join('') + '</div>'
+            ? '<div class="pd__thumbs">' + p.images.slice(1, 3).map(function (src, i) { return '<div class="pd__img"><img loading="lazy" decoding="async" src="' + window.scImg(src, 800) + '" srcset="' + window.scSrcset(src, [400, 800, 1200]) + '" sizes="(max-width:880px) 50vw, 28vw" alt="' + p.name + ', view ' + (i + 2) + '"></div>'; }).join('') + '</div>'
             : '') +
         '</div>' +
         '<aside class="pd__panel">' +
@@ -157,7 +172,7 @@
           '<div class="card' + (qs ? ' is-sold' : '') + '">' +
             '<a class="card__link" href="product.html?id=' + q.id + '">' +
             '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' + (qs ? '<span class="card__tag">Sold</span>' : (q.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
-              '<img loading="lazy" decoding="async" src="' + q.img + '" alt="' + q.name + '" data-media="' + q.id + '"></div>' +
+              '<img loading="lazy" decoding="async" src="' + window.scImg(q.img, 800) + '" srcset="' + window.scSrcset(q.img, [400, 800, 1200]) + '" sizes="(max-width:620px) 92vw, 31vw" alt="' + q.name + '" data-media="' + q.id + '">' + '</div>' +
             '<div class="card__row"><div class="card__name">' + q.name + '</div>' +
               '<div class="card__price tnum">$ ' + q.price + '</div></div>' +
             '</a>' +
@@ -169,6 +184,9 @@
             '</div>' +
           '</div>';
         }).join("");
+
+      // the loupe: a round window over the main photo that shows the surface at full resolution
+      if (window.initLoupe) window.initLoupe(document.querySelector('.pd__img--main'));
 
       // Add-to-cart is wired once by js/site.js (initAddButtons), which runs on
       // DOMContentLoaded - after this inline script injects the button. Do NOT

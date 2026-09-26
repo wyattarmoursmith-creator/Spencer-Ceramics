@@ -25,6 +25,7 @@
     // priority: local edit-mode preview > CMS Site Photo > original HTML src
     var src = imgFor(k) || (window.SITE && window.SITE.images && window.SITE.images[k]);
     if (src && img.getAttribute("data-src-applied") !== src) {
+      if (src !== img.getAttribute("src") && img.hasAttribute("srcset")) { img.removeAttribute("srcset"); img.removeAttribute("sizes"); }   // variants belong to the default photo only
       img.src = src; img.setAttribute("data-src-applied", src);
     }
     img.style.objectPosition = focusFor(k);

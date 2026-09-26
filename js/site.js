@@ -133,7 +133,7 @@
       var p = l.product;
       return '' +
       '<div class="cart-line">' +
-        '<div class="cart-line__media"><img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '"></div>' +
+        '<div class="cart-line__media"><img src="' + window.scImg(p.img, 300) + '" srcset="' + window.scSrcset(p.img, [200, 300, 400]) + '" sizes="140px" alt="' + p.name + '" data-media="' + p.id + '"></div>' +
         '<div>' +
           '<div class="label" style="margin-bottom:10px">N° ' + p.ref + ' · ' + p.state + '</div>' +
           '<div class="cart-line__name">' + p.name + '</div>' +
@@ -241,6 +241,38 @@
       });
     });
   }
+
+  /* ---------- loupe: a round window over a photo showing the surface at full size ----------
+     Pointer devices only (hover + fine pointer); touch gets the plain photo. The big image
+     is fetched once, on first hover. Direct 1:1 tracking, no easing. */
+  function initLoupe(box) {
+    if (!box || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var big = box.getAttribute("data-loupe"), lens = box.querySelector(".loupe");
+    if (!big || !lens) return;
+    var ready = false, SIZE = 220, ZOOM = 2.2, iw = 0, ih = 0;
+    function prime() {
+      if (ready) return; ready = true;
+      var im = new Image(); im.onload = function () { iw = im.naturalWidth; ih = im.naturalHeight; lens.style.backgroundImage = "url('" + big + "')"; box.classList.add("has-loupe"); }; im.src = big;
+    }
+    box.addEventListener("mouseenter", prime);
+    box.addEventListener("mousemove", function (e) {
+      if (!iw) return;
+      var r = box.getBoundingClientRect();
+      var x = e.clientX - r.left, y = e.clientY - r.top;
+      // the photo is object-fit: cover, so map the cursor to the visible crop of the image
+      var scale = Math.max(r.width / iw, r.height / ih), dw = iw * scale, dh = ih * scale;
+      var ox = (r.width - dw) / 2, oy = (r.height - dh) / 2;
+      var px = (x - ox) / dw, py = (y - oy) / dh;             // 0..1 across the photo
+      var bw = dw * ZOOM, bh = dh * ZOOM;                      // the magnified photo
+      lens.style.left = (x - SIZE / 2) + "px"; lens.style.top = (y - SIZE / 2) + "px";
+      lens.style.backgroundSize = bw + "px " + bh + "px";
+      lens.style.backgroundPosition = (SIZE / 2 - px * bw) + "px " + (SIZE / 2 - py * bh) + "px";
+      box.classList.add("is-looking");
+    });
+    box.addEventListener("mouseleave", function () { box.classList.remove("is-looking"); });
+  }
+  window.initLoupe = initLoupe;
 
   window.scInitCurrency = initCurrency;   // pages that re-render their own markup can call this
 

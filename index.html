@@ -14,11 +14,18 @@
 <meta property="og:url" content="https://spencerceramics.netlify.app/" />
 <meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<!-- @partial head-assets -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="apple-touch-icon-180.png" />
+<link rel="manifest" href="site.webmanifest" />
+<meta name="theme-color" content="#EFECE6" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
+  <!-- /@partial head-assets -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Store","name":"Craig Spencer Ceramics","description":"Hand-thrown stoneware, made and signed by hand in Auckland, New Zealand.","url":"https://spencerceramics.netlify.app/","image":"https://spencerceramics.netlify.app/images/og-cover.jpg","email":"shop@craigspencerceramics.com","address":{"@type":"PostalAddress","addressLocality":"Auckland","addressCountry":"NZ"},"sameAs":["https://www.instagram.com/craigspencerceramics"]}
 </script>
@@ -30,6 +37,7 @@
   <a class="skip" href="#main">Skip to content</a>
 
   <!-- mobile menu -->
+  <!-- @partial menu -->
   <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
     <a href="everyday.html">Everyday</a>
@@ -37,28 +45,31 @@
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
+  <!-- /@partial menu -->
 
   <!-- HERO -->
   <header class="hero">
-    <nav class="nav nav--dark" aria-label="Primary">
-      <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
-      <div class="nav__links">
-        <a href="shop.html">Shop</a>
+    <!-- @partial nav variant="nav--dark" -->
+  <nav class="nav nav--dark" aria-label="Primary">
+    <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
+    <div class="nav__links">
+      <a href="shop.html">Shop</a>
       <a href="everyday.html">Everyday</a>
-        <a href="about.html">Studio</a>
-        <a href="contact.html">Contact</a>
-        <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
-      </div>
-      <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
-    </nav>
+      <a href="about.html">Studio</a>
+      <a href="contact.html">Contact</a>
+      <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
+    </div>
+    <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
+  </nav>
+  <!-- /@partial nav -->
 
   <main id="main">
 
     <div class="hero__media">
       <!-- Three photos slowly cross-fade. Swap any via /admin/ (Site Photos) or the images/ folder. -->
-      <img class="hero__img is-active" fetchpriority="high" src="images/hero-1.jpg" alt="Dark hand-thrown bowls in silhouette against a golden curtain" data-media="hero" />
-      <img class="hero__img" src="images/hero-2.jpg" alt="" aria-hidden="true" data-media="hero-2" loading="lazy" decoding="async" />
-      <img class="hero__img" src="images/hero-3.jpg" alt="" aria-hidden="true" data-media="hero-3" loading="lazy" decoding="async" />
+      <img class="hero__img is-active" fetchpriority="high" src="images/hero-1.jpg" srcset="images/hero-1-800.jpg 800w, images/hero-1-1200.jpg 1200w, images/hero-1-1600.jpg 1600w, images/hero-1.jpg 2000w" sizes="100vw" alt="Dark hand-thrown bowls in silhouette against a golden curtain" data-media="hero" />
+      <img class="hero__img" src="images/hero-2.jpg" srcset="images/hero-2-800.jpg 800w, images/hero-2-1200.jpg 1200w, images/hero-2-1600.jpg 1600w, images/hero-2.jpg 2000w" sizes="100vw" alt="" aria-hidden="true" data-media="hero-2" loading="lazy" decoding="async" />
+      <img class="hero__img" src="images/hero-3.jpg" srcset="images/hero-3-800.jpg 800w, images/hero-3-1200.jpg 1200w, images/hero-3-1600.jpg 1600w, images/hero-3.jpg 2000w" sizes="100vw" alt="" aria-hidden="true" data-media="hero-3" loading="lazy" decoding="async" />
     </div>
     <div class="hero__veil"></div>
 
@@ -91,7 +102,7 @@
       </div>
     </div>
     <div class="studio__media reveal reveal--late">
-      <img loading="lazy" decoding="async" src="images/studio.jpg" alt="Craig Spencer holding one of his bowls" data-media="studio" />
+      <img loading="lazy" decoding="async" src="images/studio.jpg" srcset="images/studio-800.jpg 800w, images/studio.jpg 1067w" sizes="(max-width:880px) 100vw, 50vw" alt="Craig Spencer holding one of his bowls" data-media="studio" />
     </div>
   </section>
 
@@ -130,16 +141,16 @@
       <a class="link-underline" href="about.html">About the work <span>→</span></a>
     </div>
     <div class="gallery__grid stagger">
-      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-1.jpg" alt="Stacked bowls on a table at the 100 bowls showcase" data-media="gallery-1" /></div>
-      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-2.jpg" alt="A white pedestal bowl, up close" data-media="gallery-2" /></div>
-      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-3.jpg" alt="Dark vessels on red marble" data-media="gallery-3" /></div>
-      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-4.jpg" alt="A gold-lined bowl against a red wall" data-media="gallery-4" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-1.jpg" srcset="images/gallery-1-800.jpg 800w, images/gallery-1.jpg 1067w" sizes="(max-width:880px) 50vw, 25vw" alt="Stacked bowls on a table at the 100 bowls showcase" data-media="gallery-1" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-2.jpg" srcset="images/gallery-2-800.jpg 800w, images/gallery-2.jpg 1067w" sizes="(max-width:880px) 50vw, 25vw" alt="A white pedestal bowl, up close" data-media="gallery-2" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-3.jpg" srcset="images/gallery-3-800.jpg 800w, images/gallery-3.jpg 1067w" sizes="(max-width:880px) 50vw, 25vw" alt="Dark vessels on red marble" data-media="gallery-3" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/gallery-4.jpg" srcset="images/gallery-4-800.jpg 800w, images/gallery-4.jpg 1067w" sizes="(max-width:880px) 50vw, 25vw" alt="A gold-lined bowl against a red wall" data-media="gallery-4" /></div>
     </div>
   </section>
 
   <!-- MANIFESTO - statement plate: a dark panel floats over a full-bleed photo, framed with catalogue metadata -->
   <section class="manifesto">
-    <img loading="lazy" decoding="async" class="manifesto__bg" src="images/manifesto-bg.jpg" alt="Bowls gathered on a wood table in warm light" data-media="manifesto-bg" />
+    <img loading="lazy" decoding="async" class="manifesto__bg" src="images/manifesto-bg.jpg" srcset="images/manifesto-bg-800.jpg 800w, images/manifesto-bg-1200.jpg 1200w, images/manifesto-bg-1600.jpg 1600w, images/manifesto-bg.jpg 2000w" sizes="100vw" alt="Bowls gathered on a wood table in warm light" data-media="manifesto-bg" />
     <div class="manifesto__panel" data-focus>
       <div class="manifesto__meta">
         <span>On making</span>
@@ -181,6 +192,7 @@
   <!-- FOOTER -->
   </main>
 
+  <!-- @partial footer -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
@@ -188,11 +200,14 @@
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
+  <!-- /@partial footer -->
 
+  <!-- @partial scripts -->
   <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
+  <!-- /@partial scripts -->
   <script>
     /* render three teaser cards from the catalogue */
     window.onData(function () {
@@ -205,7 +220,7 @@
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
             (sold ? '<span class="card__tag">Sold</span>' : (p.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
-            '<img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '">' +
+            '<img loading="lazy" decoding="async" src="' + window.scImg(p.img, 800) + '" srcset="' + window.scSrcset(p.img, [400, 800, 1200]) + '" sizes="(max-width:620px) 92vw, 31vw" alt="' + p.name + '" data-media="' + p.id + '">' +
           '</div>' +
           '<div class="card__row">' +
             '<div class="card__name">' + p.name + '</div>' +

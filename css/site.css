@@ -1068,3 +1068,14 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
   .gallery__cell img, .card__media img, .strip .ph img, .commission__media img, .j-entry__media img, .hero__img, .link-underline span, .btn .arrow{ transition:none; }
   .gallery__cell:hover img, .card:hover .card__media img, .strip .ph:hover img, .j-entry:hover .j-entry__media img{ transform:none; }
 }
+/* product loupe: a round window that follows the cursor and shows the surface close up */
+.pd__img--main{ cursor:default; }
+.pd__img--main.has-loupe{ cursor:crosshair; }
+.loupe{
+  position:absolute; width:220px; height:220px; border-radius:50%; pointer-events:none; z-index:3;
+  background-repeat:no-repeat; background-color:var(--bone);
+  box-shadow:0 0 0 1px rgba(21,20,15,0.18), 0 18px 40px rgba(11,11,12,0.28), inset 0 0 0 1px rgba(239,236,230,0.6);
+  opacity:0; transition:opacity .16s ease;
+}
+.pd__img--main.is-looking .loupe{ opacity:1; }
+@media (hover: none), (pointer: coarse){ .loupe{ display:none; } }

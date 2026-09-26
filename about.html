@@ -14,11 +14,18 @@
 <meta property="og:url" content="https://spencerceramics.netlify.app/about" />
 <meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<!-- @partial head-assets -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="apple-touch-icon-180.png" />
+<link rel="manifest" href="site.webmanifest" />
+<meta name="theme-color" content="#EFECE6" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
+  <!-- /@partial head-assets -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Craig Spencer","jobTitle":"Ceramicist","description":"New Zealand-born ceramicist working between New Zealand and Australia. More than twenty years across design, interiors and furniture; hand-built and wheel-thrown ceramic work with an architectural sensibility, including collaborations with Aesop.","address":{"@type":"PostalAddress","addressLocality":"Auckland","addressCountry":"NZ"},"worksFor":{"@type":"Organization","name":"Craig Spencer Ceramics"},"sameAs":["https://www.instagram.com/craigspencerceramics"]}
 </script>
@@ -26,6 +33,7 @@
 <body data-page="about">
   <a class="skip" href="#main">Skip to content</a>
 
+  <!-- @partial menu -->
   <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
     <a href="everyday.html">Everyday</a>
@@ -33,25 +41,28 @@
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
+  <!-- /@partial menu -->
 
   <!-- studio hero - sticky/parallax scroll, like the homepage -->
   <header class="hero">
-    <nav class="nav nav--dark" aria-label="Primary">
-      <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
-      <div class="nav__links">
-        <a href="shop.html">Shop</a>
+    <!-- @partial nav variant="nav--dark" -->
+  <nav class="nav nav--dark" aria-label="Primary">
+    <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
+    <div class="nav__links">
+      <a href="shop.html">Shop</a>
       <a href="everyday.html">Everyday</a>
-        <a href="about.html" aria-current="page">Studio</a>
-        <a href="contact.html">Contact</a>
-        <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
-      </div>
-      <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
-    </nav>
+      <a href="about.html" aria-current="page">Studio</a>
+      <a href="contact.html">Contact</a>
+      <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
+    </div>
+    <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
+  </nav>
+  <!-- /@partial nav -->
 
   <main id="main">
 
     <div class="hero__media">
-      <img class="hero__img is-active" fetchpriority="high" src="images/about.jpg" alt="Craig Spencer holding a bowl at the 100 bowls showcase" data-media="about" />
+      <img class="hero__img is-active" fetchpriority="high" src="images/about.jpg" srcset="images/about-800.jpg 800w, images/about-1200.jpg 1200w, images/about-1600.jpg 1600w, images/about.jpg 2000w" sizes="100vw" alt="Craig Spencer holding a bowl at the 100 bowls showcase" data-media="about" />
     </div>
     <div class="hero__veil"></div>
 
@@ -67,7 +78,7 @@
 
   <!-- statement plate - panel floating over the studio scene -->
   <section class="manifesto manifesto--studio">
-    <img loading="lazy" decoding="async" class="manifesto__bg" src="images/j-hero.jpg" alt="The studio, with finished pieces" data-media="studio-scene" />
+    <img loading="lazy" decoding="async" class="manifesto__bg" src="images/j-hero.jpg" srcset="images/j-hero-800.jpg 800w, images/j-hero-1200.jpg 1200w, images/j-hero-1600.jpg 1600w, images/j-hero.jpg 2000w" sizes="100vw" alt="The studio, with finished pieces" data-media="studio-scene" />
     <div class="manifesto__panel" data-focus>
       <div class="manifesto__meta">
         <span>The studio</span>
@@ -90,10 +101,10 @@
       <a class="link-underline" href="shop.html">In the shop <span>→</span></a>
     </div>
     <div class="gallery__grid stagger">
-      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-1.jpg" alt="A pedestal bowl, backlit" data-media="work-1" /></div>
-      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-2.jpg" alt="A stemmed vessel among bowls" data-media="work-2" /></div>
-      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-3.jpg" alt="A white bowl interior, up close" data-media="work-3" /></div>
-      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-4.jpg" alt="Pieces grouped on the table" data-media="work-4" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-1.jpg" srcset="images/work-1-800.jpg 800w, images/work-1.jpg 1067w" sizes="(max-width:880px) 50vw, 25vw" alt="A pedestal bowl, backlit" data-media="work-1" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-2.jpg" srcset="images/work-2-800.jpg 800w, images/work-2.jpg 1067w" sizes="(max-width:880px) 50vw, 25vw" alt="A stemmed vessel among bowls" data-media="work-2" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-3.jpg" srcset="images/work-3-800.jpg 800w, images/work-3.jpg 1067w" sizes="(max-width:880px) 50vw, 25vw" alt="A white bowl interior, up close" data-media="work-3" /></div>
+      <div class="gallery__cell"><img loading="lazy" decoding="async" src="images/work-4.jpg" srcset="images/work-4-800.jpg 800w, images/work-4-1200.jpg 1200w, images/work-4.jpg 1600w" sizes="(max-width:880px) 50vw, 25vw" alt="Pieces grouped on the table" data-media="work-4" /></div>
     </div>
   </section>
 
@@ -115,7 +126,7 @@
         </div>
       </div>
       <div class="maker__media reveal reveal--late">
-        <img loading="lazy" decoding="async" src="images/maker-portrait.jpg" alt="Craig Spencer holding a bowl from the 100 bowls collection" data-media="maker-portrait" />
+        <img loading="lazy" decoding="async" src="images/maker-portrait.jpg" srcset="images/maker-portrait-800.jpg 800w, images/maker-portrait.jpg 1067w" sizes="(max-width:880px) 100vw, 50vw" alt="Craig Spencer holding a bowl from the 100 bowls collection" data-media="maker-portrait" />
       </div>
     </div>
   </section>
@@ -123,15 +134,15 @@
   <!-- process triptych -->
   <section class="strip">
     <div class="strip__cell">
-      <div class="ph"><img loading="lazy" decoding="async" src="images/process-1.jpg" alt="Throwing rings in the clay, up close" data-media="process-1" /></div>
+      <div class="ph"><img loading="lazy" decoding="async" src="images/process-1.jpg" srcset="images/process-1-800.jpg 800w, images/process-1.jpg 1067w" sizes="(max-width:620px) 100vw, 33vw" alt="Throwing rings in the clay, up close" data-media="process-1" /></div>
       <div class="cap label">01 · The wheel</div>
     </div>
     <div class="strip__cell">
-      <div class="ph"><img loading="lazy" decoding="async" src="images/process-2.jpg" alt="A glazed bowl, up close" data-media="process-2" /></div>
+      <div class="ph"><img loading="lazy" decoding="async" src="images/process-2.jpg" srcset="images/process-2-800.jpg 800w, images/process-2.jpg 1067w" sizes="(max-width:620px) 100vw, 33vw" alt="A glazed bowl, up close" data-media="process-2" /></div>
       <div class="cap label">02 · The glaze</div>
     </div>
     <div class="strip__cell">
-      <div class="ph"><img loading="lazy" decoding="async" src="images/process-3.jpg" alt="A gold-lined piece from the kiln" data-media="process-3" /></div>
+      <div class="ph"><img loading="lazy" decoding="async" src="images/process-3.jpg" srcset="images/process-3-800.jpg 800w, images/process-3.jpg 1067w" sizes="(max-width:620px) 100vw, 33vw" alt="A gold-lined piece from the kiln" data-media="process-3" /></div>
       <div class="cap label">03 · The firing</div>
     </div>
   </section>
@@ -172,6 +183,7 @@
 
   </main>
 
+  <!-- @partial footer -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
@@ -179,10 +191,13 @@
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
+  <!-- /@partial footer -->
 
+  <!-- @partial scripts -->
   <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
+  <!-- /@partial scripts -->
 </body>
 </html>

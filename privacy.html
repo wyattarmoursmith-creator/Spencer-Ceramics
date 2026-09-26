@@ -11,15 +11,23 @@
 <meta property="og:title" content="Privacy · Craig Spencer Ceramics" />
 <meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<!-- @partial head-assets -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png" />
+<link rel="apple-touch-icon" href="apple-touch-icon-180.png" />
+<link rel="manifest" href="site.webmanifest" />
+<meta name="theme-color" content="#EFECE6" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
+  <!-- /@partial head-assets -->
 </head>
 <body data-page="privacy">
   <a class="skip" href="#main">Skip to content</a>
 
+  <!-- @partial menu -->
   <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
     <a href="everyday.html">Everyday</a>
@@ -27,7 +35,9 @@
     <a href="contact.html">Contact</a>
     <a href="cart.html">Cart</a>
   </nav>
+  <!-- /@partial menu -->
 
+  <!-- @partial nav variant="nav--solid" -->
   <nav class="nav nav--solid" aria-label="Primary">
     <a class="nav__brand wordmark" href="index.html">Craig&nbsp;Spencer&nbsp;Ceramics</a>
     <div class="nav__links">
@@ -39,6 +49,7 @@
     </div>
     <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
+  <!-- /@partial nav -->
 
   <div class="masthead"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
 
@@ -130,6 +141,7 @@
 
   </main>
 
+  <!-- @partial footer -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
@@ -137,10 +149,13 @@
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
   </footer>
+  <!-- /@partial footer -->
 
+  <!-- @partial scripts -->
   <script src="js/data.js"></script>
   <script src="js/media.js"></script>
   <script src="js/editor.js"></script>
   <script src="js/site.js"></script>
+  <!-- /@partial scripts -->
 </body>
 </html>

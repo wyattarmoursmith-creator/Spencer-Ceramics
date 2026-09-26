@@ -140,3 +140,19 @@ Manage products, journal posts, photos, **page text, and contact details** from 
 - No frameworks, no build. Open `index.html` locally to preview (run a tiny static server if your browser blocks `file://` fetches: `npx serve site`).
 - Fonts load from Google Fonts (Jost / Schibsted Grotesk / JetBrains Mono). If you license real **Futura**, add it as a custom font and swap `--disp` in `css/site.css`.
 - Design tokens (colours, type, spacing) live at the top of `css/site.css`.
+
+## Shared page chrome (nav, menu, footer, head assets, scripts)
+
+Those blocks live once in `partials/` and are stamped into every page between
+`<!-- @partial name -->` markers. Edit the partial, then run:
+
+    node tools/sync-partials.js
+
+`node tools/sync-partials.js --check` reports pages that are out of date. The nav and
+mobile menu get `aria-current` on the link matching the page's `data-page` automatically.
+
+## Photos
+
+The site's own photos in `images/` have responsive variants (`-800`, `-1200`, `-1600`, `-2000`).
+After replacing a photo, regenerate them with `python3 tools/make-variants.py`.
+Product photos are served from Shopify's CDN and resized there.
