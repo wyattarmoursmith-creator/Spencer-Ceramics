@@ -1050,3 +1050,11 @@ mark.fill{ background:var(--ember-soft, rgba(122,46,30,0.12)); color:var(--ember
 @keyframes barFullIn{ from{ opacity:0; transform:translateY(-8px); } to{ opacity:1; transform:none; } }
 .shop-bar.is-moving:not(.is-collapsed) .shop-bar__full{ animation:barFullIn .3s ease .08s both; }
 @media (prefers-reduced-motion: reduce){ .shop-bar.is-moving:not(.is-collapsed) .shop-bar__full{ animation:none; } }
+/* filter row reads as a set of tabs you can move between: heavier, darker, with a hover cue */
+.filters{ align-items:baseline; gap:26px; }
+.filters__lead{ margin-right:2px; }
+.filters button{ font-size:15px; font-weight:500; color:var(--ink); padding-bottom:6px; border-bottom-width:2px; transition:color .15s ease, border-color .15s ease; }
+.filters button:hover{ color:var(--ember); border-bottom-color:var(--rule-strong, rgba(21,20,15,0.32)); }
+.filters button[aria-pressed="true"]{ color:var(--ember); border-bottom-color:var(--ember); }
+.filters__everyday::before{ top:9px; }
+@media (max-width:620px){ .filters{ gap:18px; } .filters button{ font-size:14px; } .filters__lead{ display:none; } }
