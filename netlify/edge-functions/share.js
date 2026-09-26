@@ -44,27 +44,24 @@ export default async function (request, context) {
   if (!meta) return res;
   const isProduct = url.pathname.startsWith("/product");
   const pageUrl = `${url.origin}${isProduct ? "/product.html" : "/journal-post.html"}?id=${encodeURIComponent(id)}`;
-  const seen = {};
-  const set = (attr) => ({ element(el) { el.setAttribute("content", meta[attr] || el.getAttribute("content")); } });
-  return new HTMLRewriter()
-    .on("title", { element(el) { el.setInnerContent(meta.title); } })
-    .on('meta[name="description"]', set("description"))
-    .on('meta[property="og:title"]', { element(el) { seen.ogt = 1; el.setAttribute("content", meta.title); } })
-    .on('meta[property="og:description"]', { element(el) { seen.ogd = 1; el.setAttribute("content", meta.description); } })
-    .on('meta[property="og:image"]', { element(el) { if (meta.image) el.setAttribute("content", meta.image); } })
-    .on('meta[property="og:url"]', { element(el) { seen.ogu = 1; el.setAttribute("content", pageUrl); } })
-    .on('link[rel="canonical"]', { element(el) { seen.canon = 1; el.setAttribute("href", pageUrl); } })
-    .on("head", { element(el) {
-      el.onEndTag((end) => {
-        let extra = "";
-        if (!seen.ogt) extra += `<meta property="og:title" content="${esc(meta.title)}" />`;
-        if (!seen.ogd) extra += `<meta property="og:description" content="${esc(meta.description)}" />`;
-        if (!seen.ogu) extra += `<meta property="og:url" content="${esc(pageUrl)}" />`;
-        if (!seen.canon) extra += `<link rel="canonical" href="${esc(pageUrl)}" />`;
-        if (meta.image) extra += `<meta name="twitter:image" content="${esc(meta.image)}" />`;
-        if (extra) end.before(extra, { html: true });
-      });
-    } })
-    .transform(res);
+  let html;
+  try { html = await res.text(); } catch (e) { return res; }
+  // plain string edits on the head: small, predictable, no parser dependency at the edge
+  const setMeta = (attr, key, value) => {
+    const re = new RegExp(`<meta\\s+${attr}="${key}"\\s+content="[^"]*"\\s*/?>`, "i");
+    const tag = `<meta ${attr}="${key}" content="${esc(value)}" />`;
+    if (re.test(html)) html = html.replace(re, tag); else html = html.replace(/<\/head>/i, tag + "\n</head>");
+  };
+  html = html.replace(/<title>[^<]*<\/title>/i, `<title>${esc(meta.title)}</title>`);
+  setMeta("name", "description", meta.description);
+  setMeta("property", "og:title", meta.title);
+  setMeta("property", "og:description", meta.description);
+  setMeta("property", "og:url", pageUrl);
+  if (meta.image) { setMeta("property", "og:image", meta.image); setMeta("name", "twitter:image", meta.image); }
+  const canon = /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i;
+  const canonTag = `<link rel="canonical" href="${esc(pageUrl)}" />`;
+  html = canon.test(html) ? html.replace(canon, canonTag) : html.replace(/<\/head>/i, canonTag + "\n</head>");
+  const headers = new Headers(res.headers); headers.delete("content-length");
+  return new Response(html, { status: res.status, headers });
 }
 export const config = { path: ["/product", "/product.html", "/journal-post", "/journal-post.html"] };
