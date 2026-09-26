@@ -13,12 +13,13 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
 </head>
 <body data-page="product">
+  <a class="skip" href="#main">Skip to content</a>
 
-  <nav class="menu" aria-label="Mobile">
+  <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
     <a href="everyday.html">Everyday</a>
     <a href="about.html">Studio</a>
@@ -35,14 +36,14 @@
       <a href="contact.html">Contact</a>
         <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
-    <button class="nav__burger" aria-label="Menu">☰</button>
+    <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
 
   <div style="padding:22px var(--gutter); border-bottom:1px solid var(--rule);">
     <a class="link-underline" href="shop.html" style="font-size:13px; white-space:nowrap"><span>←</span> Back to shop</a>
   </div>
 
-  <main class="pd" data-pd-root>
+  <main id="main" class="pd" data-pd-root>
     <!-- filled by JS from ?id= -->
   </main>
 
@@ -120,10 +121,10 @@
       document.querySelector("[data-pd-root]").innerHTML =
         '<div class="pd__gallery">' +
           '<div class="pd__img"><img src="' + p.img + '" alt="' + p.name + '" data-media="' + p.id + '"></div>' +
-          '<div class="pd__thumbs">' +
-            '<div class="pd__img"><img loading="lazy" decoding="async" src="' + p.img + '" alt="" data-media="' + p.id + '"></div>' +
-            '<div class="pd__img"><img loading="lazy" decoding="async" src="' + p.img + '" alt="" data-media="' + p.id + '"></div>' +
-          '</div>' +
+          // further angles only when Shopify has them; a single photo stands alone rather than repeating
+          ((p.images || []).length > 1
+            ? '<div class="pd__thumbs">' + p.images.slice(1, 3).map(function (src, i) { return '<div class="pd__img"><img loading="lazy" decoding="async" src="' + src + '" alt="' + p.name + ', view ' + (i + 2) + '"></div>'; }).join('') + '</div>'
+            : '') +
         '</div>' +
         '<aside class="pd__panel">' +
           '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : (p.one ? 'One of one' : 'Available')) + '</div>' +
@@ -153,18 +154,20 @@
         .map(function (q) {
           var qs = q.state === "sold";
           return '' +
-          '<a class="card' + (qs ? ' is-sold' : '') + '" href="product.html?id=' + q.id + '">' +
+          '<div class="card' + (qs ? ' is-sold' : '') + '">' +
+            '<a class="card__link" href="product.html?id=' + q.id + '">' +
             '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' + (qs ? '<span class="card__tag">Sold</span>' : (q.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
               '<img loading="lazy" decoding="async" src="' + q.img + '" alt="' + q.name + '" data-media="' + q.id + '"></div>' +
             '<div class="card__row"><div class="card__name">' + q.name + '</div>' +
               '<div class="card__price tnum">$ ' + q.price + '</div></div>' +
+            '</a>' +
             '<div class="card__actions">' +
               (qs
                 ? '<span class="card__state">Sold</span>'
                 : '<button class="btn btn--ghost btn--pill card__add" type="button" data-add="' + q.id + '">Add to cart <span class="arrow">&rarr;</span></button>' +
                   '<span class="card__state">Available</span>') +
             '</div>' +
-          '</a>';
+          '</div>';
         }).join("");
 
       // Add-to-cart is wired once by js/site.js (initAddButtons), which runs on

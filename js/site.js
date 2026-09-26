@@ -69,10 +69,19 @@
     var burger = document.querySelector(".nav__burger");
     var menu = document.querySelector(".menu");
     if (burger && menu) {
-      burger.addEventListener("click", function () { menu.classList.toggle("open"); });
-      menu.querySelectorAll("a").forEach(function (a) {
-        a.addEventListener("click", function () { menu.classList.remove("open"); });
-      });
+      var lastFocus = null;
+      function setMenu(open) {
+        menu.classList.toggle("open", open);
+        document.documentElement.classList.toggle("menu-open", open);   // locks page scroll behind the overlay
+        burger.setAttribute("aria-expanded", open ? "true" : "false");
+        burger.setAttribute("aria-label", open ? "Close menu" : "Menu");
+        burger.textContent = open ? "\u2715" : "\u2630";
+        if (open) { lastFocus = document.activeElement; var first = menu.querySelector("a"); if (first) first.focus(); }
+        else if (lastFocus && lastFocus.focus) { lastFocus.focus(); }
+      }
+      burger.addEventListener("click", function () { setMenu(!menu.classList.contains("open")); });
+      menu.querySelectorAll("a").forEach(function (a) { a.addEventListener("click", function () { setMenu(false); }); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape" && menu.classList.contains("open")) setMenu(false); });
     }
     // hero nav: fade to a solid bar once scrolled past the top
     var heroNav = document.querySelector(".nav--dark");
@@ -157,7 +166,6 @@
           '<div class="summary__row"><span>Currency</span><span class="currency" data-currency><span class="currency__one" data-currency-code>' + cur() + '</span><span class="currency__pick" hidden><select aria-label="Currency"></select></span></span></div>' +
           '<div class="summary__total"><span>Total</span><span class="tnum">' + money(sub) + ' ' + cur() + '</span></div>' +
           '<button class="btn btn--fill btn--block" style="margin-top:30px" data-checkout>Secure checkout · Shopify <span class="arrow">&rarr;</span></button>' +
-          '<button class="btn btn--ghost btn--block" style="margin-top:12px" data-checkout>Express · Shop Pay <span class="arrow">&rarr;</span></button>' +
           '<div class="summary__note">Orders are charged in the currency of the shipping country. Every piece is securely wrapped and packed by hand. Tracking provided once your order ships. <a href="faq.html" style="border-bottom:1px solid currentColor">Shipping &amp; FAQ</a></div>' +
         '</aside>' +
       '</div>';
@@ -168,7 +176,9 @@
     wrap.querySelectorAll("[data-inc]").forEach(function (b) {
       b.addEventListener("click", function () {
         var id = b.getAttribute("data-inc");
-        window.Cart.setQty(id, currentQty(id) + 1);
+        var p = window.byId(id), want = currentQty(id) + 1;
+        if (p && want > p.stock) { b.classList.add('is-max'); setTimeout(function () { b.classList.remove('is-max'); }, 600); return; }   // no more than exist
+        window.Cart.setQty(id, want);
       });
     });
     wrap.querySelectorAll("[data-dec]").forEach(function (b) {
@@ -540,7 +550,7 @@
         }, { threshold: 0.5 });
         io.observe(p);
       } else {
-        settle();
+        (typeof settle === "function" ? settle() : null);
       }
     });
   }

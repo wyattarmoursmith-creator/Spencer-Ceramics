@@ -16,12 +16,13 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
 </head>
 <body data-page="shop">
+  <a class="skip" href="#main">Skip to content</a>
 
-  <nav class="menu" aria-label="Mobile">
+  <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html" aria-current="page">Shop</a>
     <a href="everyday.html">Everyday</a>
     <a href="about.html">Studio</a>
@@ -38,10 +39,12 @@
       <a href="contact.html">Contact</a>
         <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
-    <button class="nav__burger" aria-label="Menu">☰</button>
+    <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
 
   <div class="masthead"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
+
+  <main id="main">
 
   <!-- shop plate - the edition, framed like the rest of the site (photo + floating panel) -->
   <section class="manifesto manifesto--shop">
@@ -61,8 +64,8 @@
   <!-- filter + sort bar: sticks under the nav while you scroll the grid -->
   <div class="shop-bar" id="shop-bar">
     <!-- collapsed state: one slim line while scrolling down through the grid; tap or scroll up to open -->
-    <button class="shop-bar__mini" type="button" aria-expanded="true" aria-controls="shop-bar"><span class="shop-bar__mini-label">All</span><span class="shop-bar__mini-hint">Filters &amp; sort</span></button>
-    <div class="shop-bar__full">
+    <button class="shop-bar__mini" type="button" aria-expanded="true" aria-controls="shop-bar-full"><span class="shop-bar__mini-label">All</span><span class="shop-bar__mini-hint">Filters &amp; sort</span></button>
+    <div class="shop-bar__full" id="shop-bar-full">
     <div class="filters" role="group" aria-label="Filter">
       <span class="filters__lead label">Browse</span>
       <button aria-pressed="true" data-filter="all">All</button>
@@ -110,6 +113,8 @@
     <a class="btn btn--ghost btn--pill" href="contact.html">Get in touch <span class="arrow">→</span></a>
   </section>
 
+  </main>
+
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
     <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
@@ -129,7 +134,8 @@
       function cardHTML(p) {
         var sold = p.state === "sold";
         return '' +
-        '<a class="card' + (sold ? ' is-sold' : '') + '" href="product.html?id=' + p.id + '">' +
+        '<div class="card' + (sold ? ' is-sold' : '') + '">' +
+          '<a class="card__link" href="product.html?id=' + p.id + '">' +
           '<div class="card__media">' +
             '<span class="card__no">N° ' + p.ref + '</span>' +
             (sold ? '<span class="card__tag">Sold</span>' : (p.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
@@ -139,13 +145,14 @@
             '<div class="card__name">' + p.name + '</div>' +
             '<div class="card__price tnum">$ ' + p.price + '</div>' +
           '</div>' +
+          '</a>' +
           '<div class="card__actions">' +
             (sold
               ? '<span class="card__state">Sold</span>'
               : '<button class="btn btn--ghost btn--pill card__add" type="button" data-add="' + p.id + '">Add to cart <span class="arrow">&rarr;</span></button>' +
                 '<span class="card__state">Available</span>') +
           '</div>' +
-        '</a>';
+        '</div>';
       }
 
       var sortBy = "newest", currentSub = "", availOnly = false;
@@ -173,7 +180,7 @@
           return '<button aria-pressed="' + (currentSub === t ? "true" : "false") + '" data-sub="' + t.replace(/"/g, "&quot;") + '">' + t + ' <i>' + counts[t] + '</i></button>';
         })).join("");
         wrap.querySelectorAll("button").forEach(function (b) {
-          b.addEventListener("click", function () { currentSub = b.getAttribute("data-sub"); render(currentFilter); resetScroll(); });
+          b.addEventListener("click", function () { currentSub = b.getAttribute("data-sub"); render(currentFilter); resetScroll(); var again = wrap.querySelector('[data-sub="' + currentSub.replace(/"/g, "&quot;") + '"]'); if (again) again.focus(); });
         });
       }
       function render(filter) {

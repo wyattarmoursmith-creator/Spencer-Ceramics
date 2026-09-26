@@ -16,12 +16,13 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
 </head>
 <body data-page="contact">
+  <a class="skip" href="#main">Skip to content</a>
 
-  <nav class="menu" aria-label="Mobile">
+  <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
     <a href="everyday.html">Everyday</a>
     <a href="about.html">Studio</a>
@@ -38,15 +39,17 @@
       <a href="contact.html" aria-current="page">Contact</a>
       <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
-    <button class="nav__burger" aria-label="Menu">☰</button>
+    <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
 
   <div class="masthead"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
 
+  <main id="main">
+
   <!-- one immersive plate over a set table - the invitation to sit down and talk.
        (replaced the old rigid light|dark split, 2026-08) -->
   <section class="manifesto manifesto--contact">
-    <img class="manifesto__bg" src="images/contact-scene.jpg" alt="A table set with hand-thrown bowls" data-media="contact-scene" />
+    <img class="manifesto__bg" fetchpriority="high" src="images/contact-scene.jpg" alt="A table set with hand-thrown bowls" data-media="contact-scene" />
     <div class="manifesto__panel contact-plate reveal">
       <div class="manifesto__meta">
         <span>Contact</span>
@@ -121,6 +124,8 @@
     </div>
     <div class="faqs__foot"><a class="link-underline" href="faq.html">Shipping &amp; FAQ in full <span>→</span></a></div>
   </section>
+
+  </main>
 
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>

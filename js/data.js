@@ -201,7 +201,8 @@ function scMapProduct(node) {
     one:        avail && qty === 1,                              // the last (usually only) one of this piece
     variantId:  v ? v.id : "",
     variantNum: v ? scGidNum(v.id) : "",
-    available:  avail
+    available:  avail,
+    stock:      (qty === null ? 99 : Math.max(0, qty))   // how many can go in a cart
   };
 }
 
@@ -236,8 +237,11 @@ function scFetchProducts() {
   return page(null);
 }
 
+/* only pages that show pieces need the catalogue; the rest skip the Shopify round trips */
+var SC_SHOP_PAGES = { home: 1, shop: 1, everyday: 1, product: 1, cart: 1 };
+var scWantsCatalog = !!SC_SHOP_PAGES[(document.body && document.body.getAttribute("data-page")) || ""];
 window._dataReady = Promise.all([
-  scResolveMarket().then(scFetchProducts).catch(function (err) {
+  (scWantsCatalog ? scResolveMarket().then(scFetchProducts) : Promise.resolve([])).catch(function (err) {
     console.error("[shop] Shopify products failed to load - the shop will show empty until it's reachable.", err);
     return [];
   }),

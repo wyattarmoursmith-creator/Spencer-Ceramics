@@ -47,21 +47,16 @@ window.MEDIA = {
 
   /* shop - plate backdrop + the mid-grid break */
   "shop-scene":  "50% 55%",
+  "everyday-scene": "50% 60%",
   "shop-break":  "50% 50%",
 
   /* contact - the plate backdrop */
   "contact-scene": "50% 62%",
 
   /* products - keyed by catalogue id */
-  "042-01":      "50% 50%",
-  "042-02":      "50% 45%",
-  "042-03":      "50% 50%",
-  "042-04":      "50% 45%",
-  "042-05":      "50% 50%",
-  "042-06":      "50% 50%",
 
   /* journal - keyed by post id */
   "spring-firing":  "50% 50%",
-  "wood-ash-chance":"50% 50%",
+  "spring-chance":"50% 50%",
   "a-week-of-cups": "50% 50%"
 };

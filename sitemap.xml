@@ -5,7 +5,10 @@
   <url><loc>https://spencerceramics.netlify.app/about</loc><priority>0.7</priority></url>
   <url><loc>https://spencerceramics.netlify.app/journal</loc><priority>0.6</priority></url>
   <url><loc>https://spencerceramics.netlify.app/contact</loc><priority>0.5</priority></url>
-  <url><loc>https://spencerceramics.netlify.app/everyday</loc>
+  <url>
+    <loc>https://spencerceramics.netlify.app/everyday</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://spencerceramics.netlify.app/faq</loc><priority>0.5</priority></url>

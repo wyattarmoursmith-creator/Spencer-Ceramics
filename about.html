@@ -17,15 +17,16 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Schibsted+Grotesk:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="css/site.css" />
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Person","name":"Craig Spencer","jobTitle":"Ceramicist","description":"New Zealand-born ceramicist working between New Zealand and Australia. More than twenty years across design, interiors and furniture; hand-built and wheel-thrown ceramic work with an architectural sensibility, including collaborations with Aesop.","address":{"@type":"PostalAddress","addressLocality":"Auckland","addressCountry":"NZ"},"worksFor":{"@type":"Organization","name":"Craig Spencer Ceramics"},"sameAs":["https://www.instagram.com/craigspencerceramics"]}
 </script>
 </head>
 <body data-page="about">
+  <a class="skip" href="#main">Skip to content</a>
 
-  <nav class="menu" aria-label="Mobile">
+  <nav class="menu" id="menu" aria-label="Mobile">
     <a href="shop.html">Shop</a>
     <a href="everyday.html">Everyday</a>
     <a href="about.html" aria-current="page">Studio</a>
@@ -44,8 +45,10 @@
         <a href="contact.html">Contact</a>
         <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
       </div>
-      <button class="nav__burger" aria-label="Menu">☰</button>
+      <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
     </nav>
+
+  <main id="main">
 
     <div class="hero__media">
       <img class="hero__img is-active" fetchpriority="high" src="images/about.jpg" alt="Craig Spencer holding a bowl at the 100 bowls showcase" data-media="about" />
@@ -56,7 +59,7 @@
       <div class="hero__meta"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
       <div class="hero__caption">
         <div class="label" style="color:var(--fog)">The studio · Auckland</div>
-        <div class="display">A small studio.<br />One pair of hands.</div>
+        <h1 class="display">A small studio.<br />One pair of hands.</h1>
       </div>
       <div class="hero__scroll"><span>Scroll</span><span class="line"></span></div>
     </div>
@@ -166,6 +169,8 @@
     <div class="display">Made to be used,<br />and lived with.</div>
     <a class="btn btn--fill btn--pill btn--ember" href="shop.html">Browse the shop <span class="arrow">→</span></a>
   </section>
+
+  </main>
 
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
