@@ -7,7 +7,8 @@ const SHOP = { domain: "spencer-ceramics-2.myshopify.com", token: "d1c2f3c092fff
 const SITE = "Craig Spencer Ceramics";
 
 function esc(s) { return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
-function short(s, n) { s = String(s || "").replace(/\s*[—–]\s*/g, ", ").replace(/\s+/g, " ").trim();   // the site never shows em dashes return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : s; }
+/* the site never shows em dashes */
+function short(s, n) { s = String(s || "").replace(/\s*[—–]\s*/g, ", ").replace(/\s+/g, " ").trim(); return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, "") + "…" : s; }
 
 async function productMeta(handle) {
   const q = `{ productByHandle(handle: ${JSON.stringify(handle)}) { title description featuredImage { url } availableForSale priceRange { minVariantPrice { amount currencyCode } } } }`;
@@ -21,7 +22,7 @@ async function productMeta(handle) {
   const firstPara = (p.description || "").split(/\n|FINISH|CARE/)[0];
   return {
     title: `${p.title} · ${SITE}`,
-    description: short(firstPara || `${p.title}, a hand-thrown piece by Craig Spencer.`, 155) + (price ? ` ${Math.round(parseFloat(price.amount))} ${price.currencyCode}.` : "") + (p.availableForSale ? "" : " Sold."),
+    description: short(firstPara || `${p.title}, a handcrafted piece by Craig Spencer.`, 155) + (price ? ` ${Math.round(parseFloat(price.amount))} ${price.currencyCode}.` : "") + (p.availableForSale ? "" : " Sold."),
     image: img, type: "product"
   };
 }
