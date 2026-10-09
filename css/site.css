@@ -1079,3 +1079,44 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 }
 .pd__img--main.is-looking .loupe{ opacity:1; }
 @media (hover: none), (pointer: coarse){ .loupe{ display:none; } }
+/* ============================================================
+   PRE-LAUNCH PASS (2026-10, Craig's review): quieter overlays, one body size,
+   bigger menu button, phone cart button, compact FAQ, image-only band
+   ============================================================ */
+/* one body copy size everywhere (labels and meta keep their own scale) */
+.faq-section__body p, .faq-item__body p, .pd__desc, .pd__section p, .pd__finish p, .page-head__intro, .everyday__note,
+.shop-plate__note, .everyday-band__text p, .studio__text p, .contact-plate__intro, .contact-plate__promise, .summary__note,
+.gallery__intro, .legal p, .article__body p, .stockist span:not(.stockist__region), .stockist a, .pd__note{ font-size:15px; line-height:1.7; }
+.maker__bio p{ font-size:15px; line-height:1.75; }
+/* text over photos: smaller plates, shorter lines, more picture */
+.manifesto__panel{ width:min(520px,100%); min-height:min(380px,52vh); padding:clamp(24px,3vw,40px); }
+.manifesto__statement, .shop-plate__body h1, .contact-plate__info h1{ font-size:clamp(26px,3.2vw,40px); }
+.shop-plate__body{ margin-top:clamp(18px,3vw,30px); }
+.hero__caption .display{ font-size:clamp(30px,4.2vw,48px); }
+.hero__caption{ max-width:480px; }
+.contact-plate__intro{ margin:14px 0 18px; }
+.contact-plate__promise{ margin-top:16px; padding-top:14px; }
+/* image-only band where the home statement plate used to be */
+.manifesto--image{ min-height:min(70vh,640px); }
+.manifesto--image .manifesto__bg{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+/* menu button that older eyes can find */
+.nav__burger{ font-size:26px; min-width:52px; min-height:52px; margin-right:-10px; }
+/* phone cart button: fixed at the top right beside the menu, only while the cart has something in it */
+.nav__cart-fab{ display:none; }
+@media (max-width:860px){
+  .nav__cart-fab{ display:inline-flex; align-items:center; position:fixed; top:16px; right:72px; z-index:41; padding:9px 14px; border:1px solid currentColor; border-radius:999px; font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink); background:var(--chalk); }
+  .nav__cart-fab[hidden]{ display:none; }
+  .nav--dark:not(.nav--scrolled) .nav__cart-fab{ color:var(--chalk); background:rgba(11,11,12,0.55); border-color:rgba(239,236,230,0.6); }
+}
+/* compact FAQ block (home + contact) */
+.faqs--compact{ padding:clamp(48px,6vw,72px) var(--gutter); }
+.faqs--compact .faq-item summary{ padding:14px 0; font-size:15px; }
+.faqs--compact .faq-item__body{ padding-bottom:16px; }
+.faqs__foot{ display:flex; align-items:center; gap:28px; flex-wrap:wrap; margin-top:34px; }
+/* everyday band: title, then the promise line */
+.everyday-band__sub{ margin:12px 0 10px; font-family:var(--disp); font-weight:300; font-size:clamp(18px,2vw,24px); line-height:1.25; color:var(--ink); }
+/* the menu button only exists on phones (the audit pass had made it inline-flex everywhere) */
+.nav__burger{ display:none; }
+@media (max-width:860px){ .nav__burger{ display:inline-flex; margin-right:-14px; } }
+/* letter-spaced caps leave a trailing gap: pull the right-hand text back onto the margin */
+.masthead span:last-child, .hero__meta span:last-child, .nav__links a:last-child{ margin-right:-0.2em; }

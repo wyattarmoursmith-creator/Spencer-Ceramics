@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <title>Craig Spencer Ceramics · Piece</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="A hand-thrown piece by Craig Spencer Ceramics, made and signed in Auckland, New Zealand." />
+<meta name="description" content="A handcrafted piece by Craig Spencer Ceramics, made and signed by hand. Australia and New Zealand." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Craig Spencer Ceramics" />
 <meta property="og:title" content="A piece by Craig Spencer Ceramics" />
@@ -46,6 +46,7 @@
       <a href="contact.html">Contact</a>
       <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
+    <a class="nav__cart-fab" href="cart.html" hidden aria-label="Cart">Cart&nbsp;·&nbsp;<span data-cart-count>0</span></a>
     <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
   <!-- /@partial nav -->
@@ -69,7 +70,7 @@
   <!-- @partial footer -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
-    <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
+    <div class="footer__cell"><span>Email</span><a data-site="email" href="mailto:shop@craigspencerceramics.com">shop@craigspencerceramics.com</a></div>
     <div class="footer__cell"><span>Journal</span><a href="journal.html">Notes from the studio →</a></div>
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
@@ -96,8 +97,8 @@
 
       // SEO: per-piece description, canonical, and Product schema (price + availability for Google Shopping surfaces)
       var desc = document.querySelector('meta[name="description"]');
-      var summary = (p.intro && p.intro[0]) || p.desc || (p.name + ", a hand-thrown piece.");
-      if (desc) desc.setAttribute("content", (summary.length > 150 ? summary.slice(0, 147).replace(/\s+\S*$/, "") + "..." : summary) + " Made and signed by Craig Spencer in Auckland, New Zealand.");
+      var summary = (p.intro && p.intro[0]) || p.desc || (p.name + ", a handcrafted piece.");
+      if (desc) desc.setAttribute("content", (summary.length > 150 ? summary.slice(0, 147).replace(/\s+\S*$/, "") + "..." : summary) + " Made and signed by Craig Spencer. Australia and New Zealand.");
       var base = "https://spencerceramics.netlify.app/product.html?id=" + p.id;
       var canon = document.querySelector('link[rel="canonical"]');
       if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
@@ -125,7 +126,7 @@
         if (/stoneware|porcelain|earthenware|terracotta|clay/i.test(x)) return "Body";
         return "Glaze / slip";
       });
-      var introHTML = (p.intro && p.intro.length ? p.intro : [p.desc || "Thrown and finished by hand in the Auckland studio. Each one carries its own surface, and its own weight in the hand."])
+      var introHTML = (p.intro && p.intro.length ? p.intro : [p.desc || "Made and finished by hand in Craig's studio. Each one carries its own surface, and its own weight in the hand."])
         .map(function (t) { return "<p class=\"pd__desc\">" + t + "</p>"; }).join("");
       var sectionsHTML = (p.sections || []).map(function (s) {
         return "<div class=\"pd__section\"><span class=\"label\">" + s.label + "</span><p>" + s.lines.join("<br>") + "</p></div>";

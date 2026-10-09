@@ -53,6 +53,7 @@
     document.querySelectorAll("[data-cart-count]").forEach(function (el) {
       el.textContent = n;
     });
+    document.querySelectorAll(".nav__cart-fab").forEach(function (el) { el.hidden = n < 1; });   // the phone cart button only exists while there is something in it
     if (document.body.getAttribute("data-page") === "cart") renderCart();
   }
 

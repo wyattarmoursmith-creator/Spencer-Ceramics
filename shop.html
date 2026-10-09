@@ -4,12 +4,12 @@
 <meta charset="utf-8" />
 <title>Shop · Craig Spencer Ceramics</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Hand-thrown stoneware, released in small batches." />
+<meta name="description" content="Handcrafted ceramic collections, released in small batches. Every piece made and signed by Craig." />
 <link rel="canonical" href="https://spencerceramics.netlify.app/shop" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Craig Spencer Ceramics" />
 <meta property="og:title" content="Shop · Craig Spencer Ceramics" />
-<meta property="og:description" content="Hand-thrown stoneware, released in small batches." />
+<meta property="og:description" content="Handcrafted ceramic collections, released in small batches. Every piece made and signed by Craig." />
 <meta property="og:url" content="https://spencerceramics.netlify.app/shop" />
 <meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -49,11 +49,12 @@
       <a href="contact.html">Contact</a>
       <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
+    <a class="nav__cart-fab" href="cart.html" hidden aria-label="Cart">Cart&nbsp;·&nbsp;<span data-cart-count>0</span></a>
     <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
   <!-- /@partial nav -->
 
-  <div class="masthead"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
+  <div class="masthead"><span>Handcrafted ceramic collections</span><span>Australia&nbsp;and&nbsp;New&nbsp;Zealand</span></div>
 
   <main id="main">
 
@@ -63,11 +64,11 @@
     <div class="manifesto__panel shop-plate reveal">
       <div class="manifesto__meta">
         <span data-text="shop.label">The current firing</span>
-        <span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span>
+        <span>Australia&nbsp;and&nbsp;New&nbsp;Zealand</span>
       </div>
       <div class="shop-plate__body">
-        <h1 class="display" data-lines="shop.heading">New pieces,<br />just in.</h1>
-        <p class="shop-plate__note" data-text="shop.note">Every piece is thrown and signed in Auckland, released in small editions. Once it sells, it's gone.</p>
+        <h1 class="display" data-lines="shop.heading">New shop collection<br />just arrived.</h1>
+        <p class="shop-plate__note" data-text="shop.note">Every piece is handmade and signed by Craig. Once it sells, it's found a new home.</p>
       </div>
     </div>
   </section>
@@ -80,10 +81,11 @@
     <div class="filters" role="group" aria-label="Filter">
       <span class="filters__lead label">Browse</span>
       <button aria-pressed="true" data-filter="all">All</button>
-      <button aria-pressed="false" data-filter="everyday" class="filters__everyday">The Everyday</button>
-      <button aria-pressed="false" data-filter="vessels">Sculptural vessels</button>
-      <button aria-pressed="false" data-filter="tableware">Tableware</button>
-      <button aria-pressed="false" data-filter="petite-pots">Petite pots</button>
+      <button aria-pressed="false" data-filter="everyday" class="filters__everyday">Everyday Collection</button>
+      <button aria-pressed="false" data-filter="vessels">Sculptural Vessels</button>
+      <button aria-pressed="false" data-filter="tableware">Bowls</button>
+      <button aria-pressed="false" data-filter="petite-pots">Petite Pots</button>
+      <button aria-pressed="false" data-filter="drinking">Drinking Vessels</button>
       <button aria-pressed="false" data-filter="canisters">Canisters</button>
       <!-- Lighting filter hidden for now (no lighting pieces listed yet): remove `hidden` to bring it back -->
       <button aria-pressed="false" data-filter="lighting" hidden>Lighting</button>
@@ -129,7 +131,7 @@
   <!-- @partial footer -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
-    <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
+    <div class="footer__cell"><span>Email</span><a data-site="email" href="mailto:shop@craigspencerceramics.com">shop@craigspencerceramics.com</a></div>
     <div class="footer__cell"><span>Journal</span><a href="journal.html">Notes from the studio →</a></div>
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
@@ -188,7 +190,7 @@
         inCat.forEach(function (p) { (p.tags || []).forEach(function (t) { if (t === "everyday") return; if (!counts[t]) { counts[t] = 0; order.push(t); } counts[t]++; }); });
         if (order.length < 2) { wrap.hidden = true; wrap.innerHTML = ""; return; }
         // table first, then objects; anything unlisted follows by size
-        var PREF = ["Coffee cups", "Bowls", "Lidded canisters", "Incense holders", "Oil burners", "Petite vases", "Small vases", "Tall vases", "Handbuilt vases", "Sculptural vases", "Pedestal bowls"];
+        var PREF = ["Drinking Vessels", "Bowls", "Pedestal Bowls", "Lidded Canisters", "Incense Holders", "Oil Burners", "Small Vases", "Petite Vases", "Tall Vases", "Handbuilt Vases", "Sculptural Vases"];
         order.sort(function (a, b) { var ia = PREF.indexOf(a), ib = PREF.indexOf(b); if (ia < 0) ia = 99; if (ib < 0) ib = 99; return ia - ib || counts[b] - counts[a]; });
         wrap.hidden = false;
         wrap.innerHTML = ['<button aria-pressed="' + (currentSub ? "false" : "true") + '" data-sub="">All</button>'].concat(order.map(function (t) {
@@ -219,9 +221,9 @@
           '<div class="shop-break shop-break--everyday">' +
             '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/stock/loop-cup.jpg" srcset="images/stock/loop-cup-800.jpg 800w, images/stock/loop-cup.jpg 1600w" sizes="(max-width:880px) 100vw, 45vw" alt="Cups from the current run" data-media="everyday-scene"></div>' +
             '<div class="shop-break__text">' +
-              '<span class="label">The Everyday</span>' +
-              '<p data-text="shop.everyday">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.everyday) || "Cups, tumblers, tea bowls and canisters, made in ongoing runs. Always here, sold singly or in sets.") + '</p>' +
-              '<a class="btn btn--ghost btn--pill shop-break__cta" href="everyday.html">See the Everyday <span class="arrow">&rarr;</span></a>' +
+              '<span class="label">Everyday Collection</span>' +
+              '<p data-text="shop.everyday">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.everyday) || "Drinking vessels, bowls and canisters, always here, sold individually or as a set.") + '</p>' +
+              '<a class="btn btn--ghost btn--pill shop-break__cta" href="everyday.html">See the Everyday Collection <span class="arrow">&rarr;</span></a>' +
             '</div>' +
           '</div>';
         // full-width bands only ever sit between complete rows: measure the live column count

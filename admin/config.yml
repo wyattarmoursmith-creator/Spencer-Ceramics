@@ -128,7 +128,8 @@ collections:
               - { label: "Manifesto — heading", name: manifesto_heading, widget: text, hint: "Each line shows on its own line." }
               - { label: "Manifesto — left column", name: manifesto_col1, widget: text }
               - { label: "Manifesto — right column", name: manifesto_col2, widget: text }
-              - { label: "Closer — line above the shop button", name: closer, widget: text }
+              - { label: "Closer — line above the shop button", name: closer, widget: text, hint: "No longer shown on the home page." }
+              - { label: "Before you buy — shop button label", name: faq_cta, widget: string }
               - { label: "Everyday band — small label", name: everyday_label, widget: string }
               - { label: "Everyday band — heading", name: everyday_heading, widget: text }
               - { label: "Everyday band — line", name: everyday_body, widget: text }
@@ -151,7 +152,8 @@ collections:
               - { label: "Heading", name: heading, widget: text, hint: "Each line shows on its own line." }
               - { label: "Intro paragraph", name: intro, widget: text }
               - { label: "Sets note (under the pieces)", name: note, widget: text }
-              - { label: "Closer", name: closer, widget: text }
+              - { label: "Closer (no longer shown)", name: closer, widget: text }
+              - { label: "Button to the shop", name: cta, widget: string }
           - label: "Product page"
             name: product
             widget: object

@@ -159,6 +159,8 @@ function scCategory(type) {
     "tableware": "tableware",
     "petite pots": "petite-pots", "petite pot": "petite-pots", "pots": "petite-pots", "petite": "petite-pots",
     "canisters": "canisters", "canister": "canisters", "lidded canisters": "canisters", "lidded canister": "canisters",
+    "drinking vessels": "drinking", "drinking vessel": "drinking", "cups": "drinking",
+    "bowls": "tableware", "bowl": "tableware",
     "lighting": "lighting", "lamps": "lighting", "lamp": "lighting"
   };
   return map[String(type || "").trim().toLowerCase()] || "";

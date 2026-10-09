@@ -13,7 +13,7 @@ window.MEDIA = {
   "hero-2":      "50% 60%",
   "hero-3":      "50% 50%",
   "studio":      "50% 58%",
-  "about":       "50% 42%",
+  "about": "50% 45%",
   "process-1":   "50% 50%",
   "process-2":   "50% 50%",
   "process-3":   "50% 50%",
@@ -31,16 +31,16 @@ window.MEDIA = {
   "gallery-4":   "50% 50%",
 
   /* studio page - selected work */
-  "work-1":      "45% 50%",
+  "work-1": "50% 60%",
   "work-2":      "50% 50%",
-  "work-3":      "50% 45%",
+  "work-3": "50% 55%",
   "work-4":      "50% 55%",
 
   /* home - manifesto plate */
   "manifesto-bg": "50% 50%",
 
   /* studio page - statement plate */
-  "studio-scene": "50% 55%",
+  "studio-scene": "50% 50%",
 
   /* studio page - the maker portrait beside the bio */
   "maker-portrait": "50% 30%",

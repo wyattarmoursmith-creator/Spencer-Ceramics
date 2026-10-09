@@ -49,29 +49,29 @@
       <a href="contact.html">Contact</a>
       <a class="nav__cart" href="cart.html">Cart&nbsp;(<span data-cart-count>0</span>)</a>
     </div>
+    <a class="nav__cart-fab" href="cart.html" hidden aria-label="Cart">Cart&nbsp;·&nbsp;<span data-cart-count>0</span></a>
     <button class="nav__burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
   </nav>
   <!-- /@partial nav -->
 
-  <div class="masthead"><span>Hand-thrown stoneware</span><span>Auckland&nbsp;·&nbsp;New&nbsp;Zealand</span></div>
+  <div class="masthead"><span>Handcrafted ceramic collections</span><span>Australia&nbsp;and&nbsp;New&nbsp;Zealand</span></div>
 
     <section class="page-head">
-    <div class="label" data-text="everyday.label">The Everyday</div>
-    <h1 class="display" data-lines="everyday.heading">Made in ongoing runs.<br />Always here.</h1>
-    <p class="page-head__intro" data-text="everyday.intro">Not every piece is one of one. These are the forms Craig returns to firing after firing: the cups, tumblers, tea bowls and canisters that live on the bench and the table. Each run is thrown to sit together, so they can be bought singly or built into a set over time.</p>
+    <div class="label" data-text="everyday.label">Everyday Collection</div>
+    <h1 class="display" data-lines="everyday.heading">Always here,<br />always available.</h1>
+    <p class="page-head__intro" data-text="everyday.intro">Not every piece is one of one. These are the forms Craig returns to, firing after firing: the drinking vessels, bowls and canisters that live on the bench and the table. Each run is made to sit together, so pieces can be bought individually or built into a set over time.</p>
   </section>
 
   <main class="everyday" id="everyday"></main>
 
   <section class="closer reveal">
-    <div class="display" data-lines="everyday.closer">After a matched set<br />or a larger order?</div>
-    <a class="btn btn--ghost btn--pill" href="contact.html">Get in touch <span class="arrow">→</span></a>
+    <a class="btn btn--fill btn--pill" href="shop.html" data-text="everyday.cta">See the rest of my work <span class="arrow">→</span></a>
   </section>
 
   <!-- @partial footer -->
   <footer class="footer">
     <div class="footer__cell"><span>Craig Spencer Ceramics</span><b data-site="year">MMXXVI</b></div>
-    <div class="footer__cell"><span>Studio</span><b data-site="location">Auckland, NZ</b></div>
+    <div class="footer__cell"><span>Email</span><a data-site="email" href="mailto:shop@craigspencerceramics.com">shop@craigspencerceramics.com</a></div>
     <div class="footer__cell"><span>Journal</span><a href="journal.html">Notes from the studio →</a></div>
     <div class="footer__cell"><span>Instagram</span><a data-site="instagram" href="https://www.instagram.com/craigspencerceramics">@craigspencerceramics</a></div>
     <div class="footer__credit"><a href="faq.html">Shipping &amp; FAQ</a> · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · Site by <a href="https://wyattsmithmedia.com" target="_blank" rel="noopener">Wyatt&nbsp;Smith&nbsp;Media</a></div>
@@ -118,14 +118,14 @@
         '</div>';
       }
       // table first, then the studio objects
-      var ORDER = ["Coffee cups", "Bowls", "Lidded canisters", "Incense holders", "Oil burners", "Small vases", "Petite vases"];
+      var ORDER = ["Drinking Vessels", "Bowls", "Pedestal Bowls", "Lidded Canisters", "Incense Holders", "Oil Burners", "Small Vases", "Petite Vases"];
       groups.sort(function (a, b) { var ia = ORDER.indexOf(a.name), ib = ORDER.indexOf(b.name); return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib); });
       main.innerHTML = groups.length ? groups.map(function (g) {
         return '<section class="everyday__group">' +
           '<div class="everyday__head"><h2 class="label">' + g.name + '</h2><span class="label">' + g.items.length + (g.items.length === 1 ? ' piece' : ' pieces') + '</span></div>' +
           '<div class="grid grid--three">' + g.items.map(card).join("") + '</div>' +
         '</section>';
-      }).join("") + '<p class="everyday__note" data-text="everyday.note">' + ((window.PAGES && window.PAGES.everyday && window.PAGES.everyday.note) || "For a set, add the same piece as many times as you need. Every piece in a run is thrown to sit alongside the others.") + '</p>'
+      }).join("") + '<p class="everyday__note" data-text="everyday.note">' + ((window.PAGES && window.PAGES.everyday && window.PAGES.everyday.note) || "For a set, add the same piece as many times as you need. Every piece in a run is made to sit alongside the others.") + '</p>'
       : '<p class="label" style="padding:60px var(--gutter)">Nothing in the run right now. <a class="link-underline" href="shop.html">See the shop &rarr;</a></p>';
       if (window.applyFocus) window.applyFocus();
       if (window.scInitCurrency) window.scInitCurrency();
