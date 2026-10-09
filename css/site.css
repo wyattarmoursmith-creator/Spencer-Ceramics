@@ -1120,3 +1120,10 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 @media (max-width:860px){ .nav__burger{ display:inline-flex; margin-right:-14px; } }
 /* letter-spaced caps leave a trailing gap: pull the right-hand text back onto the margin */
 .masthead span:last-child, .hero__meta span:last-child, .nav__links a:last-child{ margin-right:-0.2em; }
+/* phone nav: cart pill sits on the brand line, inside the gap before the burger; plate meta stacks so the label never wraps mid-word */
+@media (max-width:860px){
+  .nav__cart-fab{ top:37px; right:64px; padding:6px 10px; font-size:10px; letter-spacing:0.12em; }
+}
+@media (max-width:480px){
+  .manifesto__meta{ flex-direction:column; gap:8px; }
+}
