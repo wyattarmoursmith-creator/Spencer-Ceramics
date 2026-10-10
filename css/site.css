@@ -1148,3 +1148,12 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 @media (max-width:820px) and (min-width:621px){
   .grid--three{ grid-template-columns:repeat(2, 1fr); gap:56px 32px; }
 }
+/* shop plate: sheer enough that the shelf reads through it; once its entry reveal has landed
+   the scroll link drives it directly, so no transition may ease those updates */
+.manifesto--shop .manifesto__panel{
+  background:linear-gradient(158deg, rgba(42,41,37,0.66) 0%, rgba(22,21,19,0.68) 42%, rgba(11,11,12,0.72) 100%);
+  -webkit-backdrop-filter:blur(10px) saturate(1.05); backdrop-filter:blur(10px) saturate(1.05);
+  will-change:opacity, transform;
+}
+.manifesto--shop .manifesto__bg{ will-change:transform; }
+html.js .manifesto__panel.reveal.is-live{ transition:none; }

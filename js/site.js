@@ -623,6 +623,41 @@
     });
   }
 
+  /* ---------- plate lift: on a photo plate marked data-lift (the shop edition),
+     scrolling lifts the plate away and lets the photograph come through, then the
+     collection follows. Everything is 1:1 with the scroll (no timers, no easing):
+     the plate rises a little faster than the page and thins out, the photo drifts
+     at hero pace. Scrolling back reassembles it. The entry reveal (.reveal) runs
+     first; the scroll link takes over once it has landed. Reduced motion: static. ---------- */
+  function initPlateLift() {
+    var sec = document.querySelector(".manifesto[data-lift]");
+    var panel = sec && sec.querySelector(".manifesto__panel");
+    var bg = sec && sec.querySelector(".manifesto__bg");
+    if (!sec || !panel) return;
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var live = false, ticking = false;
+    function arm() { if (live) return; live = true; panel.classList.add("is-live"); update(); }
+    if (panel.classList.contains("reveal")) {
+      panel.addEventListener("transitionend", function (e) { if (e.target === panel) arm(); });
+      setTimeout(arm, 1600);                       // in case the transition never fires (already in view, tab hidden)
+    } else { arm(); }
+    function update() {
+      ticking = false;
+      if (!live) return;
+      var y = window.scrollY || window.pageYOffset || 0;
+      var span = Math.max(1, sec.offsetTop + sec.offsetHeight * 0.78);   // plate is gone by the time most of the photo has passed
+      var p = Math.max(0, Math.min(1, y / span));
+      if (y <= 0) { panel.style.opacity = ""; panel.style.transform = ""; if (bg) bg.style.transform = ""; return; }
+      panel.style.opacity = (1 - p).toFixed(3);
+      panel.style.transform = "translate3d(0," + (-y * 0.22).toFixed(1) + "px,0)";
+      if (bg) bg.style.transform = "translate3d(0," + (y * 0.12).toFixed(1) + "px,0)";
+    }
+    window.addEventListener("scroll", function () {
+      if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    window.addEventListener("resize", update);
+  }
+
   /* ---------- boot ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
@@ -631,6 +666,7 @@
     initScrollFX();
     initReveals();
     initPlateFocus();
+    initPlateLift();
     initScrollMotion();
     initTextSweep();
     paint();                                  // cart count (localStorage only)
