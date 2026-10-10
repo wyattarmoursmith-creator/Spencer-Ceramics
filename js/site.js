@@ -644,7 +644,7 @@
     var ticking = false;
     var items = secs.map(function (sec) {
       var panel = sec.querySelector(".manifesto__panel");
-      return panel ? { sec: sec, panel: panel, bg: sec.querySelector(".manifesto__bg"), live: false,
+      return panel ? { sec: sec, panel: panel, bg: sec.querySelector(".manifesto__bg"), live: false, solid: sec.getAttribute("data-lift") === "solid",
                        rest: panel.hasAttribute("data-focus") ? "1" : "" } : null;   // data-focus plates are hidden by CSS until JS says otherwise
     }).filter(Boolean);
     items.forEach(function (it) {
@@ -666,7 +666,7 @@
         start = Math.max(start, pb - vh);          // a plate taller than the screen (the contact form on a phone) stays put until all of it has been seen
         var end = Math.max(start + h * 0.4, top + h * 0.78);   // gone by the time most of the photo has passed
         var d = y - start;                         // how far the plate has travelled
-        if (!first) {                              // mid-page plate: solid black when it sits in the middle of the screen, sheer on the way in and out
+        if (!first || it.solid) {                  // solid black when the plate sits in the middle of the screen, sheer on the way in and out (mid-page plates, or data-lift="solid")
           var pr = it.panel.getBoundingClientRect();
           var off = Math.abs((pr.top + pr.bottom) / 2 - vh / 2) / (vh / 2);   // 0 at the centre, 1 at the edge
           var k = 1 - Math.max(0, Math.min(1, (off - 0.12) / 0.6));           // holds solid through the middle band
