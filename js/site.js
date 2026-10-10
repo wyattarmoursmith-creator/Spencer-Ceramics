@@ -623,39 +623,56 @@
     });
   }
 
-  /* ---------- plate lift: on a photo plate marked data-lift (the shop edition),
+  /* ---------- plate lift: on photo plates marked data-lift (shop, studio, contact),
      scrolling lifts the plate away and lets the photograph come through, then the
-     collection follows. Everything is 1:1 with the scroll (no timers, no easing):
-     the plate rises a little faster than the page and thins out, the photo drifts
-     at hero pace. Scrolling back reassembles it. The entry reveal (.reveal) runs
-     first; the scroll link takes over once it has landed. Reduced motion: static. ---------- */
+     page continues. Everything is 1:1 with the scroll (no timers, no easing): the
+     plate rises a little faster than the page and thins out, the photo drifts at
+     hero pace. Scrolling back reassembles it. A plate in the first screen starts
+     lifting from the top of the page; one further down starts once its section
+     reaches the top of the viewport. The entry animations (.reveal, data-focus)
+     run first; the scroll link takes over once they have landed. Reduced motion:
+     static. ---------- */
   function initPlateLift() {
-    var sec = document.querySelector(".manifesto[data-lift]");
-    var panel = sec && sec.querySelector(".manifesto__panel");
-    var bg = sec && sec.querySelector(".manifesto__bg");
-    if (!sec || !panel) return;
+    var secs = [].slice.call(document.querySelectorAll(".manifesto[data-lift]"));
+    if (!secs.length) return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var live = false, ticking = false;
-    function arm() { if (live) return; live = true; panel.classList.add("is-live"); update(); }
-    if (panel.classList.contains("reveal")) {
-      panel.addEventListener("transitionend", function (e) { if (e.target === panel) arm(); });
-      setTimeout(arm, 1600);                       // in case the transition never fires (already in view, tab hidden)
-    } else { arm(); }
+    var ticking = false;
+    var items = secs.map(function (sec) {
+      var panel = sec.querySelector(".manifesto__panel");
+      return panel ? { sec: sec, panel: panel, bg: sec.querySelector(".manifesto__bg"), live: false,
+                       rest: panel.hasAttribute("data-focus") ? "1" : "" } : null;   // data-focus plates are hidden by CSS until JS says otherwise
+    }).filter(Boolean);
+    items.forEach(function (it) {
+      function arm() { if (it.live) return; it.live = true; it.panel.classList.add("is-live"); update(); }
+      if (it.panel.classList.contains("reveal")) {
+        it.panel.addEventListener("transitionend", function (e) { if (e.target === it.panel) arm(); });
+        setTimeout(arm, 1600);                     // in case the transition never fires (already in view, tab hidden)
+      } else { arm(); }
+    });
     function update() {
       ticking = false;
-      if (!live) return;
-      var y = window.scrollY || window.pageYOffset || 0;
-      var span = Math.max(1, sec.offsetTop + sec.offsetHeight * 0.78);   // plate is gone by the time most of the photo has passed
-      var p = Math.max(0, Math.min(1, y / span));
-      if (y <= 0) { panel.style.opacity = ""; panel.style.transform = ""; if (bg) bg.style.transform = ""; return; }
-      panel.style.opacity = (1 - p).toFixed(3);
-      panel.style.transform = "translate3d(0," + (-y * 0.22).toFixed(1) + "px,0)";
-      if (bg) bg.style.transform = "translate3d(0," + (y * 0.12).toFixed(1) + "px,0)";
+      var y = window.scrollY || window.pageYOffset || 0, vh = window.innerHeight;
+      items.forEach(function (it) {
+        if (!it.live) return;
+        var h = it.sec.offsetHeight, top = it.sec.getBoundingClientRect().top + y;
+        var first = top < vh * 0.5;                // sits in the first screen: lift from the top of the page
+        var start = first ? 0 : top;
+        var pb = it.panel.getBoundingClientRect().bottom + y - (parseFloat(it.panel.style.transform.split(",")[1]) || 0);
+        start = Math.max(start, pb - vh);          // a plate taller than the screen (the contact form on a phone) stays put until all of it has been seen
+        var end = Math.max(start + h * 0.4, top + h * 0.78);   // gone by the time most of the photo has passed
+        var d = y - start;                         // how far the plate has travelled
+        if (d <= 0) { it.panel.style.opacity = it.rest; it.panel.style.transform = ""; if (it.bg) it.bg.style.transform = ""; return; }
+        var p = Math.max(0, Math.min(1, d / (end - start)));
+        it.panel.style.opacity = (1 - p).toFixed(3);
+        it.panel.style.transform = "translate3d(0," + (-d * 0.22).toFixed(1) + "px,0)";
+        if (it.bg) it.bg.style.transform = "translate3d(0," + (d * 0.12).toFixed(1) + "px,0)";
+      });
     }
     window.addEventListener("scroll", function () {
       if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
     }, { passive: true });
     window.addEventListener("resize", update);
+    window.addEventListener("load", update);
   }
 
   /* ---------- boot ---------- */
