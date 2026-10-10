@@ -228,7 +228,8 @@
           '</div>';
         // full-width bands only ever sit between complete rows: measure the live column count
         var cols = getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length || 2;
-        if (filter === "everyday" && cards.length) cards.unshift(everydayBand);
+        // on the Everyday filter the pieces come first: the band sits after the eighth (rounded up to a full row)
+        if (filter === "everyday" && cards.length) { var at = Math.ceil(8 / cols) * cols; cards.splice(Math.min(at, cards.length), 0, everydayBand); }
         else if (filter === "all" && cards.length > cols * 4) cards.splice(cols * 4, 0, everydayBand);
         // a breath between the first and second rows: a dark band with a line from Craig
         if (filter === "all" && cards.length > cols * 2) {
