@@ -331,10 +331,7 @@
   function initPlateFocus() {
     var panels = [].slice.call(document.querySelectorAll(".manifesto__panel[data-focus]"));
     if (!panels.length) return;
-    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      panels.forEach(function (p) { p.style.opacity = 1; });
-      return;
-    }
+    var REDUCED = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 
     var START = 0.94, END = 0.34;   // plate top edge, as a fraction of viewport height: progress runs 0 -> 1 between these
     var W_GROUND = [0.00, 0.26];    // window of overall progress: dark ground wipes in, left to right
@@ -390,6 +387,14 @@
       if (!WIPE_OK) { p.style.opacity = u.toFixed(3); return; }
       var v = "inset(0 " + (100 - u * 100).toFixed(2) + "% 0 0)";
       p.style.clipPath = v; p.style.webkitClipPath = v;
+    }
+
+    if (REDUCED) {                          // shown as-is; the heading lines are still wrapped so the accent colour applies
+      panels.forEach(function (p) { p.style.opacity = 1; wrapLines(p.querySelector(".manifesto__statement")); });
+      if (window.onData) window.onData(function () { window.onData(function () {
+        panels.forEach(function (p) { wrapLines(p.querySelector(".manifesto__statement")); });
+      }); });
+      return;
     }
 
     var states = panels.map(function (p) {
@@ -661,6 +666,12 @@
         start = Math.max(start, pb - vh);          // a plate taller than the screen (the contact form on a phone) stays put until all of it has been seen
         var end = Math.max(start + h * 0.4, top + h * 0.78);   // gone by the time most of the photo has passed
         var d = y - start;                         // how far the plate has travelled
+        if (!first) {                              // mid-page plate: solid black when it sits in the middle of the screen, sheer on the way in and out
+          var pr = it.panel.getBoundingClientRect();
+          var off = Math.abs((pr.top + pr.bottom) / 2 - vh / 2) / (vh / 2);   // 0 at the centre, 1 at the edge
+          var k = 1 - Math.max(0, Math.min(1, (off - 0.12) / 0.6));           // holds solid through the middle band
+          it.panel.style.setProperty("--pa", (0.66 + 0.32 * k).toFixed(3));
+        }
         if (d <= 0) { it.panel.style.opacity = it.rest; it.panel.style.transform = ""; if (it.bg) it.bg.style.transform = ""; return; }
         var p = Math.max(0, Math.min(1, d / (end - start)));
         it.panel.style.opacity = (1 - p).toFixed(3);

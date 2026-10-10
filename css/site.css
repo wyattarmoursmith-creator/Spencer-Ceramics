@@ -1151,7 +1151,8 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 /* photo plates (shop, studio, contact): sheer enough that the photograph reads through; once its entry reveal has landed
    the scroll link drives it directly, so no transition may ease those updates */
 .manifesto[data-lift] .manifesto__panel{
-  background:linear-gradient(158deg, rgba(42,41,37,0.66) 0%, rgba(22,21,19,0.68) 42%, rgba(11,11,12,0.72) 100%);
+  --pa:0.68;   /* ground alpha; a mid-page plate is driven to near-solid as it passes the middle of the screen */
+  background:linear-gradient(158deg, rgba(42,41,37,calc(var(--pa) - 0.02)) 0%, rgba(22,21,19,var(--pa)) 42%, rgba(11,11,12,calc(var(--pa) + 0.04)) 100%);
   -webkit-backdrop-filter:blur(10px) saturate(1.05); backdrop-filter:blur(10px) saturate(1.05);
   will-change:opacity, transform;
 }
@@ -1160,3 +1161,6 @@ html.js .manifesto__panel.reveal.is-live{ transition:none; }
 /* everyday chip: the ember square sits in the text flow, centred on the x-height of the word */
 .filters button.filters__everyday{ padding-left:0; }
 .filters__everyday::before{ position:static; display:inline-block; vertical-align:middle; width:6px; height:6px; margin:0 9px 0 0; }
+/* studio plate: the first line of the statement carries the ember instead of the index tick */
+.manifesto--studio .manifesto__statement::before{ display:none; }
+.manifesto--studio .manifesto__statement .pl:first-child{ color:var(--ember-bright); }
