@@ -1157,3 +1157,6 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 }
 .manifesto[data-lift] .manifesto__bg{ will-change:transform; }
 html.js .manifesto__panel.reveal.is-live{ transition:none; }
+/* everyday chip: the ember square sits in the text flow, centred on the x-height of the word */
+.filters button.filters__everyday{ padding-left:0; }
+.filters__everyday::before{ position:static; display:inline-block; vertical-align:middle; width:6px; height:6px; margin:0 9px 0 0; }
