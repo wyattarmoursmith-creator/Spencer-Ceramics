@@ -686,9 +686,60 @@
     window.addEventListener("load", update);
   }
 
+  /* ---------- return to where you were: the grids render after the catalogue loads, so the
+     browser's own scroll restoration lands on an empty page and gives up. Remember the card
+     you left from (and the shop's filter state); when you come back through history, the page
+     re-renders the same view, then puts that card in the same place on screen. ---------- */
+  var RETURN_KEY = "sc_return";
+  function readReturn() {
+    var page = document.body.getAttribute("data-page"), rec = null;
+    try { rec = JSON.parse(sessionStorage.getItem(RETURN_KEY) || "null"); } catch (e) {}
+    if (!rec || rec.page !== page || Date.now() - rec.t > 30 * 60 * 1000) return null;
+    var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+    var back = nav ? nav.type === "back_forward" : !!(performance.navigation && performance.navigation.type === 2);
+    if (!back) return null;
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    return rec;
+  }
+  window.scReturn = readReturn();            // read at once, before any page script renders
+  window.scReturnTo = function () {
+    var rec = window.scReturn; if (!rec) return;
+    window.scReturn = null;
+    try { sessionStorage.removeItem(RETURN_KEY); } catch (e) {}
+    var best = null, bestD = Infinity, y0 = window.scrollY || 0;
+    document.querySelectorAll("a.card__link").forEach(function (a) {   // the same piece can sit in New in and in the grid: take the one that matches where you were
+      if ((a.getAttribute("href") || "").indexOf("id=" + rec.id) < 0) return;
+      var card = a.closest(".card") || a, y = card.getBoundingClientRect().top + y0 - rec.top, d = Math.abs(y - rec.y);
+      if (d < bestD) { bestD = d; best = y; }
+    });
+    window.scrollTo(0, Math.max(0, best === null ? rec.y : best));
+  };
+  function initReturn() {
+    var page = document.body.getAttribute("data-page");
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest ? e.target.closest("a.card__link") : null; if (!a || !page) return;
+      var m = /[?&]id=([^&]+)/.exec(a.getAttribute("href") || ""); if (!m) return;
+      var card = a.closest(".card") || a;
+      var rec = { page: page, id: decodeURIComponent(m[1]), top: Math.round(card.getBoundingClientRect().top), y: Math.round(window.scrollY || 0),
+                  state: window.scGridState ? window.scGridState() : null, t: Date.now() };
+      try { sessionStorage.setItem(RETURN_KEY, JSON.stringify(rec)); } catch (err) {}
+    });
+    // "Back to shop" on a piece: go back through history when that is where you came from, so the position restores
+    var back = document.querySelector("a[data-return]");
+    if (back) {
+      var rec = null; try { rec = JSON.parse(sessionStorage.getItem(RETURN_KEY) || "null"); } catch (e) {}
+      if (rec && rec.page === "everyday") { back.setAttribute("href", "everyday.html"); back.innerHTML = "<span>\u2190</span> Back to the Everyday"; }
+      back.addEventListener("click", function (e) {
+        var ref = document.referrer || "";
+        if (rec && history.length > 1 && ref.indexOf(back.getAttribute("href").replace(/\.html$/, "")) >= 0) { e.preventDefault(); history.back(); }
+      });
+    }
+  }
+
   /* ---------- boot ---------- */
   document.addEventListener("DOMContentLoaded", function () {
     initNav();
+    initReturn();
     initAddButtons();
     initHeroCrossfade();
     initScrollFX();

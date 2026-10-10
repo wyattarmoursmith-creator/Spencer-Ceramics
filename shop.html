@@ -248,7 +248,15 @@
       }
 
       var currentFilter = "all";
-      render(currentFilter);
+      // coming back from a piece: the same filter, sub-filter and sort you had
+      window.scGridState = function () { return { filter: currentFilter, sub: currentSub, sort: sortBy }; };
+      var ret = window.scReturn && window.scReturn.state;
+      if (ret) {
+        currentFilter = ret.filter || "all"; currentSub = ret.sub || ""; sortBy = ret.sort || "newest";
+        document.querySelectorAll(".filters button").forEach(function (x) { x.setAttribute("aria-pressed", x.getAttribute("data-filter") === currentFilter ? "true" : "false"); });
+        document.getElementById("sort").value = sortBy;
+      }
+      // (first render happens below, once New in and the card size are in place, so the bands and the row land right)
 
       /* the bar folds to one line while you scroll down the grid and opens again on the way back up */
       var bar = document.getElementById("shop-bar"), mini = bar.querySelector(".shop-bar__mini");
@@ -306,7 +314,7 @@
         if (pick.length < 2) { sec.hidden = true; return; }
         document.getElementById("newin-row").innerHTML = pick.map(cardHTML).join("");
         sec.querySelector(".newin__count").textContent = pick.length + " pieces";
-        sec.hidden = false; sec.dataset.ready = "1";
+        sec.hidden = (currentFilter !== "all" || availOnly); sec.dataset.ready = "1";
         if (window.applyFocus) window.applyFocus();
       }
       renderNewIn();
@@ -320,6 +328,7 @@
       }
       var savedDensity = ""; try { savedDensity = localStorage.getItem("sc_density") || ""; } catch (e) {}
       setDensity(savedDensity === "compact" ? "compact" : "roomy", false);
+      render(currentFilter);
       var lastCols = 0;
       function colsNow() { return getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length; }
       lastCols = colsNow();
@@ -357,6 +366,7 @@
           render(currentFilter); resetScroll();
         });
       });
+      if (window.scReturnTo) window.scReturnTo();   // back from a piece: land on the card you left from
     });
   </script>
 </body>
