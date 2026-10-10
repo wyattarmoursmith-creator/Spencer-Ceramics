@@ -1127,3 +1127,24 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
 @media (max-width:480px){
   .manifesto__meta{ flex-direction:column; gap:8px; }
 }
+/* cards between phone and desktop: the price and the button never break across lines.
+   The card measures itself (container query) and trims the button before anything stacks. */
+.card{ container-type:inline-size; }
+.card__row .card__name{ flex:1 1 auto; min-width:0; }
+.card__row .card__price{ flex:none; white-space:nowrap; }
+.card__add{ white-space:nowrap; flex:none; }
+.card__actions .card__state{ white-space:nowrap; }
+@container (max-width:250px){
+  .card__name{ font-size:17px; }
+  .card__add{ font-size:10.5px; padding:8px 13px; letter-spacing:0.06em; }
+  .card__add .arrow{ margin-left:4px; }
+  .card__actions:has(.card__add) .card__state{ display:none; }   /* the button already says it's available */
+}
+@container (max-width:190px){
+  .card__add .arrow{ display:none; }
+  .card__add{ padding:8px 12px; }
+}
+/* three-up grids drop to two columns on tablets, so each card keeps a readable width (over 250px) */
+@media (max-width:820px) and (min-width:621px){
+  .grid--three{ grid-template-columns:repeat(2, 1fr); gap:56px 32px; }
+}
