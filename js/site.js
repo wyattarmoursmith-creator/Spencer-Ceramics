@@ -261,10 +261,12 @@
       if (!iw) return;
       var r = box.getBoundingClientRect();
       var x = e.clientX - r.left, y = e.clientY - r.top;
-      // the photo is object-fit: cover, so map the cursor to the visible crop of the image
-      var scale = Math.max(r.width / iw, r.height / ih), dw = iw * scale, dh = ih * scale;
+      // the photo is object-fit: cover (or contain, in the gallery), so map the cursor to the visible part of the image
+      var fit = box.getAttribute("data-fit") === "contain" ? Math.min : Math.max;
+      var scale = fit(r.width / iw, r.height / ih), dw = iw * scale, dh = ih * scale;
       var ox = (r.width - dw) / 2, oy = (r.height - dh) / 2;
       var px = (x - ox) / dw, py = (y - oy) / dh;             // 0..1 across the photo
+      if (px < 0 || px > 1 || py < 0 || py > 1) { box.classList.remove("is-looking"); return; }   // off the photo (letterbox)
       var bw = dw * ZOOM, bh = dh * ZOOM;                      // the magnified photo
       lens.style.left = (x - SIZE / 2) + "px"; lens.style.top = (y - SIZE / 2) + "px";
       lens.style.backgroundSize = bw + "px " + bh + "px";
@@ -274,6 +276,77 @@
     box.addEventListener("mouseleave", function () { box.classList.remove("is-looking"); });
   }
   window.initLoupe = initLoupe;
+
+  /* ---------- gallery: every product photo opens full-screen, with the others a step away.
+     Arrow keys, swipe, Escape; the loupe works in here too (contain-fit mapping). ---------- */
+  function initGallery(boxes, name) {
+    boxes = [].slice.call(boxes || []);
+    if (!boxes.length) return;
+    var lb = null, items = [], cur = 0, opener = null;
+    function build() {
+      lb = document.createElement("div");
+      lb.className = "lb"; lb.setAttribute("role", "dialog"); lb.setAttribute("aria-modal", "true"); lb.setAttribute("aria-label", (name || "Photo") + " gallery"); lb.hidden = true;
+      lb.innerHTML =
+        '<button class="lb__close" type="button" aria-label="Close">\u2715</button>' +
+        (boxes.length > 1 ? '<button class="lb__nav lb__nav--prev" type="button" aria-label="Previous photo">\u2190</button><button class="lb__nav lb__nav--next" type="button" aria-label="Next photo">\u2192</button>' : "") +
+        '<div class="lb__stage"></div>' +
+        (boxes.length > 1 ? '<div class="lb__count label"></div>' : "");
+      var stage = lb.querySelector(".lb__stage");
+      boxes.forEach(function (b, i) {
+        var it = document.createElement("div");
+        it.className = "lb__item"; it.hidden = true;
+        it.setAttribute("data-loupe", b.getAttribute("data-loupe") || b.getAttribute("data-full")); it.setAttribute("data-fit", "contain");
+        var alt = (b.querySelector("img") || {}).alt || "";
+        it.innerHTML = '<img alt="' + alt.replace(/"/g, "&quot;") + '" decoding="async"><span class="loupe" aria-hidden="true"></span>';
+        it.querySelector("img").dataset.src = b.getAttribute("data-full");
+        stage.appendChild(it); items.push(it);
+        initLoupe(it);
+      });
+      lb.querySelector(".lb__close").addEventListener("click", close);
+      var prev = lb.querySelector(".lb__nav--prev"), next = lb.querySelector(".lb__nav--next");
+      if (prev) prev.addEventListener("click", function () { show(cur - 1); });
+      if (next) next.addEventListener("click", function () { show(cur + 1); });
+      lb.addEventListener("click", function (e) { if (e.target === lb || e.target === stage) close(); });   // the dark ground closes it
+      // swipe between photos on touch
+      var x0 = null;
+      lb.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") x0 = e.clientX; });
+      lb.addEventListener("pointerup", function (e) { if (x0 === null) return; var dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); });
+      document.body.appendChild(lb);
+    }
+    function load(i) { var im = items[i] && items[i].querySelector("img"); if (im && !im.src && im.dataset.src) im.src = im.dataset.src; }
+    function show(i) {
+      cur = (i + items.length) % items.length;
+      items.forEach(function (it, k) { it.hidden = k !== cur; it.classList.remove("is-looking"); });
+      load(cur); load(cur + 1); load(cur - 1 + items.length);
+      var c = lb.querySelector(".lb__count"); if (c) c.textContent = (cur + 1) + " / " + items.length;
+    }
+    function onKey(e) {
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowRight") show(cur + 1);
+      else if (e.key === "ArrowLeft") show(cur - 1);
+    }
+    function open(i, from) {
+      if (!lb) build();
+      opener = from || null;
+      lb.hidden = false; void lb.offsetWidth; lb.classList.add("is-open");
+      document.documentElement.classList.add("lb-open");
+      show(i);
+      document.addEventListener("keydown", onKey);
+      lb.querySelector(".lb__close").focus();
+    }
+    function close() {
+      if (!lb || lb.hidden) return;
+      lb.classList.remove("is-open"); lb.hidden = true;
+      document.documentElement.classList.remove("lb-open");
+      document.removeEventListener("keydown", onKey);
+      if (opener && opener.focus) opener.focus();
+    }
+    boxes.forEach(function (b, i) {
+      b.addEventListener("click", function () { open(i, b); });
+      b.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(i, b); } });
+    });
+  }
+  window.initGallery = initGallery;
 
   window.scInitCurrency = initCurrency;   // pages that re-render their own markup can call this
 

@@ -1069,15 +1069,15 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
   .gallery__cell:hover img, .card:hover .card__media img, .strip .ph:hover img, .j-entry:hover .j-entry__media img{ transform:none; }
 }
 /* product loupe: a round window that follows the cursor and shows the surface close up */
-.pd__img--main{ cursor:default; }
-.pd__img--main.has-loupe{ cursor:crosshair; }
+.pd__img[data-full]{ cursor:zoom-in; }
+.pd__img.has-loupe, .lb__item.has-loupe{ cursor:crosshair; }
 .loupe{
   position:absolute; width:220px; height:220px; border-radius:50%; pointer-events:none; z-index:3;
   background-repeat:no-repeat; background-color:var(--bone);
   box-shadow:0 0 0 1px rgba(21,20,15,0.18), 0 18px 40px rgba(11,11,12,0.28), inset 0 0 0 1px rgba(239,236,230,0.6);
   opacity:0; transition:opacity .16s ease;
 }
-.pd__img--main.is-looking .loupe{ opacity:1; }
+.pd__img.is-looking .loupe, .lb__item.is-looking .loupe{ opacity:1; }
 @media (hover: none), (pointer: coarse){ .loupe{ display:none; } }
 /* ============================================================
    PRE-LAUNCH PASS (2026-10, Craig's review): quieter overlays, one body size,
@@ -1164,3 +1164,20 @@ html.js .manifesto__panel.reveal.is-live{ transition:none; }
 /* studio plate: the first line of the statement carries the ember instead of the index tick */
 .manifesto--studio .manifesto__statement::before{ display:none; }
 .manifesto--studio .manifesto__statement .pl:first-child{ color:var(--ember-bright); }
+/* product gallery: full-screen photos over a dark ground, the others a step away */
+.lb{ position:fixed; inset:0; z-index:90; background:rgba(11,11,12,0.95); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .2s ease; }
+.lb.is-open{ opacity:1; }
+.lb[hidden]{ display:none; }
+html.lb-open, html.lb-open body{ overflow:hidden; }
+.lb__stage{ position:relative; width:min(92vw, 1200px); height:calc(100vh - 128px); height:calc(100svh - 128px); }
+.lb__item{ position:absolute; inset:0; overflow:hidden; }
+.lb__item[hidden]{ display:none; }
+.lb__item img{ width:100%; height:100%; object-fit:contain; display:block; }
+.lb__close, .lb__nav{ position:absolute; z-index:2; display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:999px; border:1px solid rgba(239,236,230,0.4); background:rgba(11,11,12,0.5); color:var(--chalk); font-size:16px; cursor:pointer; transition:background .25s ease, border-color .25s ease; }
+.lb__close:hover, .lb__nav:hover{ background:rgba(239,236,230,0.12); border-color:rgba(239,236,230,0.7); }
+.lb__close{ top:20px; right:20px; }
+.lb__nav{ top:50%; transform:translateY(-50%); }
+.lb__nav--prev{ left:20px; } .lb__nav--next{ right:20px; }
+.lb__count{ position:absolute; bottom:22px; left:0; right:0; text-align:center; color:var(--fog); }
+.lb .loupe{ width:260px; height:260px; }
+@media (max-width:620px){ .lb__stage{ width:100vw; height:calc(100svh - 150px); } .lb__nav{ top:auto; bottom:14px; transform:none; width:44px; height:44px; } .lb__count{ bottom:28px; } }
