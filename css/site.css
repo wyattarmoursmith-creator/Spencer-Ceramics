@@ -60,7 +60,7 @@ button{font-family:inherit; cursor:pointer;}
 
 .wordmark{
   font-family:var(--disp); font-weight:300; text-transform:uppercase;
-  letter-spacing:0.3em; text-indent:0.3em; line-height:1; white-space:nowrap;
+  letter-spacing:0.3em; line-height:1; white-space:nowrap;
 }
 
 /* ============================================================
@@ -616,7 +616,7 @@ html.js .reveal--late{ transition-delay:.12s; }
 .nf__inner .num{ font-family:var(--disp); font-weight:300; font-size:clamp(90px,18vw,200px);
   letter-spacing:0.04em; line-height:1; }
 .nf__inner p{ color:var(--fog); margin:18px auto 36px; max-width:34ch; }
-.nf__inner .wordmark{ font-size:14px; color:var(--fog); margin-bottom:40px; }
+.nf__inner .wordmark{ font-size:14px; color:var(--fog); margin-bottom:40px; text-indent:0.3em; } /* centred, so balance the trailing tracking */
 
 /* ============================================================
    RESPONSIVE
@@ -642,7 +642,7 @@ html.js .reveal--late{ transition-delay:.12s; }
 @media (max-width:620px){
   :root{ --gutter:22px; }
   /* shrink the wordmark on phones so it clears the burger */
-  .nav__brand{ font-size:13px; letter-spacing:0.15em; text-indent:0.15em; }
+  .nav__brand{ font-size:13px; letter-spacing:0.15em; }
   .grid, .grid--three{ grid-template-columns:1fr; gap:56px; }
   .hero__cta{ left:var(--gutter); right:var(--gutter); bottom:40px; text-align:left; }
   .hero__caption{ bottom:150px; }
