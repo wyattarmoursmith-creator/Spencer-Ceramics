@@ -125,7 +125,7 @@
       <h2 class="display">The usual questions.</h2>
     </div>
     <div class="faqs__list">
-      <details class="faq-item"><summary>Where do you ship from, and how long does it take?</summary><div class="faq-item__body"><p>From Craig's studio. Delivery times depend on the carrier and, for international orders, on customs.</p></div></details>
+      <details class="faq-item"><summary>Where do you ship from, and how long does it take?</summary><div class="faq-item__body"><p>From Craig's studio in New Zealand. Delivery times depend on the carrier and, for international orders, on customs.</p></div></details>
       <details class="faq-item"><summary>Do you ship internationally?</summary><div class="faq-item__body"><p>Yes, worldwide. Import duties, customs charges and taxes in your country are yours to cover.</p></div></details>
       <details class="faq-item"><summary>My piece arrived broken. What now?</summary><div class="faq-item__body"><p>Keep all the packaging, photograph the box and the piece, and email <a href="mailto:shop@craigspencerceramics.com">shop@craigspencerceramics.com</a> within 48 hours. We'll repair, replace or refund.</p></div></details>
       <details class="faq-item"><summary>Do you offer wholesale?</summary><div class="faq-item__body"><p>No. We sell directly to customers and don't currently offer wholesale pricing. Stockists are listed on the <a href="about.html">Studio page</a>.</p></div></details>
@@ -159,13 +159,20 @@
     (function () {
       var form = document.getElementById("contact-form");
       if (!form) return;
-      form.addEventListener("submit", function (e) {
+      form.addEventListener("submit", onSubmit);
+      function onSubmit(e) {
         e.preventDefault();
         var data = new URLSearchParams(new FormData(form)).toString();
         fetch("/", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: data })
-          .then(function () { showThanks(); })
-          .catch(function () { showThanks(); });
-      });
+          .then(function (r) { if (r.ok) showThanks(); else fallback(); })   // only say thank you when Netlify accepted it
+          .catch(fallback);
+      }
+      var fellBack = false;
+      function fallback() {   // let the browser post the form the ordinary way, so Netlify's own page handles it
+        if (fellBack) return; fellBack = true;
+        form.removeEventListener("submit", onSubmit);
+        HTMLFormElement.prototype.submit.call(form);
+      }
       function showThanks() {
         form.style.display = "none";
         document.getElementById("form-success").style.display = "block";
