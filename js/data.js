@@ -211,7 +211,8 @@ function scMapProduct(node) {
     category:   scCategory(type),
     tags:       (node.tags || []).map(function (t) { return String(t).trim(); }).filter(Boolean),
     created:    node.createdAt || "",
-    one:        avail && qty === 1 && !(node.tags || []).some(function (t) { return String(t).trim().toLowerCase() === "everyday"; }),   // the only one of this piece; Everyday pieces are made in runs, so never
+    one:        avail && !(node.tags || []).some(function (t) { return String(t).trim().toLowerCase() === "everyday"; })
+                      && (qty === 1 || scCategory(type) === "petite-pots"),   // the only one of this piece: last in stock, or any Petite Pot (each is a one-off); Everyday pieces are made in runs, so never
     variantId:  v ? v.id : "",
     variantNum: v ? scGidNum(v.id) : "",
     available:  avail,
