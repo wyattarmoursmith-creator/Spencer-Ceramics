@@ -1181,3 +1181,10 @@ html.lb-open, html.lb-open body{ overflow:hidden; }
 .lb__count{ position:absolute; bottom:22px; left:0; right:0; text-align:center; color:var(--fog); }
 .lb .loupe{ width:260px; height:260px; }
 @media (max-width:620px){ .lb__stage{ width:100vw; height:calc(100svh - 150px); } .lb__nav{ top:auto; bottom:14px; transform:none; width:44px; height:44px; } .lb__count{ bottom:28px; } }
+/* studio plate, after the copy trim: shaped like the shop plate. The panel hugs its content instead of
+   holding a fixed height, the statement sits straight under the index rule, and the two lines read at
+   the site's one body size. */
+.manifesto--studio .manifesto__panel{ width:min(620px,100%); min-height:0; justify-content:flex-start; }
+.manifesto--studio .manifesto__body{ margin-top:clamp(18px,3vw,30px); }
+.manifesto--studio .manifesto__cols{ margin-top:clamp(22px,3vw,34px); }
+.manifesto--studio .manifesto__cols p{ font-size:15px; line-height:1.7; }
