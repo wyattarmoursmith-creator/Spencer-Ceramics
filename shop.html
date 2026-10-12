@@ -210,6 +210,7 @@
         });
         renderSubfilters(filter, inCat);
         var newin = document.getElementById("newin"); if (newin && newin.dataset.ready) newin.hidden = (filter !== "all" || availOnly);
+        var closer = document.querySelector(".closer"); if (closer) closer.hidden = (filter === "drinking" || filter === "canisters");   // no "after something in particular?" under the drinking vessels or canisters
         var items = inCat.filter(function (p) {
           if (currentSub && (p.tags || []).indexOf(currentSub) < 0) return false;
           if (availOnly && p.state === "sold") return false;
