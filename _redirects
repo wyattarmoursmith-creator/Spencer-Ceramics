@@ -4,11 +4,42 @@
 /commissions.html  /shop  301!
 
 # working files that live in the repo but are not part of the site
-/README.md             /404  404!
-/OWNER-GUIDE.md        /404  404!
-/LAUNCH.md             /404  404!
-/PRELAUNCH-CHECKLIST.md /404  404!
-/tools/*               /404  404!
-/partials/*            /404  404!
-/Full%20palette.png    /404  404!
-/Font%20Preview/*      /404  404!
+/README.md             /404  404
+/OWNER-GUIDE.md        /404  404
+/LAUNCH.md             /404  404
+/PRELAUNCH-CHECKLIST.md /404  404
+/tools/*               /404  404
+/partials/*            /404  404
+/Full%20palette.png    /404  404
+/Font%20Preview/*      /404  404
+
+# ---- launch: the old Wix site (spencerceramics.com.au) becomes 301s into the new site ----
+# specific pages first (most valuable for carrying rankings), then everything else to the home page
+https://spencerceramics.com.au/about                    https://craigspencerceramics.com/about     301!
+https://www.spencerceramics.com.au/about                https://craigspencerceramics.com/about     301!
+https://spencerceramics.com.au/contact-4                https://craigspencerceramics.com/contact   301!
+https://www.spencerceramics.com.au/contact-4            https://craigspencerceramics.com/contact   301!
+https://spencerceramics.com.au/services-4               https://craigspencerceramics.com/shop      301!
+https://www.spencerceramics.com.au/services-4           https://craigspencerceramics.com/shop      301!
+https://spencerceramics.com.au/shipping-returns         https://craigspencerceramics.com/faq       301!
+https://www.spencerceramics.com.au/shipping-returns     https://craigspencerceramics.com/faq       301!
+https://spencerceramics.com.au/terms-conditions         https://craigspencerceramics.com/terms     301!
+https://www.spencerceramics.com.au/terms-conditions     https://craigspencerceramics.com/terms     301!
+https://spencerceramics.com.au/blog                     https://craigspencerceramics.com/journal   301!
+https://www.spencerceramics.com.au/blog                 https://craigspencerceramics.com/journal   301!
+https://spencerceramics.com.au/blog/*                   https://craigspencerceramics.com/journal   301!
+https://www.spencerceramics.com.au/blog/*               https://craigspencerceramics.com/journal   301!
+https://spencerceramics.com.au/bowl-set-collection      https://craigspencerceramics.com/shop      301!
+https://www.spencerceramics.com.au/bowl-set-collection  https://craigspencerceramics.com/shop      301!
+https://spencerceramics.com.au/artian-vase-collection   https://craigspencerceramics.com/shop      301!
+https://www.spencerceramics.com.au/artian-vase-collection https://craigspencerceramics.com/shop    301!
+https://spencerceramics.com.au/mini-vase-collection     https://craigspencerceramics.com/shop      301!
+https://www.spencerceramics.com.au/mini-vase-collection https://craigspencerceramics.com/shop      301!
+https://spencerceramics.com.au/gift-card                https://craigspencerceramics.com/shop      301!
+https://www.spencerceramics.com.au/gift-card            https://craigspencerceramics.com/shop      301!
+https://spencerceramics.com.au/book-online              https://craigspencerceramics.com/contact   301!
+https://www.spencerceramics.com.au/book-online          https://craigspencerceramics.com/contact   301!
+https://spencerceramics.com.au/*                        https://craigspencerceramics.com/:splat    301!
+https://www.spencerceramics.com.au/*                    https://craigspencerceramics.com/:splat    301!
+# www on the new domain collapses to the apex
+https://www.craigspencerceramics.com/*                  https://craigspencerceramics.com/:splat    301!
