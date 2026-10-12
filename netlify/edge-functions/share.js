@@ -31,7 +31,7 @@ async function postMeta(id, origin) {
   const r = await fetch(`${origin}/content/journal.json`); const j = await r.json();
   const p = (j.posts || []).find((x) => x.id === id);
   if (!p) return null;
-  return { title: `${p.title} · ${SITE} · Journal`, description: short(p.excerpt || p.body, 155), image: p.img ? `${origin}/${p.img.replace(/^\//, "")}` : null, type: "article" };
+  return { title: `${p.title} · ${SITE} · Journal`, description: short(p.excerpt || p.body, 155), image: p.img ? (/^https?:/.test(p.img) ? p.img : `${origin}/${p.img.replace(/^\//, "")}`) : null, type: "article" };   // a post photo may live on the Shopify CDN
 }
 
 export default async function (request, context) {

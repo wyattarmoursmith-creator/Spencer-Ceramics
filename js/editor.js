@@ -28,7 +28,7 @@
       if (src !== img.getAttribute("src") && img.hasAttribute("srcset")) { img.removeAttribute("srcset"); img.removeAttribute("sizes"); }   // variants belong to the default photo only
       img.src = src; img.setAttribute("data-src-applied", src);
     }
-    img.style.objectPosition = focusFor(k);
+    img.style.objectPosition = img.getAttribute("data-focal") || focusFor(k);   // an image may carry its own focal point (journal posts); otherwise the slot's
   }
   function applyAll(root) {
     (root || document).querySelectorAll("img[data-media]").forEach(applyOne);

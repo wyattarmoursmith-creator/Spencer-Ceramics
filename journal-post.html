@@ -103,7 +103,7 @@
       var hero = document.getElementById("a-hero");
       hero.removeAttribute("srcset"); hero.removeAttribute("sizes");   // the placeholder's variants would otherwise win over the post's own photo
       hero.src = p.img;
-      if (p.focal) hero.style.objectPosition = p.focal;   // where the photo's subject sits, so the wide crop lands on it
+      if (p.focal) { hero.setAttribute("data-focal", p.focal); hero.style.objectPosition = p.focal; }   // where the photo's subject sits, so the wide crop lands on it
       document.getElementById("a-hero").alt = p.title;
       document.getElementById("a-hero").setAttribute("data-media", p.id);
       if(window.applyFocus) window.applyFocus();
