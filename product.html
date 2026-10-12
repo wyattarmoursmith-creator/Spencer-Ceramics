@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <title>Craig Spencer Ceramics · Piece</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="A handcrafted piece by Craig Spencer Ceramics, made and signed by hand. Australia and New Zealand." />
+<meta name="description" content="A handcrafted piece by Craig Spencer Ceramics, made and signed by hand. Australia + New Zealand." />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Craig Spencer Ceramics" />
 <meta property="og:title" content="A piece by Craig Spencer Ceramics" />
@@ -98,7 +98,7 @@
       // SEO: per-piece description, canonical, and Product schema (price + availability for Google Shopping surfaces)
       var desc = document.querySelector('meta[name="description"]');
       var summary = (p.intro && p.intro[0]) || p.desc || (p.name + ", a handcrafted piece.");
-      if (desc) desc.setAttribute("content", (summary.length > 150 ? summary.slice(0, 147).replace(/\s+\S*$/, "") + "..." : summary) + " Made and signed by Craig Spencer. Australia and New Zealand.");
+      if (desc) desc.setAttribute("content", (summary.length > 150 ? summary.slice(0, 147).replace(/\s+\S*$/, "") + "..." : summary) + " Made and signed by Craig Spencer. Australia + New Zealand.");
       var base = "https://spencerceramics.netlify.app/product.html?id=" + p.id;
       var canon = document.querySelector('link[rel="canonical"]');
       if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
