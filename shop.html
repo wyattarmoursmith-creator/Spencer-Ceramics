@@ -260,7 +260,12 @@
           return;
         }
         grid.classList.remove("grid--sections");
-        // the single collections are plain grids: the bands only appear on All
+        // the Everyday Collection tab keeps its band after the eighth piece (rounded up to a full row),
+        // but not once a sub-filter (Drinking Vessels, Lidded Canisters...) is chosen; other tabs are plain grids
+        if (filter === "everyday" && !currentSub && cards.length) {
+          var cols = getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length || 2;
+          var at = Math.ceil(8 / cols) * cols; cards.splice(Math.min(at, cards.length), 0, everydayBand);
+        }
         grid.innerHTML = cards.length
           ? cards.join("")
           : '<p class="label" style="grid-column:1/-1; padding:48px 0;">' + (availOnly ? "Nothing available here right now." : "Nothing in this category yet.") + '</p>';
