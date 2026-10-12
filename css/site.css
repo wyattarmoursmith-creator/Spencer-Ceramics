@@ -1161,9 +1161,10 @@ html.js .manifesto__panel.reveal.is-live{ transition:none; }
 /* everyday chip: the ember square sits in the text flow, centred on the x-height of the word */
 .filters button.filters__everyday{ padding-left:0; }
 .filters__everyday::before{ position:static; display:inline-block; vertical-align:middle; width:6px; height:6px; margin:0 9px 0 0; }
-/* studio plate: the first line of the statement carries the ember instead of the index tick */
-.manifesto--studio .manifesto__statement::before{ display:none; }
-.manifesto--studio .manifesto__statement .pl:first-child{ color:var(--ember-bright); }
+/* every plate: the first line of the heading carries the ember (no index tick) */
+.manifesto__statement::before{ display:none; }
+.manifesto__panel .pl{ display:block; }
+.manifesto__panel .display .pl:first-child{ color:var(--ember-bright); }
 /* product gallery: full-screen photos over a dark ground, the others a step away */
 .lb{ position:fixed; inset:0; z-index:90; background:rgba(11,11,12,0.95); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .2s ease; }
 .lb.is-open{ opacity:1; }
@@ -1188,3 +1189,5 @@ html.lb-open, html.lb-open body{ overflow:hidden; }
 .manifesto--studio .manifesto__body{ margin-top:clamp(18px,3vw,30px); }
 .manifesto--studio .manifesto__cols{ margin-top:clamp(22px,3vw,34px); }
 .manifesto--studio .manifesto__cols p{ font-size:15px; line-height:1.7; }
+/* studio plate note: one line of body copy under the statement, as on the shop plate */
+.manifesto__note{ margin:clamp(18px,3vw,30px) 0 0; max-width:44ch; font-size:15px; line-height:1.7; color:var(--bone); }

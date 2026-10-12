@@ -429,20 +429,7 @@
       return els.map(function (el, i) { return { el: el, a: w[0] + i * step, b: w[0] + i * step + len }; });
     }
 
-    // Wrap each <br>-separated heading line in a block span (the <br> is dropped;
-    // see the .pl rule in site.css). Idempotent: a heading already wrapped is left alone.
-    function wrapLines(h) {
-      if (!h) return [];
-      if (!h.querySelector(".pl")) {
-        var cur = null;
-        [].slice.call(h.childNodes).forEach(function (n) {
-          if (n.nodeType === 1 && n.tagName === "BR") { h.removeChild(n); cur = null; return; }
-          if (!cur) { cur = document.createElement("span"); cur.className = "pl"; h.insertBefore(cur, n); }
-          cur.appendChild(n);
-        });
-      }
-      return [].slice.call(h.querySelectorAll(".pl"));
-    }
+    var wrapLines = scWrapLines;
 
     // One element's move inside its own window: a short rise that eases to rest
     // (never past it) while opacity stays at 0, then ramps late. Resolved: styles cleared.
@@ -479,7 +466,7 @@
       states.forEach(function (s) {
         var meta  = [].slice.call(s.p.querySelectorAll(".manifesto__meta span"));
         var lines = wrapLines(s.p.querySelector(".manifesto__statement"));
-        var cols  = [].slice.call(s.p.querySelectorAll(".manifesto__cols p"));
+        var cols  = [].slice.call(s.p.querySelectorAll(".manifesto__cols p, .manifesto__note"));
         s.parts = spread(meta, W_META, LEN_META).concat(spread(lines, W_HEAD, LEN_LINE), spread(cols, W_COLS, LEN_COL));
         s.last = -1;
       });
@@ -701,6 +688,28 @@
     });
   }
 
+  /* ---------- plate headings: each <br>-separated line becomes a block span (the <br> is
+     dropped; see the .pl rule in site.css), so the first line can carry the ember on every
+     plate. Idempotent: a heading already wrapped is left alone. The CMS re-renders
+     [data-lines] headings after the data arrives, so the wrap runs again then. ---------- */
+  function scWrapLines(h) {
+    if (!h) return [];
+    if (!h.querySelector(".pl")) {
+      var cur = null;
+      [].slice.call(h.childNodes).forEach(function (n) {
+        if (n.nodeType === 1 && n.tagName === "BR") { h.removeChild(n); cur = null; return; }
+        if (!cur) { cur = document.createElement("span"); cur.className = "pl"; h.insertBefore(cur, n); }
+        cur.appendChild(n);
+      });
+    }
+    return [].slice.call(h.querySelectorAll(".pl"));
+  }
+  function initPlateLines() {
+    function all() { document.querySelectorAll(".manifesto__panel .display").forEach(scWrapLines); }
+    all();
+    if (window.onData) window.onData(function () { window.onData(all); });
+  }
+
   /* ---------- plate lift: on photo plates marked data-lift (shop, studio, contact),
      scrolling lifts the plate away and lets the photograph come through, then the
      page continues. Everything is 1:1 with the scroll (no timers, no easing): the
@@ -817,6 +826,7 @@
     initHeroCrossfade();
     initScrollFX();
     initReveals();
+    initPlateLines();
     initPlateFocus();
     initPlateLift();
     initScrollMotion();

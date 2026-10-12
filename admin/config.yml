@@ -161,8 +161,7 @@ collections:
             collapsed: true
             fields:
               - { label: "Statement plate — heading", name: plate_heading, widget: text, hint: "Each line shows on its own line." }
-              - { label: "Statement plate — left column", name: plate_col1, widget: text }
-              - { label: "Statement plate — right column", name: plate_col2, widget: text }
+              - { label: "Statement plate — note", name: plate_note, widget: text }
               - { label: "Maker bio", name: bio, widget: text, hint: "Leave a blank line between paragraphs." }
           - label: "Commissions"
             name: commissions
