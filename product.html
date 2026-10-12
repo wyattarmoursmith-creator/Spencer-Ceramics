@@ -84,14 +84,23 @@
   <script src="js/site.js"></script>
   <!-- /@partial scripts -->
   <script>
-    window.onData(function () {
+    window.onData(draw);
+    document.addEventListener("prices:changed", draw);   // currency switched: redraw in place
+    function draw() {
       if (!window.CATALOG.length) {
         document.querySelector("[data-pd-root]").innerHTML =
           '<p class="label" style="padding:60px var(--gutter)">This piece is no longer available. <a class="link-underline" href="shop.html">Back to the shop &rarr;</a></p>';
         return;
       }
       var id = new URLSearchParams(location.search).get("id") || window.CATALOG[0].id;
-      var p = window.byId(id) || window.CATALOG[0];
+      var p = window.byId(id);
+      if (!p) {   // a piece that has sold and gone, or a mistyped link: say so rather than showing another piece
+        document.querySelector("[data-pd-root]").innerHTML =
+          '<p class="label" style="padding:60px var(--gutter)">This piece is no longer available. <a class="link-underline" href="shop.html">Back to the shop &rarr;</a></p>';
+        document.title = "No longer available · Craig Spencer Ceramics";
+        var robots = document.createElement("meta"); robots.name = "robots"; robots.content = "noindex"; document.head.appendChild(robots);
+        return;
+      }
       document.title = p.name + " · Craig Spencer Ceramics";
       var sold = p.state === "sold";
 
@@ -103,8 +112,9 @@
       var canon = document.querySelector('link[rel="canonical"]');
       if (!canon) { canon = document.createElement("link"); canon.rel = "canonical"; document.head.appendChild(canon); }
       canon.href = base;
+      document.querySelectorAll('script[data-pd-ld]').forEach(function (x) { x.remove(); });   // a redraw (currency switch) replaces the schema rather than stacking it
       var ld = document.createElement("script");
-      ld.type = "application/ld+json";
+      ld.type = "application/ld+json"; ld.setAttribute("data-pd-ld", "1");
       ld.textContent = JSON.stringify({
         "@context": "https://schema.org", "@type": "Product",
         "name": p.name, "sku": String(p.ref), "description": summary,
@@ -146,7 +156,7 @@
         '<aside class="pd__panel">' +
           '<div class="label">N° ' + p.ref + ' · ' + (sold ? 'Sold' : (p.one ? 'One of one' : 'Available')) + '</div>' +
           '<h1 class="pd__name">' + p.name + '</h1>' +
-          '<div class="pd__price tnum">$ ' + p.price.toFixed(2) + ' ' + (p.currency || (window.SHOPIFY ? window.SHOPIFY.currency : 'NZD')) + '</div>' +
+          '<div class="pd__price tnum">' + window.scMoney(p.price, p.currency) + '</div>' +
           '<label class="sort currency pd__currency" data-currency data-currency-hide-single><span class="currency__one"></span><span class="currency__pick" hidden>Show prices in · <select aria-label="Currency"></select><span class="currency__note">Charged in the currency of your shipping country.</span></span></label>' +
           introHTML +
           '<div class="pd__meta">' +
@@ -160,7 +170,7 @@
           '<div class="pd__buy">' +
             (sold
               ? '<button class="btn btn--ghost btn--block" disabled style="opacity:.5; cursor:not-allowed">Sold</button>'
-              : '<button class="btn btn--fill btn--block" data-add="' + p.id + '" data-label="Add to cart · $ ' + p.price + '">Add to cart · $ ' + p.price + ' <span class="arrow">&rarr;</span></button>') +
+              : '<button class="btn btn--fill btn--block" data-add="' + p.id + '" data-label="Add to cart · ' + window.scMoney(p.price, p.currency) + '">Add to cart · ' + window.scMoney(p.price, p.currency) + ' <span class="arrow">&rarr;</span></button>') +
           '</div>' +
           '<div class="pd__note">One of a kind where marked. Securely wrapped and packed by hand, tracking provided. <a class="link-underline" href="faq.html" style="font-size:12px">Shipping &amp; FAQ</a></div>' +
         '</aside>';
@@ -176,7 +186,7 @@
             '<div class="card__media"><span class="card__no">N° ' + q.ref + '</span>' + (qs ? '<span class="card__tag">Sold</span>' : (q.one ? '<span class="card__tag card__tag--one">One of one</span>' : '')) +
               '<img loading="lazy" decoding="async" src="' + window.scImg(q.img, 800) + '" srcset="' + window.scSrcset(q.img, [400, 800, 1200]) + '" sizes="(max-width:620px) 92vw, 31vw" alt="' + q.name + '" data-media="' + q.id + '">' + '</div>' +
             '<div class="card__row"><div class="card__name">' + q.name + '</div>' +
-              '<div class="card__price tnum">$ ' + q.price + '</div></div>' +
+              '<div class="card__price tnum">' + window.scMoney(q.price, q.currency) + '</div></div>' +
             '</a>' +
             '<div class="card__actions">' +
               (qs
@@ -194,7 +204,7 @@
       // Add-to-cart is wired once by js/site.js (initAddButtons), which runs on
       // DOMContentLoaded - after this inline script injects the button. Do NOT
       // bind a second handler here or the item gets added twice.
-    });
+    }
   </script>
 </body>
 </html>

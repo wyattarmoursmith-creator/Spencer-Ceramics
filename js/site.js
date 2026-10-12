@@ -2,10 +2,8 @@
    Spencer Ceramics - site behaviour
    Mobile nav, a lightweight localStorage cart, and cart rendering.
 
-   NOTE ON CHECKOUT
-   The cart here is a local demo so the Shop → Cart flow works the
-   moment you deploy. Real payment is handed off to Shopify - wire the
-   "Checkout" button to your Shopify cart / Buy Button (see README).
+   The cart lives in localStorage; checkout creates a Shopify cart via
+   the Storefront API and hands the shopper to Shopify's secure page.
    ============================================================ */
 (function () {
   var KEY = "sc_cart_v1";
@@ -16,18 +14,40 @@
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
     catch (e) { return {}; }
   }
-  function save(c) { localStorage.setItem(KEY, JSON.stringify(c)); paint(); }
+  function save(c) { try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {} paint(); }   // Safari with storage blocked: the cart just does not persist
+  function known(id) { return !window.CATALOG || !window.CATALOG.length || !!window.byId(id); }   // before the catalogue loads, trust the stored cart
   function count(c) {
     c = c || load();
-    return Object.keys(c).reduce(function (n, k) { return n + c[k]; }, 0);
+    return Object.keys(c).reduce(function (n, k) { return n + (known(k) ? c[k] : 0); }, 0);
   }
-  function money(n) { return "$ " + n.toFixed(2); }
+  /* once the catalogue is in, drop lines for pieces that have gone (deleted in Shopify) */
+  function prune() {
+    if (!window.CATALOG || !window.CATALOG.length) return;
+    var c = load(), changed = false;
+    Object.keys(c).forEach(function (id) { if (!window.byId(id)) { delete c[id]; changed = true; } });
+    if (changed) save(c);
+  }
+  /* money: the currency's own sign, whole numbers without decimals ("A$ 697", "NZ$ 45.50", "€ 120") */
+  var SIGN = { AUD: "A$", NZD: "NZ$", USD: "US$", CAD: "CA$", SGD: "S$", HKD: "HK$", EUR: "€", GBP: "£", JPY: "¥" };
+  function money(n, code) {
+    code = code || cur();
+    var v = Number(n) || 0, whole = Math.abs(v - Math.round(v)) < 0.005;
+    var num = v.toLocaleString("en-AU", { minimumFractionDigits: whole ? 0 : 2, maximumFractionDigits: 2 });
+    return (SIGN[code] || code) + "\u00a0" + num;
+  }
+  window.scMoney = money;
 
   /* ---------- public-ish API ---------- */
   window.Cart = {
     add: function (id, qty) {
-      var c = load(); c[id] = (c[id] || 0) + (qty || 1); save(c);
+      var p = window.byId ? window.byId(id) : null;
+      if (p && p.state === "sold") return false;
+      var c = load(), want = (c[id] || 0) + (qty || 1);
+      if (p && p.stock && want > p.stock) want = p.stock;   // no more than exist
+      if (want === (c[id] || 0)) return false;             // already holding every one there is
+      c[id] = want; save(c);
       flash();
+      return true;
     },
     setQty: function (id, qty) {
       var c = load();
@@ -39,7 +59,7 @@
       var c = load();
       return Object.keys(c).map(function (id) {
         var p = window.byId ? window.byId(id) : null;
-        return p ? { product: p, qty: c[id] } : null;
+        return (p && p.state !== "sold") ? { product: p, qty: Math.min(c[id], p.stock || c[id]) } : null;   // a piece that sold meanwhile is left out
       }).filter(Boolean);
     },
     subtotal: function () {
@@ -102,12 +122,12 @@
       var id = btn.getAttribute("data-add");
       var p = window.byId(id);
       if (p && p.state === "sold") return;
-      window.Cart.add(id, 1);
+      var added = window.Cart.add(id, 1);
       if (btn.dataset.busy) return;
       btn.dataset.busy = "1";
       var prevHTML = btn.innerHTML;
-      btn.innerHTML = "Added to cart ✓";
-      setTimeout(function () { btn.innerHTML = prevHTML; btn.dataset.busy = ""; }, 1400);
+      btn.innerHTML = added ? "Added to cart ✓" : "All in your cart";   // every one there is, already in the cart
+      setTimeout(function () { btn.innerHTML = prevHTML; btn.dataset.busy = ""; }, 1600);
     });
   }
 
@@ -165,7 +185,7 @@
           '<div class="summary__row"><span>Subtotal</span><span class="tnum">' + money(sub) + '</span></div>' +
           '<div class="summary__row"><span>Shipping</span><span>Calculated at checkout</span></div>' +
           '<div class="summary__row"><span>Currency</span><span class="currency" data-currency><span class="currency__one" data-currency-code>' + cur() + '</span><span class="currency__pick" hidden><select aria-label="Currency"></select></span></span></div>' +
-          '<div class="summary__total"><span>Total</span><span class="tnum">' + money(sub) + ' ' + cur() + '</span></div>' +
+          '<div class="summary__total"><span>Total</span><span class="tnum">' + money(sub) + '</span></div>' +
           '<button class="btn btn--fill btn--block" style="margin-top:30px" data-checkout>Secure checkout · Shopify <span class="arrow">&rarr;</span></button>' +
           '<div class="summary__note">Orders are charged in the currency of the shipping country. Every piece is securely wrapped and packed by hand. Tracking provided once your order ships. <a href="faq.html" style="border-bottom:1px solid currentColor">Shipping &amp; FAQ</a></div>' +
         '</aside>' +
@@ -213,8 +233,16 @@
         })
         .then(function (r) { return r.json(); })
         .then(function (j) {
-          var c = j && j.data && j.data.cartCreate && j.data.cartCreate.cart;
-          window.location.href = (c && c.checkoutUrl) ? c.checkoutUrl : permalink;
+          var cc = j && j.data && j.data.cartCreate, c = cc && cc.cart, errs = (cc && cc.userErrors) || [];
+          if (c && c.checkoutUrl) { window.location.href = c.checkoutUrl; return; }
+          if (errs.length) {   // Shopify refused a line (sold out, over quantity): say so instead of redirecting into an error
+            b.dataset.busy = ""; b.innerHTML = "Secure checkout · Shopify <span class=\"arrow\">&rarr;</span>";
+            var note = wrap.querySelector(".summary__note");
+            if (note) note.innerHTML = '<strong>Shopify could not start checkout:</strong> ' + errs.map(function (e) { return e.message; }).join(" ") + ' Please adjust the cart and try again.';
+            prune(); paint();
+            return;
+          }
+          window.location.href = permalink;
         })
         .catch(function () { window.location.href = permalink; });
       });
@@ -223,8 +251,8 @@
 
   /* ---------- currency picker ----------
      Any [data-currency] element: shows the active currency, and becomes a
-     select once the store offers more than one. Changing it reloads so
-     every price on the page is re-fetched in the new currency. */
+     select once the store offers more than one. Changing it fetches the
+     prices again in that currency and the page redraws them in place. */
   function initCurrency() {
     var s = window.SHOPIFY || {}; var list = s.currencies || [];
     document.querySelectorAll("[data-currency]").forEach(function (el) {
@@ -237,8 +265,15 @@
       sel.value = s.currency;
       if (one) one.hidden = true; if (pick) pick.hidden = false;
       sel.addEventListener("change", function () {
-        try { localStorage.setItem(window.SC_CURRENCY_KEY || "sc_currency", sel.value); } catch (e) {}
-        window.location.reload();
+        var code = sel.value;
+        if (!window.scSetCurrency) { try { localStorage.setItem(window.SC_CURRENCY_KEY || "sc_currency", code); } catch (e) {} window.location.reload(); return; }
+        sel.disabled = true;
+        window.scSetCurrency(code).then(function (ok) {
+          sel.disabled = false;
+          if (!ok) { window.location.reload(); return; }
+          document.querySelectorAll("[data-currency] select").forEach(function (x) { x.value = code; });
+          document.querySelectorAll("[data-currency-code]").forEach(function (c) { c.textContent = code; });
+        });
       });
     });
   }
@@ -810,7 +845,7 @@
     var back = document.querySelector("a[data-return]");
     if (back) {
       var rec = null; try { rec = JSON.parse(sessionStorage.getItem(RETURN_KEY) || "null"); } catch (e) {}
-      if (rec && rec.page === "everyday") { back.setAttribute("href", "everyday.html"); back.innerHTML = "<span>\u2190</span> Back to the Everyday"; }
+      if (rec && rec.page === "everyday") { back.setAttribute("href", "everyday.html"); back.innerHTML = "<span>\u2190</span> Back to the Everyday Collection"; }
       back.addEventListener("click", function (e) {
         var ref = document.referrer || "";
         if (rec && history.length > 1 && ref.indexOf(back.getAttribute("href").replace(/\.html$/, "")) >= 0) { e.preventDefault(); history.back(); }
@@ -832,7 +867,8 @@
     initScrollMotion();
     initTextSweep();
     paint();                                  // cart count (localStorage only)
-    if (window.onData) window.onData(paint);          // render cart lines once content loads
+    if (window.onData) window.onData(function () { prune(); paint(); });   // drop vanished pieces, then render cart lines
+    document.addEventListener("prices:changed", paint);                     // the cart page redraws its totals in the new currency
     if (window.onData) window.onData(applySettings);  // footer + contact details
     if (window.onData) window.onData(applyPages);     // editable page copy
     if (window.onData) window.onData(function () { window.onData(initCurrency); });  // after each page has rendered its own markup

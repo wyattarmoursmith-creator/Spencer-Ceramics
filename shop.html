@@ -154,7 +154,7 @@
           '</div>' +
           '<div class="card__row">' +
             '<div class="card__name">' + p.name + '</div>' +
-            '<div class="card__price tnum">$ ' + p.price + '</div>' +
+            '<div class="card__price tnum">' + window.scMoney(p.price, p.currency) + '</div>' +
           '</div>' +
           '</a>' +
           '<div class="card__actions">' +
@@ -242,12 +242,16 @@
             (byKey[key] = byKey[key] || []).push(p);
           });
           var html = "";
+          var cols = getComputedStyle(grid.querySelector(".grid") || grid).gridTemplateColumns.split(" ").filter(Boolean).length || 2;
+          var PER = cols * 2;   // two full rows per collection on All; the tab shows the rest
           SECTIONS.forEach(function (sec, i) {
             var list = byKey[sec[0]]; if (!list || !list.length) return;
             if (sec[0] === "everyday") html += everydayBand;
+            var shown = list.slice(0, PER), more = list.length - shown.length;
             html += '<section class="shop-group">' +
               '<div class="shop-group__head"><button type="button" class="label shop-group__name" data-go="' + sec[0] + '">' + sec[1] + '</button><span class="label">' + list.length + (list.length === 1 ? ' piece' : ' pieces') + '</span></div>' +
-              '<div class="grid">' + list.map(cardHTML).join("") + '</div>' +
+              '<div class="grid">' + shown.map(cardHTML).join("") + '</div>' +
+              (more > 0 ? '<div class="shop-group__more"><button type="button" class="btn btn--ghost btn--pill" data-go="' + sec[0] + '">See all ' + list.length + ' ' + sec[1].toLowerCase() + ' <span class="arrow">&rarr;</span></button></div>' : '') +
             '</section>';
             if (i === 0) html += studioBand;
           });
@@ -292,15 +296,15 @@
       function setCollapsed(on) {
         if (on === collapsed) return;
         collapsed = on; mini.setAttribute("aria-expanded", on ? "false" : "true");
-        var from = bar.offsetHeight;
+        /* the bar keeps its full height in the page flow (so nothing below it moves) and simply
+           tucks up under the sticky nav, leaving its one-line summary showing along the bottom */
+        var MINI_H = mini.offsetHeight || 43;
         bar.classList.toggle("is-collapsed", on);
-        bar.style.height = "auto"; var to = bar.offsetHeight;         // natural height of the new state
-        bar.style.height = from + "px"; void bar.offsetHeight;          // start from where it was
         bar.classList.add("is-moving");
-        bar.style.height = to + "px";
+        bar.style.top = on ? "calc(var(--nav-h, 76px) - " + (bar.offsetHeight - MINI_H) + "px)" : "";
         clearTimeout(settleTimer);
-        settleTimer = setTimeout(function () { bar.classList.remove("is-moving"); if (!collapsed) bar.style.height = ""; }, 400);
-        travel = 0; quietUntil = Date.now() + QUIET;   // the bar changed height, so the next few scroll events are its own doing
+        settleTimer = setTimeout(function () { bar.classList.remove("is-moving"); }, 420);
+        travel = 0; quietUntil = Date.now() + QUIET;   // give the move time to finish before reading the scroll again
         lastY = window.scrollY;
       }
       function miniLabel() {
@@ -392,6 +396,7 @@
         });
       });
       if (window.scReturnTo) window.scReturnTo();   // back from a piece: land on the card you left from
+      document.addEventListener("prices:changed", function () { renderNewIn(); render(currentFilter); });   // currency switched: redraw in place
     });
   </script>
 </body>

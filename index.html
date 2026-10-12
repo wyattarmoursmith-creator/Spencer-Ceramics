@@ -192,7 +192,9 @@
   <!-- /@partial scripts -->
   <script>
     /* render three teaser cards from the catalogue */
-    window.onData(function () {
+    window.onData(draw);
+    document.addEventListener("prices:changed", draw);   // currency switched: redraw in place
+    function draw() {
       var pick = window.CATALOG.slice(0, 3);
       document.getElementById("teaser").innerHTML = pick.map(function (p) {
         var sold = p.state === "sold";
@@ -206,7 +208,7 @@
           '</div>' +
           '<div class="card__row">' +
             '<div class="card__name">' + p.name + '</div>' +
-            '<div class="card__price tnum">$ ' + p.price + '</div>' +
+            '<div class="card__price tnum">' + window.scMoney(p.price, p.currency) + '</div>' +
           '</div>' +
           '</a>' +
           '<div class="card__actions">' +
@@ -218,7 +220,7 @@
         '</div>';
       }).join("");
       if (window.scReturnTo) window.scReturnTo();   // back from a piece: land on the card you left from
-    });
+    }
   </script>
 </body>
 </html>

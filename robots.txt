@@ -3,3 +3,4 @@ Allow: /
 Disallow: /admin/
 
 Sitemap: https://spencerceramics.netlify.app/sitemap.xml
+Sitemap: https://spencerceramics.netlify.app/sitemap-products.xml

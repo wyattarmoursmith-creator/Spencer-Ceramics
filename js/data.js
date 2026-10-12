@@ -14,7 +14,7 @@
 window.SHOPIFY = {
   domain:   "spencer-ceramics-2.myshopify.com",
   token:    "d1c2f3c092fff343f37ed2e12b6f2e73",
-  version:  "2025-10",
+  version:  "2026-07",
   currency: "NZD",        // updated to the shopper's currency once the catalogue loads
   country:  "",           // market the prices were fetched for (drives checkout too)
   currencies: []          // [{ code, country }] offered by the store's markets
@@ -274,3 +274,19 @@ window._dataReady = Promise.all([
 
 /* run fn once content has loaded (or immediately if already loaded) */
 window.onData = function (fn) { window._dataReady.then(fn); };
+
+/* change currency without leaving the page: remember the choice, fetch the catalogue again in
+   that market, swap the prices into the existing product objects, then tell the page
+   ("prices:changed") so it redraws its prices where they stand. */
+window.scSetCurrency = function (code) {
+  var s = window.SHOPIFY, pick = (s.currencies || []).filter(function (c) { return c.code === code; })[0];
+  if (!pick) return Promise.resolve(false);
+  try { localStorage.setItem(window.SC_CURRENCY_KEY || "sc_currency", code); } catch (e) {}
+  s.currency = pick.code; s.country = pick.country;
+  return scFetchProducts().then(function (fresh) {
+    var by = {}; fresh.forEach(function (p) { by[p.id] = p; });
+    window.CATALOG.forEach(function (p) { var n = by[p.id]; if (n) { p.price = n.price; p.currency = n.currency; } });
+    document.dispatchEvent(new CustomEvent("prices:changed", { detail: { currency: s.currency } }));
+    return true;
+  }).catch(function () { return false; });
+};

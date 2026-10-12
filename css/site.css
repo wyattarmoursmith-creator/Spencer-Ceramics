@@ -1200,3 +1200,17 @@ html.lb-open, html.lb-open body{ overflow:hidden; }
 .shop-group__name:hover{ color:var(--ember); }
 .grid--sections .shop-break{ margin:0 0 56px; }
 .grid--sections .shop-break--everyday{ margin:56px 0; }
+/* highlights header on phones: the link sits under the intro instead of beside it */
+@media (max-width:620px){ .gallery__head--stacked{ flex-direction:column; align-items:flex-start; gap:18px; } }
+/* shop bar, folded: it keeps its full height in the flow and tucks up under the sticky nav, so the
+   grid never shifts. The one-line summary rides along the bottom edge. */
+.shop-bar{ overflow:visible; transition:top .38s cubic-bezier(.22,.61,.36,1); will-change:top; }
+.shop-bar.is-collapsed{ padding-top:16px; padding-bottom:16px; min-height:0; }
+.shop-bar.is-collapsed .shop-bar__full{ display:flex; opacity:0; visibility:hidden; pointer-events:none; transition:opacity .22s ease, visibility 0s linear .22s; }
+.shop-bar.is-moving .shop-bar__full{ display:flex; }
+.shop-bar.is-moving.is-collapsed .shop-bar__full{ transform:none; }
+.shop-bar__mini{ top:auto; bottom:0; left:0; right:0; height:43px; padding:0 var(--gutter); background:var(--chalk); border-top:1px solid var(--rule); transform:translateY(6px); }
+.shop-bar.is-collapsed .shop-bar__mini{ transform:none; }
+.shop-grid, .newin{ overflow-anchor:none; }
+/* All view: two rows per collection, then the way into its tab */
+.shop-group__more{ display:flex; justify-content:center; margin-top:34px; }

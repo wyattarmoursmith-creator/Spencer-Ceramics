@@ -3,7 +3,7 @@
    /product?id=… and /journal-post?id=… this fills the title, description,
    image and canonical before the page leaves the edge. Product data comes
    from the same public Storefront token the site uses in the browser. */
-const SHOP = { domain: "spencer-ceramics-2.myshopify.com", token: "d1c2f3c092fff343f37ed2e12b6f2e73", version: "2025-10" };
+const SHOP = { domain: "spencer-ceramics-2.myshopify.com", token: "d1c2f3c092fff343f37ed2e12b6f2e73", version: "2026-07" };
 const SITE = "Craig Spencer Ceramics";
 
 function esc(s) { return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }

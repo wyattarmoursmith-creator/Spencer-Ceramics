@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<title>The Everyday · Craig Spencer Ceramics</title>
+<title>Everyday Collection · Craig Spencer Ceramics</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="description" content="The pieces Craig always has available: drinking vessels, bowls and canisters. Sold individually or as a set." />
 <link rel="canonical" href="https://spencerceramics.netlify.app/everyday" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Craig Spencer Ceramics" />
-<meta property="og:title" content="The Everyday · Craig Spencer Ceramics" />
+<meta property="og:title" content="Everyday Collection · Craig Spencer Ceramics" />
 <meta property="og:description" content="Always here, always available: drinking vessels, bowls and canisters, sold individually or as a set." />
 <meta property="og:url" content="https://spencerceramics.netlify.app/everyday" />
 <meta property="og:image" content="https://spencerceramics.netlify.app/images/og-cover.jpg" />
@@ -65,7 +65,7 @@
   <main class="everyday" id="everyday"></main>
 
   <section class="closer reveal">
-    <a class="btn btn--fill btn--pill" href="shop.html" data-text="everyday.cta">See the rest of my work <span class="arrow">→</span></a>
+    <a class="btn btn--fill btn--pill" href="shop.html" data-text="everyday.cta">See the rest of Craig's work <span class="arrow">→</span></a>
   </section>
 
   <!-- @partial footer -->
@@ -86,7 +86,9 @@
   <!-- /@partial scripts -->
   <script>
     /* The Everyday: every piece tagged "everyday" in Shopify, grouped by its other tag (Drinking Vessels, Oil Burners...) */
-    window.onData(function () {
+    window.onData(draw);
+    document.addEventListener("prices:changed", draw);   // currency switched: redraw in place
+    function draw() {
       var main = document.getElementById("everyday");
       var items = window.CATALOG.filter(function (p) { return (p.tags || []).indexOf("everyday") >= 0; });
       var groups = [], byName = {};
@@ -107,7 +109,7 @@
           '</div>' +
           '<div class="card__row">' +
             '<div class="card__name">' + p.name + '</div>' +
-            '<div class="card__price tnum">$ ' + p.price + '</div>' +
+            '<div class="card__price tnum">' + window.scMoney(p.price, p.currency) + '</div>' +
           '</div>' +
           '</a>' +
           '<div class="card__actions">' +
@@ -130,7 +132,7 @@
       if (window.applyFocus) window.applyFocus();
       if (window.scInitCurrency) window.scInitCurrency();
       if (window.scReturnTo) window.scReturnTo();   // back from a piece: land on the card you left from
-    });
+    }
   </script>
 </body>
 </html>
