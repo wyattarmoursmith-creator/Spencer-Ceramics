@@ -28,7 +28,7 @@
       if (src !== img.getAttribute("src") && img.hasAttribute("srcset")) { img.removeAttribute("srcset"); img.removeAttribute("sizes"); }   // variants belong to the default photo only
       img.src = src; img.setAttribute("data-src-applied", src);
     }
-    img.style.objectPosition = img.getAttribute("data-focal") || focusFor(k);   // an image may carry its own focal point (journal posts); otherwise the slot's
+    img.style.objectPosition = store(FK)[k] || img.getAttribute("data-focal") || focusFor(k);   // your local edit first, then the image's own focal point (journal posts), then the slot's
   }
   function applyAll(root) {
     (root || document).querySelectorAll("img[data-media]").forEach(applyOne);
@@ -178,6 +178,10 @@
   function injectStyles() {
     var css =
       ".fx-edit .fx-target{ cursor:crosshair; outline:1px solid rgba(194,90,62,.55); outline-offset:-1px; }" +
+      /* in edit mode the layers that sit over a photo (veils, plates, captions, the loupe) let the pointer through to it */
+      ".fx-edit .hero__veil, .fx-edit .hero__inner, .fx-edit .hero__scroll, .fx-edit .manifesto__panel, .fx-edit .shop-break__text, .fx-edit .loupe, .fx-edit .card__no, .fx-edit .card__tag, .fx-edit .card__row, .fx-edit .j-entry__body, .fx-edit .studio__text{ pointer-events:none; }" +
+      ".fx-edit .manifesto__panel{ opacity:.35 !important; }" +
+      ".fx-edit a:has(> img[data-media]), .fx-edit a:has(.card__media img[data-media]){ pointer-events:none; } .fx-edit a img[data-media]{ pointer-events:auto; }" +
       ".fx-edit .fx-target.fx-dragging{ outline:2px solid #C25A3E; }" +
       ".fx-edit .fx-target.fx-over{ outline:2px dashed #C25A3E; filter:brightness(.7); }" +
       ".fx-ret{ position:fixed; z-index:9999; width:18px; height:18px; margin:-9px 0 0 -9px; border:2px solid #fff; border-radius:50%; box-shadow:0 0 0 2px rgba(0,0,0,.5); pointer-events:none; display:none; }" +
