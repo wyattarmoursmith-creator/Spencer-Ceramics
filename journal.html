@@ -88,7 +88,7 @@
     document.getElementById("j-list").innerHTML = window.JOURNAL.map(function (p) {
       return '' +
       '<a class="j-entry" href="journal-post.html?id=' + p.id + '">' +
-        '<div class="j-entry__media"><img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.title + '" data-media="' + p.id + '"></div>' +
+        '<div class="j-entry__media"><img loading="lazy" decoding="async" src="' + p.img + '" alt="' + p.title + '" data-media="' + p.id + '"' + (p.focal ? ' style="object-position:' + p.focal + '"' : '') + '></div>' +
         '<div class="j-entry__body">' +
           '<div class="j-entry__meta"><span class="label">' + p.date + '</span>' +
             '<span class="label">' + p.tag + '</span></div>' +
