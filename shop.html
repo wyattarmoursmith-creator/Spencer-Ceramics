@@ -203,7 +203,9 @@
       function render(filter) {
         if (typeof miniLabel === "function") miniLabel();
         var inCat = window.CATALOG.filter(function (p) {
-          if (filter === "everyday") return (p.tags || []).indexOf("everyday") >= 0;   // the always-available pieces, whatever their type
+          var everyday = (p.tags || []).indexOf("everyday") >= 0;
+          if (filter === "everyday") return everyday;   // the always-available pieces, whatever their type
+          if (filter === "petite-pots" && everyday) return false;   // the small vases, oil burners and incense holders live in the Everyday Collection only
           return filter === "all" || (p.category || "") === filter;
         });
         renderSubfilters(filter, inCat);
