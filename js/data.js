@@ -211,7 +211,7 @@ function scMapProduct(node) {
     category:   scCategory(type),
     tags:       (node.tags || []).map(function (t) { return String(t).trim(); }).filter(Boolean),
     created:    node.createdAt || "",
-    one:        avail && qty === 1,                              // the last (usually only) one of this piece
+    one:        avail && qty === 1 && !(node.tags || []).some(function (t) { return String(t).trim().toLowerCase() === "everyday"; }),   // the only one of this piece; Everyday pieces are made in runs, so never
     variantId:  v ? v.id : "",
     variantNum: v ? scGidNum(v.id) : "",
     available:  avail,
