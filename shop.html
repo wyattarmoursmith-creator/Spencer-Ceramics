@@ -219,7 +219,7 @@
             '<div class="shop-break__text">' +
               '<span class="label">Everyday Collection</span>' +
               '<p data-text="shop.everyday">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.everyday) || "Drinking vessels, bowls and canisters, always here, sold individually or as a set.") + '</p>' +
-              '<a class="btn btn--ghost btn--pill shop-break__cta" href="everyday.html">See the Everyday Collection <span class="arrow">&rarr;</span></a>' +
+              (filter === "everyday" ? '' : '<a class="btn btn--ghost btn--pill shop-break__cta" href="everyday.html">See the Everyday Collection <span class="arrow">&rarr;</span></a>') +   // no button when you are already looking at the Everyday Collection
             '</div>' +
           '</div>';
         var studioBand = '' +
