@@ -1191,3 +1191,12 @@ html.lb-open, html.lb-open body{ overflow:hidden; }
 .manifesto--studio .manifesto__cols p{ font-size:15px; line-height:1.7; }
 /* studio plate note: one line of body copy under the statement, as on the shop plate */
 .manifesto__note{ margin:clamp(18px,3vw,30px) 0 0; max-width:44ch; font-size:15px; line-height:1.7; color:var(--bone); }
+/* shop, All: one section per collection (the Everyday page's shape), each with its own grid */
+.grid.grid--sections{ display:block; }
+.shop-group{ padding:0 0 32px; }
+.shop-group + .shop-group, .shop-break + .shop-group{ padding-top:56px; border-top:1px solid var(--rule); }
+.shop-group__head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:28px; }
+.shop-group__name{ background:none; border:0; padding:0; cursor:pointer; color:var(--ink); font-weight:500; letter-spacing:0.16em; }
+.shop-group__name:hover{ color:var(--ember); }
+.grid--sections .shop-break{ margin:0 0 56px; }
+.grid--sections .shop-break--everyday{ margin:56px 0; }

@@ -222,22 +222,48 @@
               '<a class="btn btn--ghost btn--pill shop-break__cta" href="everyday.html">See the Everyday Collection <span class="arrow">&rarr;</span></a>' +
             '</div>' +
           '</div>';
-        // full-width bands only ever sit between complete rows: measure the live column count
-        var cols = getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length || 2;
-        // on the Everyday filter the pieces come first: the band sits after the eighth (rounded up to a full row)
-        if (filter === "everyday" && cards.length) { var at = Math.ceil(8 / cols) * cols; cards.splice(Math.min(at, cards.length), 0, everydayBand); }
-        else if (filter === "all" && cards.length > cols * 4) cards.splice(cols * 4, 0, everydayBand);
-        // a breath between the first and second rows: a dark band with a line from Craig
-        if (filter === "all" && cards.length > cols * 2) {
-          cards.splice(cols * 2, 0,
-            '<div class="shop-break">' +
+        var studioBand = '' +
+          '<div class="shop-break">' +
               '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/shop-break.jpg" srcset="images/shop-break-800.jpg 800w, images/shop-break-1200.jpg 1200w, images/shop-break.jpg 1600w" sizes="(max-width:880px) 100vw, 50vw" alt="The collection, seen from above" data-media="shop-break"></div>' +
               '<div class="shop-break__text">' +
                 '<span class="label">From the studio</span>' +
                 '<p data-text="shop.break">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.break) || "Everything here came out of the last few firings. When a piece sells it isn\'t remade, so what you see is what there is.") + '</p>' +
               '</div>' +
-            '</div>');
+          '</div>';
+        if (filter === "all" && items.length) {
+          // All: one section per collection, in the order of the tabs, each piece once. The Everyday
+          // pieces without a tab of their own (the small vases, burners, incense) close the page,
+          // introduced by the Everyday band. The dark band sits after the first section.
+          var SECTIONS = [["vessels", "Sculptural Vessels"], ["tableware", "Bowls"], ["petite-pots", "Petite Pots"], ["drinking", "Drinking Vessels"], ["canisters", "Canisters"], ["everyday", "Everyday Collection"]];
+          var byKey = {};
+          items.forEach(function (p) {
+            var everyday = (p.tags || []).indexOf("everyday") >= 0;
+            var key = (everyday && p.category === "petite-pots") ? "everyday" : (p.category || "");
+            (byKey[key] = byKey[key] || []).push(p);
+          });
+          var html = "";
+          SECTIONS.forEach(function (sec, i) {
+            var list = byKey[sec[0]]; if (!list || !list.length) return;
+            if (sec[0] === "everyday") html += everydayBand;
+            html += '<section class="shop-group">' +
+              '<div class="shop-group__head"><button type="button" class="label shop-group__name" data-go="' + sec[0] + '">' + sec[1] + '</button><span class="label">' + list.length + (list.length === 1 ? ' piece' : ' pieces') + '</span></div>' +
+              '<div class="grid">' + list.map(cardHTML).join("") + '</div>' +
+            '</section>';
+            if (i === 0) html += studioBand;
+          });
+          grid.classList.add("grid--sections");
+          grid.innerHTML = html;
+          grid.querySelectorAll("[data-go]").forEach(function (b) {   // a section's name opens its tab
+            b.addEventListener("click", function () { var tab = document.querySelector('.filters button[data-filter="' + b.getAttribute("data-go") + '"]'); if (tab) tab.click(); });
+          });
+          if (window.applyFocus) window.applyFocus();
+          return;
         }
+        grid.classList.remove("grid--sections");
+        // full-width bands only ever sit between complete rows: measure the live column count
+        var cols = getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length || 2;
+        // on the Everyday filter the pieces come first: the band sits after the eighth (rounded up to a full row)
+        if (filter === "everyday" && cards.length) { var at = Math.ceil(8 / cols) * cols; cards.splice(Math.min(at, cards.length), 0, everydayBand); }
         grid.innerHTML = cards.length
           ? cards.join("")
           : '<p class="label" style="grid-column:1/-1; padding:48px 0;">' + (availOnly ? "Nothing available here right now." : "Nothing in this category yet.") + '</p>';
@@ -327,7 +353,7 @@
       setDensity(savedDensity === "compact" ? "compact" : "roomy", false);
       render(currentFilter);
       var lastCols = 0;
-      function colsNow() { return getComputedStyle(grid).gridTemplateColumns.split(" ").filter(Boolean).length; }
+      function colsNow() { var g = grid.classList.contains("grid--sections") ? (grid.querySelector(".grid") || grid) : grid; return getComputedStyle(g).gridTemplateColumns.split(" ").filter(Boolean).length; }
       lastCols = colsNow();
       var resizeTimer;
       window.addEventListener("resize", function () {
