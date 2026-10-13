@@ -754,6 +754,25 @@
      reaches the top of the viewport. The entry animations (.reveal, data-focus)
      run first; the scroll link takes over once they have landed. Reduced motion:
      static. ---------- */
+  /* typing in a plate's form: bring the plate to the middle of the screen and hold it solid until focus leaves it */
+  function initPlateHold() {
+    [].slice.call(document.querySelectorAll(".manifesto[data-lift] .manifesto__panel")).forEach(function (panel) {
+      var form = panel.querySelector("form"); if (!form) return;
+      panel.addEventListener("focusin", function (e) {
+        if (!form.contains(e.target)) return;
+        var was = panel.classList.contains("is-typing");
+        panel.classList.add("is-typing");
+        if (was) return;                                   // moving between fields: no second recentre
+        var vh = window.innerHeight, pr = panel.getBoundingClientRect();
+        var target = pr.height <= vh * 0.92 ? panel : e.target;   // a plate taller than the screen (phones) centres the field instead
+        target.scrollIntoView({ block: "center", behavior: "smooth" });
+      });
+      panel.addEventListener("focusout", function (e) {
+        if (e.relatedTarget && panel.contains(e.relatedTarget)) return;
+        panel.classList.remove("is-typing");
+      });
+    });
+  }
   function initPlateLift() {
     var secs = [].slice.call(document.querySelectorAll(".manifesto[data-lift]"));
     if (!secs.length) return;
@@ -864,6 +883,7 @@
     initPlateLines();
     initPlateFocus();
     initPlateLift();
+    initPlateHold();
     initScrollMotion();
     initTextSweep();
     paint();                                  // cart count (localStorage only)

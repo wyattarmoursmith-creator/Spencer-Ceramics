@@ -1157,6 +1157,7 @@ a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible
   will-change:opacity, transform;
 }
 .manifesto[data-lift] .manifesto__bg{ will-change:transform; }
+.manifesto[data-lift] .manifesto__panel.is-typing{ --pa:1 !important; opacity:1 !important; }   /* someone is typing: fully solid, whatever the scroll says */
 html.js .manifesto__panel.reveal.is-live{ transition:none; }
 /* everyday chip: the ember square sits in the text flow, centred on the x-height of the word */
 .filters button.filters__everyday{ padding-left:0; }
