@@ -1294,7 +1294,7 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
   .shop-bar .filters button, .filters__lead, .density{ display:none; }   /* the Collection picker is the selector; no chip row */
   .filters__pick, .shop-bar__right .sort, .filters button, .subfilters button{
     flex:0 0 auto; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
-    border:1px solid rgba(21,20,15,0.28); border-radius:999px; padding:8px 11px; line-height:1;
+    border:1px solid rgba(21,20,15,0.28); border-radius:999px; padding:8px 10px; line-height:1;
     font-family:var(--body); font-size:13px; font-weight:500; letter-spacing:0; text-transform:none; color:var(--ink); background:none;
   }
   .filters__pick, .shop-bar__right .sort{ color:var(--smoke); }

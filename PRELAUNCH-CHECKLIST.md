@@ -1,6 +1,6 @@
 # Launch checklist: Craig Spencer Ceramics
 
-Updated Tuesday 13 October 2026, 1:30 am Pacific. Only what is left.
+Updated Tuesday 13 October 2026, 12:45 pm Pacific. Only what is left.
 
 Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 14 October, which is Tuesday 13 October, 4:00 pm Pacific for Wyatt (10:00 am Tuesday in New South Wales for Craig). Note: noon Tuesday New Zealand time has already passed; it was 4:00 pm Pacific on Monday.
 
@@ -10,6 +10,7 @@ Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 
 - [x] **shop@ mailbox.** Up and working in Microsoft 365 (13 Oct).
 - [x] **Netlify Forms notification.** Working, confirmed 13 Oct: contact messages reach shop@craigspencerceramics.com. A second notification to Wyatt's gmail is still on as a backup copy; delete it in Netlify, Forms, Submission notifications when no longer wanted. The test submissions in Netlify can be deleted.
 - [x] **Terms page commissions clause** removed (13 Oct).
+- [x] **Launch-day sweep (13 Oct, midday).** Four agents crawled staging on desktop, phone and by script: 136 URLs, 207 resources, both sitemaps, hidden files, headers, console on every page. Fixed from it: footer overflow on desktop, journal index stacking on phones, catalogue number vs badge on two-up cards, shop bar height after Back to shop, Everyday section count, currency pill, gallery swipe-close, product sitemap URL form, 404s for unknown ids, crawlable headings, legal page share tags, Instagram links in a new tab.
 - [ ] **Final look on a phone.** The phone shop changed overnight (two pieces across, Collection picker bar). Open staging on your phone, pick a collection, open a piece, go back, add to cart. Hard refresh first (or clear the tab) or you will see cached photos.
 - [ ] **Optional:** delete the gmail copy of contact notifications in Netlify once you are happy shop@ is reliable.
 
@@ -17,6 +18,8 @@ Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 
 - [ ] **Verify the Shopify sender email.** The verification email is waiting at shop@craigspencerceramics.com (sent 12 Oct). Open it and confirm. Until then Shopify sends order emails from a shopifyemail.com fallback address.
 - [ ] **Shipping rate.** The flat international rate is now A$33 (same number as before, in AUD). Confirm or change in Settings, Shipping and delivery.
 - [ ] **Optional:** Settings, Checkout, apply the recommended "email only, full name required, phone optional".
+- [ ] **Tidy duplicate product titles in Shopify.** Three products are all titled "Curved Bowl I" (handles curved-bowl-i, serving-bowl-i, small-bowl-i), two are "Curved Bowl II" (curved-bowl-ii, serving-bowl-ii) and Petite Vase 11 exists twice (petite-vase-11, petite-vase-11b). Rename or remove in Shopify admin; the site picks the change up on its own.
+- [ ] **EUR price rounding.** Euro prices show cents (€ 349.95) while AUD, NZD and USD show whole numbers. Shopify, Settings, Markets, Europe, Products and pricing, set rounding to .00 to match.
 - [ ] **Forward the old email.** The old address at spencerceramics.com.au is Google Workspace (through Wix). In that Gmail: Settings, Forwarding and POP/IMAP, add shop@craigspencerceramics.com (or craig@), confirm the code that arrives in Outlook, then "Forward a copy". Before cancelling Wix: add spencerceramics.com.au as a domain in Microsoft 365, move its MX to Microsoft, and add the old address as an alias on the new mailbox, otherwise the forward dies with the subscription.
 
 ## Launch day runbook (Tuesday, aim to start by 3:00 pm Pacific, go live 4:00 pm)
@@ -43,6 +46,9 @@ Craig on launch day:
 - Old spencerceramics.com.au links should land on the matching new pages.
 
 ## After launch (polish, in order of value)
+- Cart: a short message when "+" is pressed on a one-of-one ("only one exists"); a confirm or undo when "−" at 1 removes the line.
+- Sticky "Add to cart" bar on the phone product page (the button sits about two screens down).
+- Journal post photo sets load lazily; eager-load the first two so they are there when the reader arrives.
 - "Added to cart" pulse on the phone cart pill; disable "+" on one-offs; reword the cart note label.
 - Closing the product gallery scrolls the page about 160px.
 - Instagram links open in the same tab while stockists open new tabs; make consistent.
