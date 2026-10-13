@@ -7,7 +7,7 @@
    ============================================================ */
 (function () {
   var KEY = "sc_cart_v1";
-  function cur() { return (window.SHOPIFY && window.SHOPIFY.currency) || "NZD"; }   // read late: data.js sets it once the catalogue loads
+  function cur() { return (window.SHOPIFY && window.SHOPIFY.currency) || "AUD"; }   // read late: data.js sets it once the catalogue loads
 
   /* ---------- storage ---------- */
   function load() {
@@ -258,7 +258,7 @@
     document.querySelectorAll("[data-currency]").forEach(function (el) {
       if (el.dataset.currencyReady) return;
       el.dataset.currencyReady = "1";
-      el.querySelectorAll("[data-currency-code]").forEach(function (c) { c.textContent = s.currency || "NZD"; });
+      el.querySelectorAll("[data-currency-code]").forEach(function (c) { c.textContent = s.currency || "AUD"; });
       var one = el.querySelector(".currency__one"), pick = el.querySelector(".currency__pick"), sel = el.querySelector("select");
       if (list.length < 2 || !sel) { if (el.hasAttribute("data-currency-hide-single")) el.hidden = true; return; }
       sel.innerHTML = list.map(function (c) { return '<option value="' + c.code + '">' + c.code + '</option>'; }).join("");
