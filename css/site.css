@@ -1269,3 +1269,16 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
   .filters__pick{ display:block; font-size:13px; }
   .filters__pick select{ font-size:15px; font-weight:500; color:var(--ember); max-width:calc(100vw - var(--gutter) * 2 - 90px); }
 }
+/* phones: two pieces across, like a store app, so a screen shows four pieces instead of one.
+   Name and price only under each card; the card itself opens the piece. */
+@media (max-width:620px){
+  .grid, .grid--three, .shop-grid[data-density="compact"] .grid{ grid-template-columns:1fr 1fr; gap:30px 12px; }
+  .card__name{ font-size:15px; line-height:1.25; }
+  .card__price{ font-size:13.5px; }
+  .card__row{ flex-direction:column; align-items:flex-start; gap:3px; }   /* price under the name, store-app style */
+  .card__no{ top:10px; left:10px; font-size:9px; letter-spacing:0.12em; }
+  .card__tag{ top:10px; right:10px; font-size:8.5px; letter-spacing:0.12em; padding:4px 7px; }
+  .card__add{ display:none; }
+  .card__actions{ margin-top:6px; }
+  .shop-break{ min-height:0; }
+}
