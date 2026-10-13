@@ -7,8 +7,8 @@ Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 
 ## Before launch (Monday night / Tuesday morning)
 
 ### Wyatt
-- [ ] **shop@ mailbox.** The domain already has Microsoft 365 email through GoDaddy. Create or alias shop@craigspencerceramics.com there (GoDaddy, Email and Office, or admin.microsoft.com), then send a test email to it.
-- [ ] **Netlify Forms notification.** Netlify, Forms, Notifications, add an email notification for the contact form to shop@craigspencerceramics.com. Delete the test submission ("Form test") if you like.
+- [x] **shop@ mailbox.** Up and working in Microsoft 365 (13 Oct).
+- [x] **Netlify Forms notification.** In place: email to shop@craigspencerceramics.com on any submission. A "Notification test" message was sent 13 Oct; confirm it arrived in shop@. The three test submissions in Netlify can be deleted.
 - [ ] **Terms page commissions clause** (terms.html, "Commissions and collaborations"). Remove or reword; against the ground rules as written. Tell me and it is a one-line change.
 - [ ] **Hard refresh staging** once on any machine that saw it earlier today (Cmd+Shift+R), or you will see old photos from cache.
 
