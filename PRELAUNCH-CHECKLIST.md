@@ -9,7 +9,7 @@ Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 
 ### Wyatt
 - [x] **shop@ mailbox.** Up and working in Microsoft 365 (13 Oct).
 - [x] **Netlify Forms notification.** Working, confirmed 13 Oct: contact messages reach shop@craigspencerceramics.com. A second notification to Wyatt's gmail is still on as a backup copy; delete it in Netlify, Forms, Submission notifications when no longer wanted. The test submissions in Netlify can be deleted.
-- [ ] **Terms page commissions clause** (terms.html, "Commissions and collaborations"). Remove or reword; against the ground rules as written. Tell me and it is a one-line change.
+- [x] **Terms page commissions clause** removed (13 Oct).
 - [ ] **Hard refresh staging** once on any machine that saw it earlier today (Cmd+Shift+R), or you will see old photos from cache.
 
 ### Craig
