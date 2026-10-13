@@ -63,6 +63,7 @@ collections:
               - { label: "Homepage — Hero 1 (wide)", name: hero, widget: image }
               - { label: "Homepage — Hero 2 (wide)", name: "hero-2", widget: image }
               - { label: "Homepage — Hero 3 (wide)", name: "hero-3", widget: image }
+              - { label: "Homepage — Hero 4 (wide)", name: "hero-4", widget: image }
               - { label: "Homepage — Studio (portrait)", name: studio, widget: image }
               - { label: "About — Portrait (tall)", name: about, widget: image }
               - { label: "Process 1 — The wheel", name: process-1, widget: image }

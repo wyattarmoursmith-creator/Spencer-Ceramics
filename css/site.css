@@ -1214,3 +1214,5 @@ html.lb-open, html.lb-open body{ overflow:hidden; }
 .shop-grid, .newin{ overflow-anchor:none; }
 /* All view: two rows per collection, then the way into its tab */
 .shop-group__more{ display:flex; justify-content:center; margin-top:34px; }
+/* All view: the way to the next run of sections */
+.shop-more{ display:flex; justify-content:center; padding:48px 0 16px; border-top:1px solid var(--rule); margin-top:24px; }

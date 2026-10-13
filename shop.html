@@ -60,7 +60,7 @@
 
   <!-- shop plate - the edition, framed like the rest of the site (photo + floating panel) -->
   <section class="manifesto manifesto--shop" data-lift>
-    <img class="manifesto__bg" fetchpriority="high" src="images/shop-scene.jpg" srcset="images/shop-scene-800.jpg 800w, images/shop-scene-1200.jpg 1200w, images/shop-scene-1600.jpg 1600w, images/shop-scene.jpg 2000w" sizes="100vw" alt="Handmade bowls lined up on a console table" data-media="shop-scene" />
+    <img class="manifesto__bg" fetchpriority="high" src="images/shop-scene.jpg" srcset="images/shop-scene-800.jpg 800w, images/shop-scene-1200.jpg 1200w, images/shop-scene.jpg 1334w" sizes="100vw" alt="Towers of stacked bowls and pedestal forms in the studio" data-media="shop-scene" />
     <div class="manifesto__panel shop-plate reveal">
       <div class="manifesto__meta">
         <span data-text="shop.label">The current firing</span>
@@ -215,7 +215,7 @@
         // the Everyday, for people who start in the shop: a band after the second row, or at the top of its own filter
         var everydayBand = '' +
           '<div class="shop-break shop-break--everyday">' +
-            '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/stock/loop-cup.jpg" srcset="images/stock/loop-cup-800.jpg 800w, images/stock/loop-cup.jpg 1600w" sizes="(max-width:880px) 100vw, 45vw" alt="Cups from the current run" data-media="everyday-scene"></div>' +
+            '<div class="shop-break__media"><img loading="lazy" decoding="async" src="images/stock/loop-cup.jpg" srcset="images/stock/loop-cup-800.jpg 800w, images/stock/loop-cup.jpg 1067w" sizes="(max-width:880px) 100vw, 45vw" alt="Cups from the current run" data-media="everyday-scene"></div>' +
             '<div class="shop-break__text">' +
               '<span class="label">Everyday Collection</span>' +
               '<p data-text="shop.everyday">' + ((window.PAGES && window.PAGES.shop && window.PAGES.shop.everyday) || "Drinking vessels, bowls and canisters, always here, sold individually or as a set.") + '</p>' +
@@ -241,25 +241,47 @@
             var key = (everyday && p.category === "petite-pots") ? "everyday" : (p.category || "");
             (byKey[key] = byKey[key] || []).push(p);
           });
-          var html = "";
           var cols = getComputedStyle(grid.querySelector(".grid") || grid).gridTemplateColumns.split(" ").filter(Boolean).length || 2;
           var PER = cols * 2;   // two full rows per collection on All; the tab shows the rest
+          // each section is built once; the page shows about 25 pieces to start and a Load more
+          // button brings in the next sections, so the first paint stays light
+          var chunks = [];
           SECTIONS.forEach(function (sec, i) {
             var list = byKey[sec[0]]; if (!list || !list.length) return;
-            if (sec[0] === "everyday") html += everydayBand;
             var shown = list.slice(0, PER), more = list.length - shown.length;
-            html += '<section class="shop-group">' +
+            var html = (sec[0] === "everyday" ? everydayBand : "") +
+              '<section class="shop-group">' +
               '<div class="shop-group__head"><button type="button" class="label shop-group__name" data-go="' + sec[0] + '">' + sec[1] + '</button><span class="label">' + list.length + (list.length === 1 ? ' piece' : ' pieces') + '</span></div>' +
               '<div class="grid">' + shown.map(cardHTML).join("") + '</div>' +
               (more > 0 ? '<div class="shop-group__more"><button type="button" class="btn btn--ghost btn--pill" data-go="' + sec[0] + '">See all ' + list.length + ' ' + sec[1].toLowerCase() + ' <span class="arrow">&rarr;</span></button></div>' : '') +
-            '</section>';
-            if (i === 0) html += studioBand;
+            '</section>' + (i === 0 ? studioBand : "");
+            chunks.push({ html: html, n: shown.length });
           });
+          var BATCH = 25;
+          function wireGo(root) {
+            root.querySelectorAll("[data-go]").forEach(function (b) {   // a section's name opens its tab
+              if (b.dataset.wired) return; b.dataset.wired = "1";
+              b.addEventListener("click", function () { var tab = document.querySelector('.filters button[data-filter="' + b.getAttribute("data-go") + '"]'); if (tab) tab.click(); });
+            });
+          }
+          function take(from) {   // the next run of sections adding up to roughly BATCH pieces (always at least one)
+            var html = "", n = 0, i = from;
+            while (i < chunks.length && (n === 0 || n + chunks[i].n <= BATCH)) { html += chunks[i].html; n += chunks[i].n; i++; }
+            return { html: html, next: i };
+          }
           grid.classList.add("grid--sections");
-          grid.innerHTML = html;
-          grid.querySelectorAll("[data-go]").forEach(function (b) {   // a section's name opens its tab
-            b.addEventListener("click", function () { var tab = document.querySelector('.filters button[data-filter="' + b.getAttribute("data-go") + '"]'); if (tab) tab.click(); });
+          var first = take(0);
+          grid.innerHTML = first.html + (first.next < chunks.length ? '<div class="shop-more"><button type="button" class="btn btn--fill btn--pill" data-more>Load more pieces <span class="arrow">&darr;</span></button></div>' : '');
+          var pos = first.next;
+          var moreBtn = grid.querySelector("[data-more]");
+          if (moreBtn) moreBtn.addEventListener("click", function () {
+            var batch = take(pos); pos = batch.next;
+            var wrap = moreBtn.parentNode;
+            wrap.insertAdjacentHTML("beforebegin", batch.html);
+            wireGo(grid); if (window.applyFocus) window.applyFocus();
+            if (pos >= chunks.length) wrap.remove();
           });
+          wireGo(grid);
           if (window.applyFocus) window.applyFocus();
           return;
         }

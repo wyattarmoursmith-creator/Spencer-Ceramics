@@ -10,9 +10,10 @@
 window.MEDIA = {
   /* full-bleed / feature images */
   "hero":        "50% 55%",
-  "hero-2":      "50% 60%",
-  "hero-3":      "50% 50%",
-  "studio":      "50% 58%",
+  "hero-2":      "50% 50%",
+  "hero-4":      "50% 52%",
+  "hero-3":      "50% 72%",
+  "studio":      "50% 38%",
   "about": "50% 45%",
   "process-1":   "50% 50%",
   "process-2":   "50% 50%",
@@ -25,19 +26,19 @@ window.MEDIA = {
   "commission-lamps":   "50% 50%",
 
   /* home - recent-work gallery */
-  "gallery-1":   "50% 50%",
+  "gallery-1":   "50% 55%",
   "gallery-2":   "50% 50%",
   "gallery-3":   "50% 50%",
-  "gallery-4":   "50% 50%",
+  "gallery-4":   "50% 60%",
 
   /* studio page - selected work */
-  "work-1": "50% 60%",
+  "work-1": "50% 55%",
   "work-2":      "50% 50%",
   "work-3": "50% 55%",
   "work-4":      "50% 55%",
 
   /* home - manifesto plate */
-  "manifesto-bg": "50% 50%",
+  "manifesto-bg": "50% 72%",
 
   /* studio page - statement plate */
   "studio-scene": "50% 50%",
@@ -46,7 +47,7 @@ window.MEDIA = {
   "maker-portrait": "50% 30%",
 
   /* shop - plate backdrop + the mid-grid break */
-  "shop-scene":  "50% 55%",
+  "shop-scene":  "50% 62%",
   "everyday-scene": "50% 60%",
   "shop-break":  "50% 50%",
 
