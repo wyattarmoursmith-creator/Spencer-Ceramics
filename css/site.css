@@ -1294,7 +1294,7 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
   .shop-bar .filters button, .filters__lead, .density{ display:none; }   /* the Collection picker is the selector; no chip row */
   .filters__pick, .shop-bar__right .sort, .filters button, .subfilters button{
     flex:0 0 auto; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
-    border:1px solid rgba(21,20,15,0.28); border-radius:999px; padding:8px 13px; line-height:1;
+    border:1px solid rgba(21,20,15,0.28); border-radius:999px; padding:8px 11px; line-height:1;
     font-family:var(--body); font-size:13px; font-weight:500; letter-spacing:0; text-transform:none; color:var(--ink); background:none;
   }
   .filters__pick, .shop-bar__right .sort{ color:var(--smoke); }
@@ -1326,3 +1326,8 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
 html.lb-open .nav__cart-fab{ display:none; }
 /* hero meta labels over a pale photo: a soft shadow keeps them legible when the type is white */
 .hero:not(.hero--light) .hero__meta{ text-shadow:0 1px 12px rgba(0,0,0,0.45); }
+@media (max-width:620px){
+  .shop-bar__right .currency .currency__pick{ font-size:0; }   /* just the code, the sign on every price says the rest */
+  .shop-bar__right .currency .currency__pick select{ font-size:13px; font-family:var(--body); font-weight:500; color:var(--ink); border:none; padding:0; }
+  .shop-bar__right .currency .currency__one{ font-size:12px; }
+}

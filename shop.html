@@ -252,14 +252,17 @@
           // each section is built once; the page shows about 25 pieces to start and a Load more
           // button brings in the next sections, so the first paint stays light
           var chunks = [];
+          var everydayTotal = items.filter(function (p) { return (p.tags || []).indexOf("everyday") >= 0; }).length;   // the full collection, across every category
           SECTIONS.forEach(function (sec, i) {
             var list = byKey[sec[0]]; if (!list || !list.length) return;
             var shown = list.slice(0, PER), more = list.length - shown.length;
+            var total = sec[0] === "everyday" ? everydayTotal : list.length;
+            if (sec[0] === "everyday" && everydayTotal > shown.length) more = everydayTotal - shown.length;
             var html = (sec[0] === "everyday" ? everydayBand : "") +
               '<section class="shop-group">' +
-              '<div class="shop-group__head"><button type="button" class="label shop-group__name" data-go="' + sec[0] + '">' + sec[1] + '</button><span class="label">' + list.length + (list.length === 1 ? ' piece' : ' pieces') + '</span></div>' +
+              '<div class="shop-group__head"><button type="button" class="label shop-group__name" data-go="' + sec[0] + '">' + sec[1] + '</button><span class="label">' + total + (total === 1 ? ' piece' : ' pieces') + '</span></div>' +
               '<div class="grid">' + shown.map(cardHTML).join("") + '</div>' +
-              (more > 0 ? '<div class="shop-group__more"><button type="button" class="btn btn--ghost btn--pill" data-go="' + sec[0] + '">See all ' + list.length + ' ' + sec[1].toLowerCase() + ' <span class="arrow">&rarr;</span></button></div>' : '') +
+              (more > 0 ? '<div class="shop-group__more"><button type="button" class="btn btn--ghost btn--pill" data-go="' + sec[0] + '">' + (sec[0] === "everyday" ? 'See all ' + total + ' in the Everyday Collection' : 'See all ' + total + ' ' + sec[1].toLowerCase()) + ' <span class="arrow">&rarr;</span></button></div>' : '') +
             '</section>' + (i === 0 ? studioBand : "");
             chunks.push({ html: html, n: shown.length });
           });
@@ -403,7 +406,9 @@
         var nav = document.querySelector(".nav");
         document.documentElement.style.setProperty("--nav-h", (nav ? nav.offsetHeight : 76) + "px");
       }
-      setNavH(); window.addEventListener("resize", setNavH);
+      setNavH(); window.addEventListener("resize", setNavH); window.addEventListener("load", setNavH);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(setNavH);   // the wordmark grows when its font arrives
+      if (window.ResizeObserver) { var navEl = document.querySelector(".nav"); if (navEl) new ResizeObserver(setNavH).observe(navEl); }
 
       // functional sort (the control used to be decorative)
       document.getElementById("sort").addEventListener("change", function () {

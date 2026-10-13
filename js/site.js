@@ -341,11 +341,12 @@
       var prev = lb.querySelector(".lb__nav--prev"), next = lb.querySelector(".lb__nav--next");
       if (prev) prev.addEventListener("click", function () { show(cur - 1); });
       if (next) next.addEventListener("click", function () { show(cur + 1); });
-      lb.addEventListener("click", function (e) { if (e.target === lb || e.target === stage) close(); });   // the dark ground closes it
+      var swipedAt = 0;
+      lb.addEventListener("click", function (e) { if (Date.now() - swipedAt < 500) return; if (e.target === lb || e.target === stage) close(); });   // the dark ground closes it (a swipe that ends there does not)
       // swipe between photos on touch
       var x0 = null;
       lb.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") x0 = e.clientX; });
-      lb.addEventListener("pointerup", function (e) { if (x0 === null) return; var dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1)); });
+      lb.addEventListener("pointerup", function (e) { if (x0 === null) return; var dx = e.clientX - x0; x0 = null; if (Math.abs(dx) > 40) { swipedAt = Date.now(); show(cur + (dx < 0 ? 1 : -1)); } });
       document.body.appendChild(lb);
     }
     function load(i) { var im = items[i] && items[i].querySelector("img"); if (im && !im.src && im.dataset.src) im.src = im.dataset.src; }
