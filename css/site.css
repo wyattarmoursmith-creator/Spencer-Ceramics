@@ -1290,8 +1290,8 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
     margin:0 calc(var(--gutter) * -1); padding:0 var(--gutter) 2px; }
   .shop-bar__full::-webkit-scrollbar{ display:none; }
   .shop-bar .filters, .shop-bar__right{ display:contents; }
-  .filters__pick{ order:1; } .shop-bar__right .sort:not(.currency){ order:2; } .filters button{ order:3; } .shop-bar__right .currency{ order:5; }
-  .filters button[data-filter="all"], .filters__lead, .density{ display:none; }
+  .filters__pick{ order:1; } .shop-bar__right .sort:not(.currency){ order:2; } .shop-bar__right .currency{ order:3; }
+  .shop-bar .filters button, .filters__lead, .density{ display:none; }   /* the Collection picker is the selector; no chip row */
   .filters__pick, .shop-bar__right .sort, .filters button, .subfilters button{
     flex:0 0 auto; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
     border:1px solid rgba(21,20,15,0.28); border-radius:999px; padding:8px 13px; line-height:1;
