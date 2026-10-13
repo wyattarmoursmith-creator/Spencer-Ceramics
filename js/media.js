@@ -34,7 +34,7 @@ window.MEDIA = {
   /* studio page - selected work */
   "work-1": "50% 55%",
   "work-2":      "50% 50%",
-  "work-3": "50% 55%",
+  "work-3": "50% 62%",
   "work-4":      "50% 55%",
 
   /* home - manifesto plate */
