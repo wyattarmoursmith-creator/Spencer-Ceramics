@@ -151,7 +151,7 @@ button{font-family:inherit; cursor:pointer;}
    FOOTER
    ============================================================ */
 .footer{
-  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1.1fr) minmax(0,1.2fr);   /* minmax(0) so a long email never pushes the footer past the viewport */
+  display:grid; grid-template-columns:minmax(0,0.9fr) minmax(0,1.5fr) minmax(0,1fr) minmax(0,1.35fr);   /* minmax(0) so a long email never pushes the footer past the viewport */
   background:var(--obsidian); color:var(--chalk);
   border-top:1px solid var(--rule-dark);
 }
