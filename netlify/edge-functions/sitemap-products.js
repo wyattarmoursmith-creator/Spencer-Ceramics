@@ -20,7 +20,7 @@ export default async function (request) {
   } catch (e) { /* an empty sitemap beats a 500 */ }
   const esc = (s) => String(s).replace(/&/g, "&amp;");
   const body = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-    handles.map((h) => `  <url><loc>${esc(origin)}/product?id=${esc(h.handle)}</loc><lastmod>${esc((h.updatedAt || "").slice(0, 10))}</lastmod><priority>0.7</priority></url>`).join("\n") +
+    handles.map((h) => `  <url><loc>${esc(origin)}/product.html?id=${esc(h.handle)}</loc><lastmod>${esc((h.updatedAt || "").slice(0, 10))}</lastmod><priority>0.7</priority></url>`).join("\n") +
     `\n</urlset>\n`;
   return new Response(body, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=3600" } });
 }

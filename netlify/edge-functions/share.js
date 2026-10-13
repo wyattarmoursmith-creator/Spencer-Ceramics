@@ -40,10 +40,14 @@ export default async function (request, context) {
   if (!id) return res;
   const ct = res.headers.get("content-type") || "";
   if (!ct.includes("text/html")) return res;
-  let meta = null;
-  try { meta = url.pathname.startsWith("/product") ? await productMeta(id) : await postMeta(id, url.origin); } catch (e) { meta = null; }
-  if (!meta) return res;
   const isProduct = url.pathname.startsWith("/product");
+  let meta = null, failed = false;
+  try { meta = isProduct ? await productMeta(id) : await postMeta(id, url.origin); } catch (e) { failed = true; }
+  if (!meta) {
+    if (failed) return res;                         // Shopify or the content file was unreachable: serve the shell as is
+    const headers = new Headers(res.headers); headers.delete("content-length");   // nothing by that id: the shell still renders its "not found" state, with a real 404 for crawlers
+    return new Response(await res.text(), { status: 404, headers });
+  }
   const pageUrl = `${url.origin}${isProduct ? "/product.html" : "/journal-post.html"}?id=${encodeURIComponent(id)}`;
   let html;
   try { html = await res.text(); } catch (e) { return res; }
@@ -62,6 +66,10 @@ export default async function (request, context) {
   const canon = /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i;
   const canonTag = `<link rel="canonical" href="${esc(pageUrl)}" />`;
   html = canon.test(html) ? html.replace(canon, canonTag) : html.replace(/<\/head>/i, canonTag + "\n</head>");
+  // a heading in the HTML itself, for crawlers that do not run scripts; the page script replaces it with the full layout
+  const heading = esc(meta.title.replace(` · ${SITE}`, "").replace(" · Journal", ""));
+  html = html.replace(isProduct ? /<main([^>]*data-pd-root[^>]*)>/i : /<article([^>]*data-article-root[^>]*)>/i,
+    (m, attrs) => (isProduct ? `<main${attrs}><h1 class="pd__name">${heading}</h1>` : `<article${attrs}><h1 class="article__title">${heading}</h1>`));
   const headers = new Headers(res.headers); headers.delete("content-length");
   return new Response(html, { status: res.status, headers });
 }
