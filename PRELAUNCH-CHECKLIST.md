@@ -1,6 +1,6 @@
 # Launch checklist: Craig Spencer Ceramics
 
-Updated Monday 12 October 2026, 7:30 pm Pacific. Only what is left.
+Updated Monday 12 October 2026, 11:30 pm Pacific. Only what is left.
 
 Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 14 October, which is Tuesday 13 October, 4:00 pm Pacific for Wyatt (10:00 am Tuesday in New South Wales for Craig). Note: noon Tuesday New Zealand time has already passed; it was 4:00 pm Pacific on Monday.
 
@@ -8,7 +8,7 @@ Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 
 
 ### Wyatt
 - [x] **shop@ mailbox.** Up and working in Microsoft 365 (13 Oct).
-- [x] **Netlify Forms notification.** In place: email to shop@craigspencerceramics.com on any submission. A "Notification test" message was sent 13 Oct; confirm it arrived in shop@. The three test submissions in Netlify can be deleted.
+- [x] **Netlify Forms notification.** Working, confirmed 13 Oct: contact messages reach shop@craigspencerceramics.com. A second notification to Wyatt's gmail is still on as a backup copy; delete it in Netlify, Forms, Submission notifications when no longer wanted. The test submissions in Netlify can be deleted.
 - [ ] **Terms page commissions clause** (terms.html, "Commissions and collaborations"). Remove or reword; against the ground rules as written. Tell me and it is a one-line change.
 - [ ] **Hard refresh staging** once on any machine that saw it earlier today (Cmd+Shift+R), or you will see old photos from cache.
 
