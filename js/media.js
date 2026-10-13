@@ -26,8 +26,8 @@ window.MEDIA = {
   "commission-lamps":   "50% 50%",
 
   /* home - recent-work gallery */
-  "gallery-1":   "50% 55%",
-  "gallery-2":   "50% 50%",
+  "gallery-1":   "50% 100%",
+  "gallery-2":   "50% 100%",
   "gallery-3":   "50% 50%",
   "gallery-4":   "50% 60%",
 
