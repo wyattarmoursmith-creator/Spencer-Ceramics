@@ -151,12 +151,12 @@ button{font-family:inherit; cursor:pointer;}
    FOOTER
    ============================================================ */
 .footer{
-  display:grid; grid-template-columns:repeat(4, 1fr);
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1.1fr) minmax(0,1.2fr);   /* minmax(0) so a long email never pushes the footer past the viewport */
   background:var(--obsidian); color:var(--chalk);
   border-top:1px solid var(--rule-dark);
 }
 .footer__cell{
-  padding:26px var(--gutter); border-right:1px solid var(--rule-dark);
+  padding:26px 32px; border-right:1px solid var(--rule-dark); min-width:0;
   display:flex; justify-content:space-between; gap:18px;
   font-family:var(--mono); font-size:11px; letter-spacing:0.16em;
   text-transform:uppercase; color:var(--fog);
@@ -1331,3 +1331,6 @@ html.lb-open .nav__cart-fab{ display:none; }
   .shop-bar__right .currency .currency__pick select{ font-size:13px; font-family:var(--body); font-weight:500; color:var(--ink); border:none; padding:0; }
   .shop-bar__right .currency .currency__one{ font-size:12px; }
 }
+@media (max-width:880px){ .footer{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); } }
+@media (max-width:620px){ .footer{ grid-template-columns:minmax(0,1fr); } .footer__cell{ padding:22px var(--gutter); } }
+.footer__cell a{ overflow-wrap:anywhere; }
