@@ -1236,7 +1236,7 @@ html.lb-open, html.lb-open body{ overflow:hidden; }
 .hero__caption .label{ color:var(--fog); }
 .hero, .hero .label, .hero .display, .hero__meta, .hero__scroll, .hero .btn--ghost-light{ transition:color 1.6s ease, border-color 1.6s ease; }
 .hero__veil--light{ opacity:0; transition:opacity 1.6s ease;
-  background:linear-gradient(180deg, rgba(255,255,255,0.42) 0%, rgba(255,255,255,0.08) 26%, rgba(255,255,255,0.08) 58%, rgba(243,240,233,0.78) 100%); }
+  background:linear-gradient(180deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.1) 26%, rgba(255,255,255,0.08) 58%, rgba(243,240,233,0.78) 100%); }
 .hero--light .hero__veil--light{ opacity:1; }
 .hero--light{ color:var(--ink); }
 .hero--light .hero__caption .label, .hero--light .hero__cta .label{ color:#5e5a53; }
@@ -1271,7 +1271,7 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
   .card__name{ font-size:15px; line-height:1.25; }
   .card__price{ font-size:13.5px; }
   .card__row{ flex-direction:column; align-items:flex-start; gap:3px; }   /* price under the name, store-app style */
-  .card__no{ top:10px; left:10px; font-size:9px; letter-spacing:0.12em; }
+  .card__no{ display:none; }   /* two-up cards are too narrow for the catalogue number beside a tag; it is on the piece page */
   .card__tag{ top:10px; right:10px; font-size:8.5px; letter-spacing:0.12em; padding:4px 7px; }
   .card__add{ display:none; }
   .card__actions{ margin-top:6px; }
@@ -1314,3 +1314,15 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
 }
 .pick__value{ display:none; }
 @media (max-width:620px){ .pick__value{ display:inline; } }
+
+/* journal index on phones: photo above the words, not beside them */
+@media (max-width:620px){
+  .j-entry{ grid-template-columns:1fr; }
+  .j-entry__media{ border-right:none; border-bottom:1px solid var(--rule); }
+  .j-entry__body{ padding:28px var(--gutter) 36px; }
+  .j-entry__excerpt{ max-width:none; }
+}
+/* the phone cart pill stays out of the photo gallery */
+html.lb-open .nav__cart-fab{ display:none; }
+/* hero meta labels over a pale photo: a soft shadow keeps them legible when the type is white */
+.hero:not(.hero--light) .hero__meta{ text-shadow:0 1px 12px rgba(0,0,0,0.45); }
