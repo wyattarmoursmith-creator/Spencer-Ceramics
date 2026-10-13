@@ -47,7 +47,7 @@ window.MEDIA = {
   "maker-portrait": "50% 30%",
 
   /* shop - plate backdrop + the mid-grid break */
-  "shop-scene":  "50% 62%",
+  "shop-scene":  "50% 50%",
   "everyday-scene": "50% 60%",
   "shop-break":  "50% 50%",
 
