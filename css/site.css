@@ -1264,11 +1264,6 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
 
 /* shop on phones: the collection tabs become a picker (same control as Sort), so nothing has to be swiped */
 .filters__pick{ display:none; }
-@media (max-width:620px){
-  .shop-bar .filters{ display:none; }
-  .filters__pick{ display:block; font-size:13px; }
-  .filters__pick select{ font-size:15px; font-weight:500; color:var(--ember); max-width:calc(100vw - var(--gutter) * 2 - 90px); }
-}
 /* phones: two pieces across, like a store app, so a screen shows four pieces instead of one.
    Name and price only under each card; the card itself opens the piece. */
 @media (max-width:620px){
@@ -1282,3 +1277,40 @@ html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
   .card__actions{ margin-top:6px; }
   .shop-break{ min-height:0; }
 }
+
+/* sub-filters now sit under the main row as their own block (same look on desktop) and fold with the bar */
+.subfilters{ margin-top:12px; }
+.shop-bar.is-collapsed .subfilters{ display:none; }
+
+/* shop bar on phones: one row of pills that scrolls sideways, store-app style.
+   Collection, Sort and Currency pickers first, then the collections as chips; the finer groups as a lighter row beneath. */
+@media (max-width:620px){
+  .shop-bar{ padding:12px var(--gutter); }
+  .shop-bar__full{ flex-wrap:nowrap; justify-content:flex-start; gap:8px; overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:none; -webkit-overflow-scrolling:touch;
+    margin:0 calc(var(--gutter) * -1); padding:0 var(--gutter) 2px; }
+  .shop-bar__full::-webkit-scrollbar{ display:none; }
+  .shop-bar .filters, .shop-bar__right{ display:contents; }
+  .filters__pick{ order:1; } .shop-bar__right .sort:not(.currency){ order:2; } .filters button{ order:3; } .shop-bar__right .currency{ order:5; }
+  .filters button[data-filter="all"], .filters__lead, .density{ display:none; }
+  .filters__pick, .shop-bar__right .sort, .filters button, .subfilters button{
+    flex:0 0 auto; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+    border:1px solid rgba(21,20,15,0.28); border-radius:999px; padding:8px 13px; line-height:1;
+    font-family:var(--body); font-size:13px; font-weight:500; letter-spacing:0; text-transform:none; color:var(--ink); background:none;
+  }
+  .filters__pick, .shop-bar__right .sort{ color:var(--smoke); }
+  .filters__pick, .shop-bar__right .sort:not(.currency){ position:relative; }
+  .filters__pick select, .shop-bar__right .sort:not(.currency) select{ position:absolute; inset:0; width:100%; height:100%; opacity:0; margin:0; }   /* the native picker, tappable but unseen: the pill sizes to the label */
+  .pick__value{ color:var(--ink); }
+  .pick__value::after{ content:"\2304"; margin-left:4px; font-size:12px; line-height:0; position:relative; top:-3px; }
+  .filters__pick .pick__value{ color:var(--ember); }
+  .filters button{ padding-bottom:8px; border-bottom-width:1px; }
+  .filters button.filters__everyday{ padding-left:13px; }
+  .filters__everyday::before{ display:none; }
+  .filters button[aria-pressed="true"]{ background:var(--ink); color:var(--chalk); border-color:var(--ink); }
+  .subfilters{ flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; gap:6px; margin:10px calc(var(--gutter) * -1) 0; padding:0 var(--gutter) 2px; border-top:none; }
+  .subfilters::-webkit-scrollbar{ display:none; }
+  .subfilters button{ font-family:var(--mono); font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:var(--smoke); padding:6px 10px; border-color:rgba(21,20,15,0.16); }
+  .subfilters button[aria-pressed="true"]{ color:var(--ember); border-color:var(--ember); }
+}
+.pick__value{ display:none; }
+@media (max-width:620px){ .pick__value{ display:inline; } }

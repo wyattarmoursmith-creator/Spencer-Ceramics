@@ -91,10 +91,9 @@
       <button aria-pressed="false" data-filter="lighting" hidden>Lighting</button>
     </div>
     <!-- phones: the tab row is replaced by a native picker, so every collection is one tap away (options come from the buttons above) -->
-    <label class="sort filters__pick">Collection ·
+    <label class="sort filters__pick">Collection · <span class="pick__value" aria-hidden="true"></span>
       <select id="filter-pick" aria-label="Choose a collection"></select>
     </label>
-    <div class="subfilters" id="subfilters" role="group" aria-label="Narrow down" hidden></div>
     <div class="shop-bar__right">
       <div class="density" role="group" aria-label="Card size">
         <button type="button" data-density="roomy" aria-pressed="true" aria-label="Larger cards"><i></i><i></i></button>
@@ -102,7 +101,7 @@
       </div>
       <label class="sort currency" data-currency><span class="currency__one">Prices in <b data-currency-code>AUD</b></span><span class="currency__pick" hidden>Currency ·
         <select aria-label="Currency"></select></span></label>
-      <label class="sort">Sort ·
+      <label class="sort">Sort · <span class="pick__value" aria-hidden="true"></span>
         <select id="sort" aria-label="Sort pieces">
           <option value="newest">newest</option>
           <option value="price-asc">price, low to high</option>
@@ -111,6 +110,7 @@
       </label>
     </div>
     </div>
+    <div class="subfilters" id="subfilters" role="group" aria-label="Narrow down" hidden></div>
   </div>
 
   <!-- the latest firing: whatever Craig tags "new", else the most recently added pieces -->
@@ -201,6 +201,7 @@
       function render(filter) {
         if (typeof miniLabel === "function") miniLabel();
         var pick = document.getElementById("filter-pick"); if (pick && pick.value !== filter) pick.value = filter;
+        if (window.scPickLabels) window.scPickLabels();
         var inCat = window.CATALOG.filter(function (p) {
           var everyday = (p.tags || []).indexOf("everyday") >= 0;
           if (filter === "everyday") return everyday;   // the always-available pieces, whatever their type
@@ -410,6 +411,14 @@
         render(currentFilter); resetScroll();
       });
 
+      // phone pills: the native selects sit invisibly over a short label that shows the chosen value
+      window.scPickLabels = function () {
+        document.querySelectorAll(".shop-bar select").forEach(function (sel) {
+          var lab = sel.parentNode.querySelector(".pick__value"); var o = sel.options[sel.selectedIndex];
+          if (lab && o) lab.textContent = o.textContent;
+        });
+      };
+      document.getElementById("sort").addEventListener("change", function () { window.scPickLabels(); });
       // phone picker: one option per visible tab; choosing one presses that tab
       (function () {
         var pick = document.getElementById("filter-pick"); if (!pick) return;
@@ -417,7 +426,7 @@
           if (b.hidden) return;
           var o = document.createElement("option"); o.value = b.getAttribute("data-filter"); o.textContent = b.textContent.trim(); pick.appendChild(o);
         });
-        pick.value = currentFilter;
+        pick.value = currentFilter; window.scPickLabels();
         pick.addEventListener("change", function () {
           var tab = document.querySelector('.filters button[data-filter="' + pick.value + '"]'); if (tab) tab.click();
         });
