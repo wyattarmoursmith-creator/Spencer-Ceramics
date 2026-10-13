@@ -1219,3 +1219,7 @@ html.lb-open, html.lb-open body{ overflow:hidden; }
 /* hero call to action: label and button share one left edge (the block stays anchored at the right gutter) */
 .hero__cta{ display:inline-flex; flex-direction:column; align-items:flex-start; text-align:left; }
 @media (max-width:620px){ .hero__cta{ display:flex; } }
+/* ...and the button spans exactly the label's width, edge to edge */
+.hero__cta{ align-items:stretch; }
+.hero__cta .label{ margin-right:-0.16em; }   /* the label's trailing tracking, so the pill ends on the last letter */
+.hero__cta .btn{ width:0; min-width:100%; padding-left:12px; padding-right:12px; justify-content:center; box-sizing:border-box; }   /* zero intrinsic width: the label alone sets the block's width, the pill fills it */
