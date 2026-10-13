@@ -52,7 +52,7 @@ window.MEDIA = {
   "shop-break":  "50% 50%",
 
   /* contact - the plate backdrop */
-  "contact-scene": "50% 62%",
+  "contact-scene": "50% 50%",
 
   /* products - keyed by catalogue id */
   "incense-holder": "50% 100%",   /* the sticks sit at the very bottom of the photo */
