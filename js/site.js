@@ -395,11 +395,14 @@
     var imgs = document.querySelectorAll(".hero__media .hero__img");
     if (imgs.length < 2) return;
     if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var i = 0;
+    var i = 0, hero = document.querySelector(".hero");
+    function tone() { var light = imgs[i].getAttribute("data-tone") === "light"; if (hero) hero.classList.toggle("hero--light", light); document.documentElement.classList.toggle("hero-light", light); }   // white-background slides get dark text, a light veil and a dark nav
+    tone();
     setInterval(function () {
       imgs[i].classList.remove("is-active");
       i = (i + 1) % imgs.length;
       imgs[i].classList.add("is-active");
+      tone();
     }, 5400);
   }
 
