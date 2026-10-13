@@ -1216,3 +1216,6 @@ html.lb-open, html.lb-open body{ overflow:hidden; }
 .shop-group__more{ display:flex; justify-content:center; margin-top:34px; }
 /* All view: the way to the next run of sections */
 .shop-more{ display:flex; justify-content:center; padding:48px 0 16px; border-top:1px solid var(--rule); margin-top:24px; }
+/* hero call to action: label and button share one left edge (the block stays anchored at the right gutter) */
+.hero__cta{ display:inline-flex; flex-direction:column; align-items:flex-start; text-align:left; }
+@media (max-width:620px){ .hero__cta{ display:flex; } }
