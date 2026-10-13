@@ -90,6 +90,10 @@
       <!-- Lighting filter hidden for now (no lighting pieces listed yet): remove `hidden` to bring it back -->
       <button aria-pressed="false" data-filter="lighting" hidden>Lighting</button>
     </div>
+    <!-- phones: the tab row is replaced by a native picker, so every collection is one tap away (options come from the buttons above) -->
+    <label class="sort filters__pick">Collection ·
+      <select id="filter-pick" aria-label="Choose a collection"></select>
+    </label>
     <div class="subfilters" id="subfilters" role="group" aria-label="Narrow down" hidden></div>
     <div class="shop-bar__right">
       <div class="density" role="group" aria-label="Card size">
@@ -196,6 +200,7 @@
       }
       function render(filter) {
         if (typeof miniLabel === "function") miniLabel();
+        var pick = document.getElementById("filter-pick"); if (pick && pick.value !== filter) pick.value = filter;
         var inCat = window.CATALOG.filter(function (p) {
           var everyday = (p.tags || []).indexOf("everyday") >= 0;
           if (filter === "everyday") return everyday;   // the always-available pieces, whatever their type
@@ -405,6 +410,18 @@
         render(currentFilter); resetScroll();
       });
 
+      // phone picker: one option per visible tab; choosing one presses that tab
+      (function () {
+        var pick = document.getElementById("filter-pick"); if (!pick) return;
+        document.querySelectorAll(".filters button").forEach(function (b) {
+          if (b.hidden) return;
+          var o = document.createElement("option"); o.value = b.getAttribute("data-filter"); o.textContent = b.textContent.trim(); pick.appendChild(o);
+        });
+        pick.value = currentFilter;
+        pick.addEventListener("change", function () {
+          var tab = document.querySelector('.filters button[data-filter="' + pick.value + '"]'); if (tab) tab.click();
+        });
+      })();
       // filter the grid by category when a filter is chosen
       document.querySelectorAll(".filters button").forEach(function (b) {
         b.addEventListener("click", function () {

@@ -1261,3 +1261,11 @@ html.hero-light .nav--dark:not(.nav--scrolled) .nav__cart .count{ color:var(--sm
 .hero--light .btn--ghost-light{ border-color:rgba(0,0,0,0.6); }
 .hero--light .hero__scroll .line{ background:rgba(0,0,0,0.5); }
 html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
+
+/* shop on phones: the collection tabs become a picker (same control as Sort), so nothing has to be swiped */
+.filters__pick{ display:none; }
+@media (max-width:620px){
+  .shop-bar .filters{ display:none; }
+  .filters__pick{ display:block; font-size:13px; }
+  .filters__pick select{ font-size:15px; font-weight:500; color:var(--ember); max-width:calc(100vw - var(--gutter) * 2 - 90px); }
+}
