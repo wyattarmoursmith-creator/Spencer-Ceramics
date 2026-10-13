@@ -55,6 +55,7 @@ window.MEDIA = {
   "contact-scene": "50% 62%",
 
   /* products - keyed by catalogue id */
+  "incense-holder": "50% 100%",   /* the sticks sit at the very bottom of the photo */
 
   /* journal - keyed by post id */
   "spring-firing":  "50% 50%",
