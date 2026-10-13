@@ -1,16 +1,17 @@
 # Launch checklist: Craig Spencer Ceramics
 
-Updated Monday 12 October 2026, 11:30 pm Pacific. Only what is left.
+Updated Tuesday 13 October 2026, 1:30 am Pacific. Only what is left.
 
 Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 14 October, which is Tuesday 13 October, 4:00 pm Pacific for Wyatt (10:00 am Tuesday in New South Wales for Craig). Note: noon Tuesday New Zealand time has already passed; it was 4:00 pm Pacific on Monday.
 
-## Before launch (Monday night / Tuesday morning)
+## Before launch (Tuesday morning)
 
 ### Wyatt
 - [x] **shop@ mailbox.** Up and working in Microsoft 365 (13 Oct).
 - [x] **Netlify Forms notification.** Working, confirmed 13 Oct: contact messages reach shop@craigspencerceramics.com. A second notification to Wyatt's gmail is still on as a backup copy; delete it in Netlify, Forms, Submission notifications when no longer wanted. The test submissions in Netlify can be deleted.
 - [x] **Terms page commissions clause** removed (13 Oct).
-- [ ] **Hard refresh staging** once on any machine that saw it earlier today (Cmd+Shift+R), or you will see old photos from cache.
+- [ ] **Final look on a phone.** The phone shop changed overnight (two pieces across, Collection picker bar). Open staging on your phone, pick a collection, open a piece, go back, add to cart. Hard refresh first (or clear the tab) or you will see cached photos.
+- [ ] **Optional:** delete the gmail copy of contact notifications in Netlify once you are happy shop@ is reliable.
 
 ### Craig
 - [ ] **Verify the Shopify sender email.** The verification email is waiting at shop@craigspencerceramics.com (sent 12 Oct). Open it and confirm. Until then Shopify sends order emails from a shopifyemail.com fallback address.
@@ -52,6 +53,9 @@ Craig on launch day:
 - Returns wording ("all sales are final" next to return-shipping rules) and the NZ/AU jurisdiction mix in the legal pages: Craig to confirm with whoever advises him.
 - Time zone in Shopify to Sydney; dead code clean-up (commissions CSS and CMS fields, lighting filter, stray "_headers 2", old journal ids in media.js, pin the Sveltia CMS version).
 
-## Done (for the record)
+## Done overnight 12 to 13 Oct (for the record)
+Home: hero label "New pieces, curated collections", hero type pure white on the golden slides and pure black (with a dark nav) on the white ones, hero button fitted to its label, favourite pieces crops. Studio: plate backdrop is the drying shelves, Selected work shows the table lamp and the black cups, strip photos for the wheel and the kiln, "marks of the maker". Journal: Craig's own photo sets on all three posts (lamps portrait leads To Be Seen), Studio Italia paragraphs in 100 Bowls. Shop: strip banner backdrop, incense holder crop, phones show two pieces across with a pill bar (Collection picker, Sort, Currency, sub-categories beneath). Contact: the hello in the clay as the backdrop; typing recentres the plate and holds it solid. Terms: commissions clause removed. Contact form delivery to shop@ confirmed.
+
+## Done earlier (for the record)
 Site: full pre-launch review and High list, Craig's copy and photos, legal and shipping wording (Australia + New Zealand, ships from New Zealand), contact form fixed and registered with Netlify Forms, Load more on the shop, cart hardening, prices with currency signs, in-place currency switch, product sitemap, hidden repo files, cache fixes, version stamp. All live on staging.
 Shopify: Basic plan, Australian business entity (Bilambil Heights, ABN on file), store currency AUD, Shopify Payments live on the Australian entity, markets NZD / EUR / USD restored, policies published, private mode off with the myshopify address redirecting to the site, checkout verified end to end from a clean browser, store name and email set.
