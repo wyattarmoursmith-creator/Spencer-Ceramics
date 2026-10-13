@@ -35,7 +35,7 @@ window.MEDIA = {
   "work-1": "50% 55%",
   "work-2":      "50% 50%",
   "work-3": "50% 62%",
-  "work-4":      "50% 55%",
+  "work-4":      "50% 50%",
 
   /* home - manifesto plate */
   "manifesto-bg": "50% 72%",
