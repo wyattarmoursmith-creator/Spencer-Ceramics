@@ -1,0 +1,57 @@
+# Launch checklist: Craig Spencer Ceramics
+
+Updated Monday 12 October 2026, 7:30 pm Pacific. Only what is left.
+
+Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 14 October, which is Tuesday 13 October, 4:00 pm Pacific for Wyatt (10:00 am Tuesday in New South Wales for Craig). Note: noon Tuesday New Zealand time has already passed; it was 4:00 pm Pacific on Monday.
+
+## Before launch (Monday night / Tuesday morning)
+
+### Wyatt
+- [ ] **shop@ mailbox.** The domain already has Microsoft 365 email through GoDaddy. Create or alias shop@craigspencerceramics.com there (GoDaddy, Email and Office, or admin.microsoft.com), then send a test email to it.
+- [ ] **Netlify Forms notification.** Netlify, Forms, Notifications, add an email notification for the contact form to shop@craigspencerceramics.com. Delete the test submission ("Form test") if you like.
+- [ ] **Terms page commissions clause** (terms.html, "Commissions and collaborations"). Remove or reword; against the ground rules as written. Tell me and it is a one-line change.
+- [ ] **Hard refresh staging** once on any machine that saw it earlier today (Cmd+Shift+R), or you will see old photos from cache.
+
+### Craig
+- [ ] **Verify the Shopify sender email.** The verification email is waiting at shop@craigspencerceramics.com (sent 12 Oct). Open it and confirm. Until then Shopify sends order emails from a shopifyemail.com fallback address.
+- [ ] **Shipping rate.** The flat international rate is now A$33 (same number as before, in AUD). Confirm or change in Settings, Shipping and delivery.
+- [ ] **Optional:** Settings, Checkout, apply the recommended "email only, full name required, phone optional".
+- [ ] **Forward the old email.** The old address at spencerceramics.com.au is Google Workspace (through Wix). In that Gmail: Settings, Forwarding and POP/IMAP, add shop@craigspencerceramics.com (or craig@), confirm the code that arrives in Outlook, then "Forward a copy". Before cancelling Wix: add spencerceramics.com.au as a domain in Microsoft 365, move its MX to Microsoft, and add the old address as an alias on the new mailbox, otherwise the forward dies with the subscription.
+
+## Launch day runbook (Tuesday, aim to start by 3:00 pm Pacific, go live 4:00 pm)
+
+Me, with you watching:
+1. [ ] Merge launch-domain into main and push (3:00 pm). It swaps every staging URL to craigspencerceramics.com, adds canonical tags, the old Wix redirects and the launch notes. Build takes about a minute.
+2. [ ] Netlify: add craigspencerceramics.com and www.craigspencerceramics.com as the project's domains (Domain management, Add domain). Netlify shows the DNS records it wants.
+3. [ ] GoDaddy DNS: change the A record for @ to Netlify's load balancer address and the CNAME for www to the Netlify site, exactly as Netlify shows. Do not touch the MX, SPF or the onmicrosoft TXT records; they are the email. Also add spencerceramics.com.au to Netlify and point its DNS at Netlify, otherwise the old-site redirects never fire.
+4. [ ] Wait for the certificate (usually 5 to 20 minutes after DNS propagates). Confirm https works on apex and www, and that the apex redirects to www as the launch branch expects.
+5. [ ] Shopify theme snippet: Online Store, Themes, Edit code, layout/theme.liquid, change the two spencerceramics.netlify.app URLs to craigspencerceramics.com. Save.
+6. [ ] Checks on the live domain: home, shop, a product, the Everyday page, the Studio page, contact. /geo, /sitemap.xml, /sitemap-products.xml, one share preview (paste a product link into iMessage or Slack).
+7. [ ] One real checkout on the live domain: add a piece, Shopify checkout opens in AUD for an Australian address, NZD for a New Zealand one, policies in the footer. Stop before paying.
+8. [ ] Contact form: send one message from the live domain, confirm it arrives at shop@.
+9. [ ] Google Search Console: add the domain property, submit both sitemaps.
+10. [ ] Instagram bio link and anywhere else the old site was linked: point to craigspencerceramics.com.
+
+Craig on launch day:
+- [ ] Post the announcement once step 7 passes. Nothing to do in Shopify.
+
+## Watch for in the first days
+- Orders: Shopify emails Craig; check that the sender shows as shop@ once verified.
+- Contact messages arriving at shop@ (Netlify notification).
+- If a piece sells, the card shows Sold and drops out of the cart automatically.
+- Old spencerceramics.com.au links should land on the matching new pages.
+
+## After launch (polish, in order of value)
+- "Added to cart" pulse on the phone cart pill; disable "+" on one-offs; reword the cart note label.
+- Closing the product gallery scrolls the page about 160px.
+- Instagram links open in the same tab while stockists open new tabs; make consistent.
+- Journal post hero placeholder (dark slab while the photo loads) and a srcset for CDN photos.
+- Catalogue numbers hard to read on pale product photos.
+- Sticky add-to-cart on the phone product page; role="dialog" on the mobile menu.
+- Share-card prices show the store currency rather than the visitor's.
+- Returns wording ("all sales are final" next to return-shipping rules) and the NZ/AU jurisdiction mix in the legal pages: Craig to confirm with whoever advises him.
+- Time zone in Shopify to Sydney; dead code clean-up (commissions CSS and CMS fields, lighting filter, stray "_headers 2", old journal ids in media.js, pin the Sveltia CMS version).
+
+## Done (for the record)
+Site: full pre-launch review and High list, Craig's copy and photos, legal and shipping wording (Australia + New Zealand, ships from New Zealand), contact form fixed and registered with Netlify Forms, Load more on the shop, cart hardening, prices with currency signs, in-place currency switch, product sitemap, hidden repo files, cache fixes, version stamp. All live on staging.
+Shopify: Basic plan, Australian business entity (Bilambil Heights, ABN on file), store currency AUD, Shopify Payments live on the Australian entity, markets NZD / EUR / USD restored, policies published, private mode off with the myshopify address redirecting to the site, checkout verified end to end from a clean browser, store name and email set.
