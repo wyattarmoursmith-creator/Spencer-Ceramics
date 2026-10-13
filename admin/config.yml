@@ -46,6 +46,16 @@ collections:
               - { label: "Excerpt", name: excerpt, widget: text, hint: "One line shown in the journal list." }
               - { label: "Photo focal point", name: focal, widget: string, required: false, hint: "Where the subject sits in the photo, e.g. 50% 80% (across, then down). Leave blank for the centre." }
               - { label: "Body", name: body, widget: text, hint: "Separate paragraphs with a blank line." }
+              - label: "Photos in the story"
+                name: photos
+                widget: list
+                required: false
+                label_singular: "Photo"
+                summary: "{{fields.alt}}"
+                hint: "Shown after the text, two across. Each opens full screen."
+                fields:
+                  - { label: "Photo", name: src, widget: image, choose_url: false }
+                  - { label: "Description", name: alt, widget: string, hint: "A few words for screen readers and search." }
 
   # ---------------- SITE PHOTOS ----------------
   - name: site

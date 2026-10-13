@@ -115,10 +115,15 @@
         '<div class="article__lede">' +
           (p.body || "").split(/\n{2,}/).map(function (para) { return '<p>' + para.trim() + '</p>'; }).join("") +
         '</div>' +
+        ((p.photos && p.photos.length) ? '<div class="article__photos' + (p.photos.length % 2 ? ' article__photos--odd' : '') + '">' + p.photos.map(function (ph, i) {
+          var src = ph.src || ph; var alt = (ph.alt || p.title).replace(/"/g, '&quot;');
+          return '<div class="article__photo" role="button" tabindex="0" aria-label="Open photo ' + (i + 1) + ' of ' + p.photos.length + '" data-full="' + src + '"><img loading="lazy" decoding="async" src="' + src + '" alt="' + alt + '"><span class="loupe" aria-hidden="true"></span></div>';
+        }).join('') + '</div>' : '') +
         '<div class="article__foot">' +
           '<a class="link-underline" href="journal.html"><span>←</span> All notes</a>' +
           '<a class="link-underline" href="shop.html">Shop the work <span>→</span></a>' +
         '</div>';
+      if (window.initGallery) window.initGallery(document.querySelectorAll('.article__photo[data-full]'), p.title);
     });
   </script>
 </body>
