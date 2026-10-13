@@ -1252,3 +1252,12 @@ html.hero-light .nav--dark:not(.nav--scrolled) .nav__links a[aria-current="page"
 html.hero-light .nav--dark:not(.nav--scrolled) .nav__links a[aria-current="page"]::after{ background:var(--ember); }
 html.hero-light .nav--dark:not(.nav--scrolled) .nav__cart .count{ color:var(--smoke); }
 @media (max-width:860px){ html.hero-light .nav--dark:not(.nav--scrolled) .nav__cart-fab{ color:var(--ink); background:rgba(243,240,233,0.7); border-color:rgba(22,21,19,0.4); } }
+/* hero type is pure white on the dark slides and pure black on the white ones, labels included */
+.hero, .hero .display, .hero__caption .label, .hero__cta .label, .hero__meta, .hero__scroll, .hero .btn--ghost-light{ color:#fff; }
+.hero .btn--ghost-light{ border-color:rgba(255,255,255,0.6); }
+.hero__scroll .line{ background:rgba(255,255,255,0.6); }
+.nav--dark:not(.nav--scrolled){ color:#fff; }
+.hero--light, .hero--light .display, .hero--light .hero__caption .label, .hero--light .hero__cta .label, .hero--light .hero__meta, .hero--light .hero__scroll, .hero--light .btn--ghost-light{ color:#000; }
+.hero--light .btn--ghost-light{ border-color:rgba(0,0,0,0.6); }
+.hero--light .hero__scroll .line{ background:rgba(0,0,0,0.5); }
+html.hero-light .nav--dark:not(.nav--scrolled){ color:#000; }
