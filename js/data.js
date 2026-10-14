@@ -161,9 +161,17 @@ function scCategory(type) {
     "canisters": "canisters", "canister": "canisters", "lidded canisters": "canisters", "lidded canister": "canisters",
     "drinking vessels": "drinking", "drinking vessel": "drinking", "cups": "drinking",
     "bowls": "tableware", "bowl": "tableware",
-    "lighting": "lighting", "lamps": "lighting", "lamp": "lighting"
+    "lighting": "lighting", "lamps": "lighting", "lamp": "lighting",
+    "everyday": "everyday", "everyday collection": "everyday", "the everyday": "everyday"   /* Shopify Type "Everyday": the always-available run, whatever the form */
   };
   return map[String(type || "").trim().toLowerCase()] || "";
+}
+
+/* a product's tags; Type "Everyday" counts as the everyday tag too, so Craig only has to pick the Type */
+function scTags(node, type) {
+  var tags = (node.tags || []).map(function (t) { return String(t).trim(); }).filter(Boolean);
+  if (scCategory(type) === "everyday" && !tags.some(function (t) { return t.toLowerCase() === "everyday"; })) tags.push("everyday");
+  return tags;
 }
 
 /* map one Shopify product onto the shape the pages already render */
@@ -209,9 +217,9 @@ function scMapProduct(node) {
     img:        (node.featuredImage && node.featuredImage.url) || images[0] || "",
     images:     images,
     category:   scCategory(type),
-    tags:       (node.tags || []).map(function (t) { return String(t).trim(); }).filter(Boolean),
+    tags:       scTags(node, type),
     created:    node.createdAt || "",
-    one:        avail && !(node.tags || []).some(function (t) { return String(t).trim().toLowerCase() === "everyday"; })
+    one:        avail && !scTags(node, type).some(function (t) { return t.toLowerCase() === "everyday"; })
                       && (qty === 1 || scCategory(type) === "petite-pots"),   // the only one of this piece: last in stock, or any Petite Pot (each is a one-off); Everyday pieces are made in runs, so never
     variantId:  v ? v.id : "",
     variantNum: v ? scGidNum(v.id) : "",
