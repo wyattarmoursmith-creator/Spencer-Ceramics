@@ -1,6 +1,6 @@
 # Launch checklist: Craig Spencer Ceramics
 
-Updated Tuesday 13 October 2026, 12:45 pm Pacific. Only what is left.
+Updated Wednesday 14 October 2026, 11:55 am Pacific. LIVE on craigspencerceramics.com.
 
 Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 14 October, which is Tuesday 13 October, 4:00 pm Pacific for Wyatt (10:00 am Tuesday in New South Wales for Craig). Note: noon Tuesday New Zealand time has already passed; it was 4:00 pm Pacific on Monday.
 
@@ -22,15 +22,15 @@ Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 
 - [x] **EUR price rounding, checked 13 Oct: nothing to change.** Shopify fixes the rounding rule per currency. Dollars round to the nearest 1.00, which is why AUD, NZD and USD read as whole numbers; the euro's only choices are "round up to the nearest €0.95" or no rounding at all. It stays on €0.95, the normal euro convention, and the site shows exactly what checkout charges. No settings were changed.
 - [ ] **Forward the old email.** The old address at spencerceramics.com.au is Google Workspace (through Wix). In that Gmail: Settings, Forwarding and POP/IMAP, add shop@craigspencerceramics.com (or craig@), confirm the code that arrives in Outlook, then "Forward a copy". Before cancelling Wix: add spencerceramics.com.au as a domain in Microsoft 365, move its MX to Microsoft, and add the old address as an alias on the new mailbox, otherwise the forward dies with the subscription.
 
-## Launch day runbook (Tuesday, aim to start by 3:00 pm Pacific, go live 4:00 pm)
+## Launch day runbook (done 14 Oct, 11:40 to 11:55 am Pacific)
 
 Me, with you watching:
-1. [ ] Merge launch-domain into main and push (3:00 pm). It swaps every staging URL to craigspencerceramics.com, adds canonical tags, the old Wix redirects and the launch notes. Build takes about a minute.
-2. [ ] Netlify: add craigspencerceramics.com and www.craigspencerceramics.com as the project's domains (Domain management, Add domain). Netlify shows the DNS records it wants.
-3. [ ] GoDaddy DNS: change the A record for @ to Netlify's load balancer address and the CNAME for www to the Netlify site, exactly as Netlify shows. Do not touch the MX, SPF or the onmicrosoft TXT records; they are the email. Also add spencerceramics.com.au to Netlify and point its DNS at Netlify, otherwise the old-site redirects never fire.
-4. [ ] Wait for the certificate (usually 5 to 20 minutes after DNS propagates). Confirm https works on apex and www, and that the apex redirects to www as the launch branch expects.
-5. [ ] Shopify theme snippet: Online Store, Themes, Edit code, layout/theme.liquid, change the two spencerceramics.netlify.app URLs to craigspencerceramics.com. Save.
-6. [ ] Checks on the live domain: home, shop, a product, the Everyday page, the Studio page, contact. /geo, /sitemap.xml, /sitemap-products.xml, one share preview (paste a product link into iMessage or Slack).
+1. [x] Merge launch-domain into main and push (3:00 pm). It swaps every staging URL to craigspencerceramics.com, adds canonical tags, the old Wix redirects and the launch notes. Build takes about a minute.
+2. [x] Netlify: add craigspencerceramics.com and www.craigspencerceramics.com as the project's domains (Domain management, Add domain). Netlify shows the DNS records it wants.
+3. [x] GoDaddy DNS: change the A record for @ to Netlify's load balancer address and the CNAME for www to the Netlify site, exactly as Netlify shows. Do not touch the MX, SPF or the onmicrosoft TXT records; they are the email. Also add spencerceramics.com.au to Netlify and point its DNS at Netlify, otherwise the old-site redirects never fire.
+4. [x] Certificate issued for craigspencerceramics.com and www. The two spencerceramics.com.au hostnames are pointed correctly but Netlify had not issued their certificate at 11:55 am; a retry runs every 3 minutes. Until it issues, old links over https fail and http links redirect to https. Wait for the certificate (usually 5 to 20 minutes after DNS propagates). Confirm https works on apex and www, and that the apex redirects to www as the launch branch expects.
+5. [x] (Not needed: the staging hostname now redirects to the real domain, so the snippet lands in the right place. Optional tidy later.) Shopify theme snippet: Online Store, Themes, Edit code, layout/theme.liquid, change the two spencerceramics.netlify.app URLs to craigspencerceramics.com. Save.
+6. [x] Checks on the live domain: home, shop, a product, the Everyday page, the Studio page, contact. /geo, /sitemap.xml, /sitemap-products.xml, one share preview (paste a product link into iMessage or Slack).
 7. [ ] One real checkout on the live domain: add a piece, Shopify checkout opens in AUD for an Australian address, NZD for a New Zealand one, policies in the footer. Stop before paying.
 8. [ ] Contact form: send one message from the live domain, confirm it arrives at shop@.
 9. [ ] Google Search Console: add the domain property, submit both sitemaps.
