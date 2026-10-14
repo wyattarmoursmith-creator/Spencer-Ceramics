@@ -1,3 +1,6 @@
+# the staging hostname now sends everyone to the real domain (Shopify's theme redirect still points here)
+https://spencerceramics.netlify.app/* https://craigspencerceramics.com/:splat 301!
+
 # commissions is hidden while the site focuses on direct shop sales ("!" forces the
 # redirect even though commissions.html still exists in the repo for easy restore)
 /commissions       /shop  301!
