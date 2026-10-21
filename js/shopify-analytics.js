@@ -69,6 +69,7 @@
       product_gid: p.gid, name: p.name, variant: p.name || "", brand: "Craig Spencer Ceramics", price: parseFloat(p.price) || 0, quantity: Number(qty || 1) }));
   }
   function post(events) {
+    try { var cp = (window.Shopify || {}).customerPrivacy; if (cp && !cp.analyticsProcessingAllowed()) return Promise.resolve(); } catch (e) {}   // respect a decline made after load
     var body = JSON.stringify({ events: events, metadata: { event_sent_at_ms: Date.now() } });
     return fetch("https://" + DOMAIN + "/.well-known/shopify/monorail/unstable/produce_batch", { method: "post", headers: { "content-type": "text/plain" }, body: body, keepalive: true })
       .then(function (r) { return r.ok ? r.text() : ""; })
@@ -92,21 +93,27 @@
     return post([wrap("custom_storefront_customer_tracking/1.2", clean(Object.assign({ event_name: "product_added_to_cart", cart_token: null, total_value: (parseFloat(p.price) || 0) * (qty || 1), products: [productJson(p, qty || 1)], customer_id: 0 }, cc)))]);
   }
 
-  /* Shopify's Customer Privacy API, from Shopify's CDN: analyticsProcessingAllowed() folds in the store's
-     privacy settings, the visitor's region and any recorded consent */
+  /* Shopify's privacy banner bundle (it carries the Customer Privacy API). The banner only appears for
+     visitors in regions the store's Customer privacy settings mark as needing consent (the EU and UK);
+     everyone else never sees it. analyticsProcessingAllowed() folds in the store's settings, the
+     visitor's region and any recorded consent. Consent is stored against the checkout domain, so it
+     carries through to checkout on checkout.craigspencerceramics.com. */
+  var PRIVACY = { storefrontAccessToken: S.token || "", checkoutRootDomain: DOMAIN, storefrontRootDomain: ROOT };
   function loadPrivacyApi(cb) {
-    if (window.Shopify && window.Shopify.customerPrivacy) return cb(window.Shopify.customerPrivacy);
+    var done = false, finish = function () { if (done) return; done = true; cb((window.Shopify || {}).customerPrivacy || null); };
     var s = document.createElement("script");
-    s.src = "https://cdn.shopify.com/shopifycloud/consent-tracking-api/v0.2/consent-tracking-api.js"; s.async = true;
+    s.src = "https://cdn.shopify.com/shopifycloud/privacy-banner/storefront-banner.js"; s.async = true;
     s.onload = function () {
-      var sh = window.Shopify || {};
-      if (sh.customerPrivacy) return cb(sh.customerPrivacy);
-      if (typeof sh.loadFeatures === "function") { try { sh.loadFeatures([{ name: "consent-tracking-api", version: "0.2" }], function (err) { cb(err ? null : (window.Shopify || {}).customerPrivacy); }); return; } catch (e) {} }
-      cb(null);
+      try { if (window.privacyBanner && window.privacyBanner.loadBanner) { window.privacyBanner.loadBanner(PRIVACY).then(finish, finish); return; } } catch (e) {}
+      finish();
     };
-    s.onerror = function () { cb(null); };
+    s.onerror = finish;
     document.head.appendChild(s);
+    setTimeout(finish, 6000);                                              // never hold the page up on a slow script
   }
+  window.scShowPrivacyPreferences = function () {                           // for a "cookie settings" link, if one is ever added
+    try { if (window.privacyBanner) window.privacyBanner.showPreferences(PRIVACY); } catch (e) {}
+  };
   function whenCatalogue(cb) {                                              // the catalogue arrives after the page
     if (window.CATALOG && window.CATALOG.length) return cb();
     var n = 0, t = setInterval(function () { if ((window.CATALOG && window.CATALOG.length) || ++n > 40) { clearInterval(t); cb(); } }, 250);
