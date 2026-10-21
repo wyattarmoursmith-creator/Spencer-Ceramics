@@ -47,6 +47,7 @@
       if (want === (c[id] || 0)) return false;             // already holding every one there is
       c[id] = want; save(c);
       flash();
+      if (window.plausible) { try { window.plausible("Add to cart", { props: { piece: p ? p.name : id } }); } catch (e) {} }   // counted in Plausible, since Shopify only sees a cart once checkout begins
       return true;
     },
     setQty: function (id, qty) {
