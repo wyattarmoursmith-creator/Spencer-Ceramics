@@ -48,6 +48,7 @@
       c[id] = want; save(c);
       flash();
       if (window.plausible) { try { window.plausible("Add to cart", { props: { piece: p ? p.name : id } }); } catch (e) {} }   // counted in Plausible, since Shopify only sees a cart once checkout begins
+      try { document.dispatchEvent(new CustomEvent("sc:addtocart", { detail: { id: id, qty: want } })); } catch (e) {}   // Shopify Analytics (js/shopify-analytics.js)
       return true;
     },
     setQty: function (id, qty) {

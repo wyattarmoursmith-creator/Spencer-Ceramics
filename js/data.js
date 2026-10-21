@@ -17,7 +17,8 @@ window.SHOPIFY = {
   version:  "2026-07",
   currency: "AUD",        // updated to the shopper's currency once the catalogue loads
   country:  "",           // market the prices were fetched for (drives checkout too)
-  currencies: []          // [{ code, country }] offered by the store's markets
+  currencies: [],         // [{ code, country }] offered by the store's markets
+  analyticsDomain: "spencer-ceramics-2.myshopify.com"   // where Shopify Analytics events go: the store's primary domain (becomes checkout.craigspencerceramics.com once that is primary)
 };
 
 /* ---- currency ----------------------------------------------------
@@ -222,6 +223,7 @@ function scMapProduct(node) {
     one:        avail && !scTags(node, type).some(function (t) { return t.toLowerCase() === "everyday"; })
                       && (qty === 1 || scCategory(type) === "petite-pots"),   // the only one of this piece: last in stock, or any Petite Pot (each is a one-off); Everyday pieces are made in runs, so never
     variantId:  v ? v.id : "",
+    gid:        node.id,                                          // gid://shopify/Product/... for Shopify Analytics
     variantNum: v ? scGidNum(v.id) : "",
     available:  avail,
     stock:      (qty === null ? 99 : Math.max(0, qty))   // how many can go in a cart
