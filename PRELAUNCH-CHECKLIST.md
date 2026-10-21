@@ -40,10 +40,10 @@ Craig on launch day:
 - [ ] Post the announcement once step 7 passes. Nothing to do in Shopify.
 
 ## Analytics (added 21 Oct)
-- [x] **Plausible** on every page: weekly (Monday) and monthly reports to Wyatt and shop@, goals for Add to cart, Reached the cart, contact form, file downloads, outbound clicks and 404s, and a shared "Craig Spencer" link for Craig (no login needed).
+- [x] **Plausible** on every page, for Wyatt's own use (21 Oct: shop@ taken off the weekly and monthly reports; Craig reads Shopify Analytics instead). Goals for Add to cart, Reached the cart, contact form, file downloads, outbound clicks and 404s.
 - [x] **Shopify Analytics sees the site as its own storefront.** The site now sends Shopify the same page-view, collection, product and add-to-cart events a Shopify theme sends, so Sessions, Conversion rate and the cart funnel fill in on the Shopify Analytics home. Verified live 21 Oct.
 - [x] **Cookie banner for consent regions.** Shopify's own banner now loads on the site for the EU, UK and the other regions set in Shopify (Settings, Customer privacy). Visitors there see it before any Shopify tracking runs; Decline stops the events, Accept starts them. Everyone else sees nothing. Verified 21 Oct.
-- [x] **Dedicated checkout address, checkout.craigspencerceramics.com (21 Oct).** CNAME added at GoDaddy, Shopify issued its certificate and the domain is now the store's primary. Checkout opens on checkout.craigspencerceramics.com, the site's analytics and the cookie banner use it, and site and checkout now share one root domain so Shopify can follow a visitor from the site through to an order. Verified live.
+- [x] **Dedicated checkout address, checkout.craigspencerceramics.com (21 Oct).** CNAME added at GoDaddy, Shopify issued its certificate and the domain is now the store's primary. Checkout opens on checkout.craigspencerceramics.com, the site's analytics and the cookie banner use it, and site and checkout now share one root domain so Shopify can follow a visitor from the site through to an order. Verified live. The Shopify theme's redirect now sends any checkout-domain or myshopify page straight to the matching page on craigspencerceramics.com.
 - [ ] **Shopify Payments documents (Craig).** Payments shows "Payment methods limited" until the owner uploads the verification documents Shopify asks for.
 
 ## Watch for in the first days
