@@ -1,6 +1,6 @@
 # Launch checklist: Craig Spencer Ceramics
 
-Updated Wednesday 14 October 2026, 11:55 am Pacific. LIVE on craigspencerceramics.com.
+Updated Wednesday 21 October 2026. LIVE on craigspencerceramics.com.
 
 Launch moment: noon New Zealand time. The next noon in New Zealand is Wednesday 14 October, which is Tuesday 13 October, 4:00 pm Pacific for Wyatt (10:00 am Tuesday in New South Wales for Craig). Note: noon Tuesday New Zealand time has already passed; it was 4:00 pm Pacific on Monday.
 
@@ -38,6 +38,13 @@ Me, with you watching:
 
 Craig on launch day:
 - [ ] Post the announcement once step 7 passes. Nothing to do in Shopify.
+
+## Analytics (added 21 Oct)
+- [x] **Plausible** on every page: weekly (Monday) and monthly reports to Wyatt and shop@, goals for Add to cart, Reached the cart, contact form, file downloads, outbound clicks and 404s, and a shared "Craig Spencer" link for Craig (no login needed).
+- [x] **Shopify Analytics sees the site as its own storefront.** The site now sends Shopify the same page-view, collection, product and add-to-cart events a Shopify theme sends, so Sessions, Conversion rate and the cart funnel fill in on the Shopify Analytics home. Verified live 21 Oct.
+- [x] **Cookie banner for consent regions.** Shopify's own banner now loads on the site for the EU, UK and the other regions set in Shopify (Settings, Customer privacy). Visitors there see it before any Shopify tracking runs; Decline stops the events, Accept starts them. Everyone else sees nothing. Verified 21 Oct.
+- [ ] **Dedicated checkout address, checkout.craigspencerceramics.com (Wyatt, then me).** Added in Shopify, waiting on DNS. Wyatt: in GoDaddy, add a CNAME, name `checkout`, value `shops.myshopify.com`, save with the SMS code. Then I press "Verify connection" in Shopify, wait for its certificate, make it the primary domain, and switch the site's analytics domain to it. Until then checkout opens on spencer-ceramics-2.myshopify.com, which is fine.
+- [ ] **Shopify Payments documents (Craig).** Payments shows "Payment methods limited" until the owner uploads the verification documents Shopify asks for.
 
 ## Watch for in the first days
 - Orders: Shopify emails Craig; check that the sender shows as shop@ once verified.
