@@ -18,7 +18,7 @@ window.SHOPIFY = {
   currency: "AUD",        // updated to the shopper's currency once the catalogue loads
   country:  "",           // market the prices were fetched for (drives checkout too)
   currencies: [],         // [{ code, country }] offered by the store's markets
-  analyticsDomain: "spencer-ceramics-2.myshopify.com"   // where Shopify Analytics events go: the store's primary domain (becomes checkout.craigspencerceramics.com once that is primary)
+  analyticsDomain: "checkout.craigspencerceramics.com"  // where Shopify Analytics events go and where the privacy banner reads its settings: the store's primary domain (set 21 Oct 2026)
 };
 
 /* ---- currency ----------------------------------------------------
